@@ -30,7 +30,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     healthcheck:
-      test: pg_isready -Uroot -d${POSTGRES_DB} -p5432
+      test: pg_isready -U${POSTGRES_USER} -d${POSTGRES_DB} -p5432
       interval: 5s
       timeout: 5s
       retries: 10
@@ -38,7 +38,7 @@ services:
   app-rabbitmq:
     container_name: app-rabbitmq
     image: rabbitmq:3.7-management
-    ports: 
+    ports:
       - '5672:15672'
     healthcheck:
       test: rabbitmq-diagnostics -q ping
@@ -51,6 +51,19 @@ services:
     container_name: app-redis
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./docker/portainer-data:/var/portainer/data
+    ports:
+      - 9081:9000
 
 volumes:
   app-postgres-data:

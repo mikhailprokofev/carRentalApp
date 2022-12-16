@@ -1,0 +1,15 @@
+{
+    "preset": "psr12",
+    "rules": {
+        "whitespace_after_comma_in_array": true,
+        "blank_line_after_namespace": true,
+        "declare_strict_types": true,
+        "final_class": true,
+        "lowercase_static_reference": true,
+        "multiline_whitespace_before_semicolons": true,
+        "no_blank_lines_after_phpdoc": true,
+        "no_empty_phpdoc": true,
+        "protected_to_private": true,
+        "self_static_accessor": true
+    }
+}
