@@ -1,0 +1,56 @@
+version: '2.1'
+
+services:
+  app-php:
+    container_name: app-php
+    user: 1000:1000
+    build: ./docker/
+    ports:
+      - '80:80'
+    volumes:
+      - ./rental_app:/var/www
+      - ./.env:/var/www/.env
+    depends_on:
+      app-rabbitmq:
+        condition: service_healthy
+      app-postgres:
+        condition: service_healthy
+      app-redis:
+        condition: service_healthy
+
+  app-postgres:
+    container_name: app-postgres
+    image: postgres:11.2-alpine
+    volumes:
+      - app-postgres-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    healthcheck:
+      test: pg_isready -Uroot -d${POSTGRES_DB} -p5432
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app-rabbitmq:
+    container_name: app-rabbitmq
+    image: rabbitmq:3.7-management
+    ports: 
+      - '5672:15672'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  app-redis:
+    image: redis:6
+    container_name: app-redis
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+
+volumes:
+  app-postgres-data:
