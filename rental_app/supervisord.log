@@ -1,0 +1,209 @@
+2022-12-16 10:52:51,588 INFO supervisord started with pid 1
+2022-12-16 10:52:52,590 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 10:52:52,596 INFO spawned: 'nginx' with pid 7
+2022-12-16 10:52:52,601 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 10:52:52,607 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 10:52:52,612 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 10:52:52,631 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 10:52:53,664 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 10:53:42,888 WARN received SIGQUIT indicating exit request
+2022-12-16 10:53:42,893 INFO waiting for php-fpm to die
+2022-12-16 10:53:42,922 INFO stopped: php-fpm (exit status 0)
+2022-12-16 10:55:34,159 INFO supervisord started with pid 1
+2022-12-16 10:55:35,167 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 10:55:35,173 INFO spawned: 'nginx' with pid 7
+2022-12-16 10:55:35,178 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 10:55:35,185 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 10:55:35,189 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 10:55:35,192 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 10:55:36,250 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 10:56:58,525 WARN received SIGQUIT indicating exit request
+2022-12-16 10:56:58,528 INFO waiting for php-fpm to die
+2022-12-16 10:56:58,547 INFO stopped: php-fpm (exit status 0)
+2022-12-16 10:57:18,824 INFO supervisord started with pid 1
+2022-12-16 10:57:19,826 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 10:57:19,831 INFO spawned: 'nginx' with pid 7
+2022-12-16 10:57:19,838 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 10:57:19,845 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 10:57:19,849 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 10:57:19,875 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 10:57:20,914 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 10:58:06,111 WARN received SIGQUIT indicating exit request
+2022-12-16 10:58:06,113 INFO waiting for php-fpm to die
+2022-12-16 10:58:06,127 INFO stopped: php-fpm (exit status 0)
+2022-12-16 11:00:20,900 INFO supervisord started with pid 1
+2022-12-16 11:00:21,906 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 11:00:21,914 INFO spawned: 'nginx' with pid 7
+2022-12-16 11:00:21,920 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 11:00:21,930 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 11:00:21,931 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 11:00:21,932 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 11:00:22,990 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 11:01:42,367 WARN received SIGQUIT indicating exit request
+2022-12-16 11:01:42,371 INFO waiting for php-fpm to die
+2022-12-16 11:01:42,398 INFO stopped: php-fpm (exit status 0)
+2022-12-16 11:02:00,061 INFO supervisord started with pid 1
+2022-12-16 11:02:01,068 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 11:02:01,076 INFO spawned: 'nginx' with pid 7
+2022-12-16 11:02:01,081 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 11:02:01,100 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 11:02:01,101 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 11:02:01,102 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 11:02:02,168 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 11:03:51,741 INFO supervisord started with pid 1
+2022-12-16 11:03:52,747 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 11:03:52,753 INFO spawned: 'nginx' with pid 7
+2022-12-16 11:03:52,758 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 11:03:52,772 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 11:03:52,773 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 11:03:52,774 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 11:03:53,818 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 11:05:33,240 WARN received SIGQUIT indicating exit request
+2022-12-16 11:05:33,244 INFO waiting for php-fpm to die
+2022-12-16 11:05:33,267 INFO stopped: php-fpm (exit status 0)
+2022-12-16 11:07:29,509 INFO supervisord started with pid 1
+2022-12-16 11:07:30,514 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 11:07:30,522 INFO spawned: 'nginx' with pid 7
+2022-12-16 11:07:30,528 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 11:07:30,542 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 11:07:30,543 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 11:07:30,544 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 11:07:31,595 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 11:08:38,864 WARN received SIGTERM indicating exit request
+2022-12-16 11:08:38,867 INFO waiting for php-fpm to die
+2022-12-16 11:08:38,881 INFO stopped: php-fpm (exit status 0)
+2022-12-16 11:09:05,225 INFO supervisord started with pid 1
+2022-12-16 11:09:06,233 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 11:09:06,239 INFO spawned: 'nginx' with pid 7
+2022-12-16 11:09:06,243 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 11:09:06,255 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 11:09:06,257 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 11:09:06,258 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 11:09:07,303 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 11:09:43,455 INFO reaped unknown pid 31 (exit status 1)
+2022-12-16 11:09:52,495 INFO reaped unknown pid 34 (exit status 1)
+2022-12-16 11:11:58,057 WARN received SIGQUIT indicating exit request
+2022-12-16 11:11:58,062 INFO waiting for php-fpm to die
+2022-12-16 11:11:58,083 INFO stopped: php-fpm (exit status 0)
+2022-12-16 11:12:34,509 INFO supervisord started with pid 1
+2022-12-16 11:12:35,516 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 11:12:35,526 INFO spawned: 'nginx' with pid 7
+2022-12-16 11:12:35,531 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 11:12:35,546 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 11:12:35,547 INFO exited: nginx (exit status 1; not expected)
+2022-12-16 11:12:35,548 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-12-16 11:12:36,608 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 11:13:03,727 WARN received SIGQUIT indicating exit request
+2022-12-16 11:13:03,728 INFO waiting for php-fpm to die
+2022-12-16 11:13:22,370 INFO supervisord started with pid 1
+2022-12-16 11:13:23,378 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 11:13:23,386 INFO spawned: 'nginx' with pid 7
+2022-12-16 11:13:23,392 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 11:13:23,410 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 11:13:24,465 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 11:13:24,466 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:29:49,671 WARN received SIGQUIT indicating exit request
+2022-12-16 12:29:49,676 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:29:49,698 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:29:50,736 INFO stopped: nginx (exit status 0)
+2022-12-16 12:30:10,092 INFO supervisord started with pid 1
+2022-12-16 12:30:11,098 INFO spawnerr: can't find command '/usr/bin/composer/composer'
+2022-12-16 12:30:11,107 INFO spawned: 'nginx' with pid 7
+2022-12-16 12:30:11,112 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 12:30:11,128 INFO gave up: composer entered FATAL state, too many start retries too quickly
+2022-12-16 12:30:12,185 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:30:12,186 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:30:18,219 WARN received SIGQUIT indicating exit request
+2022-12-16 12:30:18,221 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:30:18,235 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:30:18,264 INFO stopped: nginx (exit status 0)
+2022-12-16 12:30:42,130 INFO supervisord started with pid 1
+2022-12-16 12:30:43,142 INFO spawned: 'composer' with pid 7
+2022-12-16 12:30:43,150 INFO spawned: 'nginx' with pid 8
+2022-12-16 12:30:43,156 INFO spawned: 'php-fpm' with pid 9
+2022-12-16 12:30:44,305 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:30:44,306 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:30:44,306 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:30:47,858 INFO exited: composer (exit status 0; expected)
+2022-12-16 12:32:15,252 WARN received SIGQUIT indicating exit request
+2022-12-16 12:32:15,267 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:32:16,293 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:32:16,325 INFO stopped: nginx (exit status 0)
+2022-12-16 12:32:38,539 INFO supervisord started with pid 1
+2022-12-16 12:32:39,553 INFO spawned: 'composer' with pid 6
+2022-12-16 12:32:39,562 INFO spawned: 'nginx' with pid 7
+2022-12-16 12:32:39,567 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 12:32:40,767 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:32:40,768 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:32:40,768 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:32:44,125 INFO exited: composer (exit status 0; expected)
+2022-12-16 12:32:46,136 WARN received SIGQUIT indicating exit request
+2022-12-16 12:32:46,136 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:32:46,139 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:32:46,165 INFO stopped: nginx (exit status 0)
+2022-12-16 12:38:25,566 INFO supervisord started with pid 1
+2022-12-16 12:38:26,575 INFO spawned: 'composer' with pid 7
+2022-12-16 12:38:26,582 INFO spawned: 'nginx' with pid 8
+2022-12-16 12:38:26,588 INFO spawned: 'php-fpm' with pid 9
+2022-12-16 12:38:27,732 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:38:27,732 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:38:27,733 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:38:30,937 INFO exited: composer (exit status 0; expected)
+2022-12-16 12:38:59,072 WARN received SIGQUIT indicating exit request
+2022-12-16 12:38:59,075 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:38:59,088 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:38:59,116 INFO stopped: nginx (exit status 0)
+2022-12-16 12:41:44,047 INFO supervisord started with pid 1
+2022-12-16 12:41:45,062 INFO spawned: 'composer' with pid 7
+2022-12-16 12:41:45,070 INFO spawned: 'nginx' with pid 8
+2022-12-16 12:41:45,075 INFO spawned: 'php-fpm' with pid 9
+2022-12-16 12:41:46,212 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:41:46,213 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:41:46,213 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:41:49,491 INFO exited: composer (exit status 0; expected)
+2022-12-16 12:42:41,702 WARN received SIGQUIT indicating exit request
+2022-12-16 12:42:41,704 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:42:41,719 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:42:41,756 INFO stopped: nginx (exit status 0)
+2022-12-16 12:43:20,039 INFO supervisord started with pid 1
+2022-12-16 12:43:21,053 INFO spawned: 'composer' with pid 7
+2022-12-16 12:43:21,061 INFO spawned: 'nginx' with pid 8
+2022-12-16 12:43:21,066 INFO spawned: 'php-fpm' with pid 9
+2022-12-16 12:43:22,213 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:43:22,213 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:43:22,214 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:43:25,345 INFO exited: composer (exit status 0; expected)
+2022-12-16 12:47:55,420 WARN received SIGQUIT indicating exit request
+2022-12-16 12:47:55,425 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:47:55,446 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:47:55,474 INFO stopped: nginx (exit status 0)
+2022-12-16 12:48:31,100 INFO supervisord started with pid 1
+2022-12-16 12:48:32,109 INFO spawned: 'composer' with pid 7
+2022-12-16 12:48:32,116 INFO spawned: 'nginx' with pid 8
+2022-12-16 12:48:32,121 INFO spawned: 'php-fpm' with pid 9
+2022-12-16 12:48:33,268 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:48:33,269 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:48:33,269 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:48:36,553 INFO exited: composer (exit status 0; expected)
+2022-12-16 12:50:48,998 WARN received SIGQUIT indicating exit request
+2022-12-16 12:50:48,999 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:51:33,061 INFO supervisord started with pid 1
+2022-12-16 12:51:34,075 INFO spawned: 'composer' with pid 7
+2022-12-16 12:51:34,082 INFO spawned: 'nginx' with pid 8
+2022-12-16 12:51:34,086 INFO spawned: 'php-fpm' with pid 9
+2022-12-16 12:51:35,238 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:51:35,238 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:51:35,238 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:51:38,393 INFO exited: composer (exit status 0; expected)
+2022-12-16 12:52:17,562 WARN received SIGQUIT indicating exit request
+2022-12-16 12:52:17,566 INFO waiting for nginx, php-fpm to die
+2022-12-16 12:52:18,591 INFO stopped: php-fpm (exit status 0)
+2022-12-16 12:52:18,626 INFO stopped: nginx (exit status 0)
+2022-12-16 12:53:06,969 INFO supervisord started with pid 1
+2022-12-16 12:53:07,984 INFO spawned: 'composer' with pid 6
+2022-12-16 12:53:07,991 INFO spawned: 'nginx' with pid 7
+2022-12-16 12:53:07,996 INFO spawned: 'php-fpm' with pid 8
+2022-12-16 12:53:09,146 INFO success: composer entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:53:09,146 INFO success: nginx entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:53:09,146 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-12-16 12:53:12,428 INFO exited: composer (exit status 0; expected)
