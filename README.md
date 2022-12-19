@@ -9,4 +9,4 @@ php bin/console rabbitmq:consumer task
 php vendor/bin/pint --config rental_app/config/pint/pint.json
 
 # Swagger OpenAPI
-php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+php artisan l5-swagger:generate
