@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Car rental API",
+        "description": "Car rental application based on microservice architecture",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "API server"
+        }
+    ],
+    "paths": {
+        "/healthcheck": {
+            "get": {
+                "tags": [
+                    "HealthCheck"
+                ],
+                "description": "Check connection to api",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                }
+            }
+        }
+    }
+}
