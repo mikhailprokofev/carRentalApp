@@ -2,10 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Car rental API",
-        "description": "Car rental apllication based on microservice architecture",
-        "contact": {
-            "name": "mikhail.prokofev@fojin.tech OR anastasia.shamsudinova@fojin.tech"
-        },
+        "description": "Car rental application based on microservice architecture",
         "version": "1.0"
     },
     "servers": [
