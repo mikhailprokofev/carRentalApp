@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Rate\Service;
+namespace App\Module\Rate\Enum;
 
 enum RateCalculatingEnum: int
 {
@@ -10,7 +10,6 @@ enum RateCalculatingEnum: int
     case NINE_DAY = 9;
     case SEVENTEEN_DAY = 17;
     case THIRTY_DAY = 30;
-    case DEFAULT = 0;
 
     // TODO: возможно сделать интерфейс для enum или для сервиса (плюс о стратегии не забыть для сервиса)
     // TODO: подумать что делать с массивчиком + не забыть цикл рассчета в сервисе (или хелпере) + в сервисе (или хелпере) вохвращать Price
