@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\FileSystem\ExportController;
+use App\Http\Controllers\FileSystem\ImportController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/healthcheck', [HealthCheckController::class, 'index']);
+
+Route::group([
+    'prefix' => 'export'
+], function ($router) {
+    Route::post('/cars', [ExportController::class, 'exportCars'])->name('export-name');
+});
+
+Route::group([
+    'prefix' => 'import'
+], function ($router) {
+    Route::post('/cars', [ImportController::class, 'importCars'])->name('import-cars');
+});
