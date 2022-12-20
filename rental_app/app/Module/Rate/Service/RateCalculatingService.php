@@ -4,45 +4,43 @@ declare(strict_types=1);
 
 namespace App\Module\Rate\Service;
 
-use App\Common\Type\Price;
 use App\Module\Rate\Enum\DayEnum;
 use App\Module\Rate\Enum\PercentEnum;
+use App\Module\Rate\Utility\EnumBinaryConvert;
 
 final class RateCalculatingService implements RateCalculatingServiceInterface
 {
-    public function calculate(int $interval, int $baseRate): Price
+    public function calculate(int $interval, int $baseRate): int
     {
-        $binaryInt = DayEnum::convertToBinary($interval);
-        $percents = PercentEnum::convertToArray($binaryInt);
-        $days = DayEnum::convertToArray($binaryInt);
+        $binaryInt = EnumBinaryConvert::convertToBinary(DayEnum::class, $interval);
+        $percents = EnumBinaryConvert::convertToArray(PercentEnum::class, $binaryInt);
+        $days = EnumBinaryConvert::convertToArray(DayEnum::class, $binaryInt);
 
         $diffDays = $this->calculateDiffDays($interval, $days);
 
         $payment = $this->calculatePayment($baseRate, $percents, $diffDays);
 
-        return new Price(array_sum($payment));
+        return array_sum($payment);
     }
 
     private function calculateDiffDays(int $interval, array $days): array {
-        $diffDays[] = 0;
-        array_pop($days);
-        $diffDays = array_merge($diffDays, $days);
-        $diffDays[] = $interval;
-        $diffDays = array_reverse($diffDays);
+        $arr[] = 0;
+        $arr = array_merge($arr, $days);
+        $arr[$lastIndex = count($arr) - 1] = $interval;
 
-        for ($i = 0, $result = []; $i < count($diffDays) - 1; $i++) {
-            $result[] = $diffDays[$i] - $diffDays[$i + 1];
+        for ($i = $lastIndex, $diffDays = []; $i > 0; $i--) {
+            $diffDays[] = $arr[$i] - $arr[$i - 1];
         }
 
-        return $result;
+        return $diffDays;
     }
 
-    private function calculatePayment(int $baseRate, array $percents, array $arrDays): array
+    private function calculatePayment(int $baseRate, array $percents, array $days): array
     {
         return array_map(
-            fn (int $percent, int $days) => ($baseRate - $baseRate * $percent / 100) * $days,
+            fn (int $percent, int $interval) => ($baseRate - $baseRate * $percent / 100) * $interval,
             $percents,
-            array_reverse($arrDays),
+            array_reverse($days),
         );
     }
 }
