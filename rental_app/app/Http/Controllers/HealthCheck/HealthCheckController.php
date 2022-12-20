@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\HealthCheck;
 
 use App\Http\Controllers\Controller;
-use App\Module\Rate\RateCalculatingService;
+use App\Module\Rate\Service\RateCalculatingService;
 use OpenApi\Attributes as OA;
 
 final class HealthCheckController extends Controller
@@ -21,7 +21,10 @@ final class HealthCheckController extends Controller
     )]
     public function index()
     {
-        $service = new RateCalculatingService();
-        return $service->calculate(15, 100000)->getValue();
+        return 'OK';
+
+        // TODO: удалить после слияния ветки с сервисом рассчета
+//        $service = new RateCalculatingService();
+//        return $service->calculate(15, 100000)->getOutputValue();
     }
 }

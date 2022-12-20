@@ -2,28 +2,23 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Rate;
+namespace App\Module\Rate\Service;
 
 use App\Common\Type\Price;
 use App\Module\Rate\Enum\RateCalculatingEnum;
 
-final class RateCalculatingService
+final class RateCalculatingService implements RateCalculatingServiceInterface
 {
     public function calculate(int $interval, int $baseRate): Price
     {
         $percents = $this->calculatePercent($interval);
-        $daysArr = $this->calculateDays($interval);
-
-        $payment = array_map(
-            fn (int $percent, int $days) => ($baseRate - $baseRate * $percent / 100) * $days,
-            $percents,
-            $daysArr,
-        );
+        $days = $this->calculateDays($interval);
+        $payment = $this->calculatePayment($baseRate, $percents, $days);
 
         return new Price(array_sum($payment));
     }
 
-    public function calculateDays(int $interval): array {
+    private function calculateDays(int $interval): array {
         $match = match(true) {
             $interval > RateCalculatingEnum::SEVENTEEN_DAY->value => RateCalculatingEnum::SEVENTEEN_DAY->value,
             $interval > RateCalculatingEnum::NINE_DAY->value => RateCalculatingEnum::NINE_DAY->value,
@@ -43,12 +38,21 @@ final class RateCalculatingService
         return $result;
     }
 
-    public function calculatePercent(int $interval): array {
+    private function calculatePercent(int $interval): array {
         return match(true) {
             $interval > RateCalculatingEnum::SEVENTEEN_DAY->value => [15, 10, 5, 0],
             $interval > RateCalculatingEnum::NINE_DAY->value => [10, 5, 0],
             $interval > RateCalculatingEnum::FOUR_DAY->value => [5, 0],
             default => [0],
         };
+    }
+
+    private function calculatePayment(int $baseRate, array $percents, array $arrDays): array
+    {
+        return array_map(
+            fn (int $percent, int $days) => ($baseRate - $baseRate * $percent / 100) * $days,
+            $percents,
+            $arrDays,
+        );
     }
 }

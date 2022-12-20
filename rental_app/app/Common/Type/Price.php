@@ -10,10 +10,13 @@ final class Price
         private int $value,
     ) {}
 
-    public function getValue(): float
+    public function getValue(): int
+    {
+        return $this->value;
+    }
+
+    public function getOutputValue(): float
     {
         return $this->value / 100;
     }
-
-
 }
