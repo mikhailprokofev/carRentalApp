@@ -21,8 +21,6 @@ final class HealthCheckController extends Controller
     )]
     public function index()
     {
-        // TODO: удалить после слияния ветки с сервисом рассчета
-        $service = new RateCalculatingService();
-        return $service->calculate(7, 100000) / 100;
+        return 'OK';
     }
 }
