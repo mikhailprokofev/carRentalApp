@@ -9,6 +9,7 @@ use Ramsey\Uuid\UuidInterface;
 
 final class Car
 {
+    // TODO: number_plate - создать поле (проверка значения в конструкторе на регулярку)
     public function __construct(
         private UuidInterface $id,
         private string $numberPlate,

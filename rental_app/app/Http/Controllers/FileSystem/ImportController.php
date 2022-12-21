@@ -6,41 +6,41 @@ namespace App\Http\Controllers\FileSystem;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FileSystem\ImportCarRequest;
-use Illuminate\Http\Response;
+use App\Module\File\Handler\ImportCar\Handler;
+use Illuminate\Http\JsonResponse;
 
 final class ImportController extends Controller
 {
-    // di how container
-//    public function __construct(
-//        private string $fileDirectory,
-//    ) {}
+    public function __construct(
+        private Handler $handler,
+    ) {}
 
     /**
      * @param ImportCarRequest $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function importCars(ImportCarRequest $request): Response
+    public function importCars(ImportCarRequest $request): JsonResponse
     {
         $request->validate($request->rules());
 
-        $request->file('file');
         if ($file = $request->file('file')) {
-            dd($file);
-//            $fileModel = File::get($this->fileDirectory);
-//            $fileModel->name = ;
+            try {
+                $this->handler->handle($file->getPathname());
+
+                return (new JsonResponse())
+                    ->setStatusCode(200)
+                    ->setData([
+                        'message' => 'Successful import',
+                    ]);
+            } catch (\Exception $e) {
+                // TODO: logger
+            }
         }
 
-        // validate
-//        $fileModel = new File;
-//        if($req->file()) {
-//            $fileName = time().'_'.$req->file->getClientOriginalName();
-//            $filePath = $req->file('file')->storeAs('uploads', $fileName, 'public');
-//            $fileModel->name = time().'_'.$req->file->getClientOriginalName();
-//            $fileModel->file_path = '/storage/' . $filePath;
-//            $fileModel->save();
-//            return back()
-//                ->with('success','File has been uploaded.')
-//                ->with('file', $fileName);
-//        }
+        return (new JsonResponse())
+            ->setStatusCode(404)
+            ->setData([
+                'message' => 'Error during import',
+            ]);
     }
 }
