@@ -16,10 +16,6 @@ final class ImportController extends Controller
         private Handler $handler,
     ) {}
 
-    /**
-     * @param ImportCarRequest $request
-     * @return JsonResponse
-     */
     public function importCars(ImportCarRequest $request): JsonResponse
     {
         $request->validate($request->rules());

@@ -16,7 +16,7 @@ final class ImportCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|mimes:csv',
+            'file' => 'required|mimes:txt,csv',
         ];
     }
 }

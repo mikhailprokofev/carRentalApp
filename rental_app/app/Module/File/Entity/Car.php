@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Module\File\Entity;
 
 use App\Module\File\Type\Price;
+use Ramsey\Uuid\Rfc4122\UuidV7;
 use Ramsey\Uuid\UuidInterface;
 
 final class Car
@@ -13,35 +14,35 @@ final class Car
     public function __construct(
         private UuidInterface $id,
         private string $numberPlate,
-        private string $description,
         private Price $baseSalary,
         private string $model,
+        private ?string $description,
     ) {}
 
-    public function getId(): UuidInterface
-    {
-        return $this->id;
+    public static function make(
+        string $id,
+        string $numberPlate,
+        string $baseSalary,
+        string $model,
+        ?string $description,
+    ) {
+        return new Car(
+            UuidV7::fromString($id),
+            $numberPlate,
+            new Price($baseSalary),
+            $model,
+            $description,
+        );
     }
 
-    public function getNumberPlate(): string
+    public function toArray(): array
     {
-        return $this->numberPlate;
+        return [
+            'id' => $this->id->toString(), // TODO: maybe $this->id
+            'number_plate' => $this->numberPlate,
+            'description' => $this->description,
+            'base_salary' => $this->baseSalary->getDataBaseValue(),
+            'model' => $this->model,
+        ];
     }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function getBaseSalary(): Price
-    {
-        return $this->baseSalary;
-    }
-
-    public function getModel(): string
-    {
-        return $this->model;
-    }
-
-
 }

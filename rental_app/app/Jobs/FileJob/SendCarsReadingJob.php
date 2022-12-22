@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\FileJob;
 
+use App\Jobs\RentalJob\ImportCarsJob;
+use App\Module\File\Entity\Car;
 use Generator;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -9,9 +11,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use SplFileObject;
 
-// TODO: перенести в FileJob
 class SendCarsReadingJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -61,7 +63,7 @@ class SendCarsReadingJob implements ShouldQueue
     {
         while ($resourceGenerator->valid()) {
             if ($resourceGenerator->current()) {
-                $result[] = $resourceGenerator->current();
+                $result[] = $this->createDTO($resourceGenerator->current());
                 $chunk--;
             }
 
@@ -76,11 +78,20 @@ class SendCarsReadingJob implements ShouldQueue
         return $result ?? [];
     }
 
-    // TODO: maybe send DTO which can be serialized
+    // TODO: maybe send DTO which can be serialized вместо $result
     private function requestRentalMicroService(array $result): void
     {
         if (count ($result)) {
-            TestJob::dispatch($result);
+            ImportCarsJob::dispatch($result);
         }
+    }
+
+    private function createDTO(array $data): Car
+    {
+//        foreach ($data as $el) {
+//            Log::info($el);
+//        }
+
+        return Car::make(...$data);
     }
 }

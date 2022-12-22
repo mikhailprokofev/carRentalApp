@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\File\Handler\ImportCar;
 
-use App\Jobs\SendCarsReadingJob;
+use App\Jobs\FileJob\SendCarsReadingJob;
 
 final class Handler
 {
