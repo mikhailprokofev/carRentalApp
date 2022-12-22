@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FileSystem\ImportCarRequest;
 use App\Module\File\Handler\ImportCar\Handler;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 final class ImportController extends Controller
 {
@@ -25,15 +26,16 @@ final class ImportController extends Controller
 
         if ($file = $request->file('file')) {
             try {
-                $this->handler->handle($file->getPathname());
+                $file->storeAs('/', $fileName = date("YmdHis") . '.csv');
+                $this->handler->handle($fileName);
 
                 return (new JsonResponse())
                     ->setStatusCode(200)
                     ->setData([
-                        'message' => 'Successful import',
+                        'message' => 'Import in process...',
                     ]);
             } catch (\Exception $e) {
-                // TODO: logger
+                Log::error((string) $e->getLine());
             }
         }
 

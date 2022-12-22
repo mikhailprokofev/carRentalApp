@@ -71,6 +71,52 @@ return [
             'after_commit' => false,
         ],
 
+        'rabbitmq' => [
+            'driver' => 'rabbitmq',
+            'queue' => env('RABBITMQ_QUEUE', 'default'),
+            'connection' => PhpAmqpLib\Connection\AMQPLazyConnection::class,
+
+
+//            'queue_params'    => [
+//                'passive'     => false,
+//                'durable'     => true,
+//                'exclusive'   => false,
+//                'auto_delete' => false,
+//            ],
+//
+//            'exchange_params' => [
+//                'type'        => 'direct', // more info at http://www.rabbitmq.com/tutorials/amqp-concepts.html
+//                'passive'     => false,
+//                'durable'     => true, // the exchange will survive server restarts
+//                'auto_delete' => false,
+//            ],
+
+
+
+            'hosts' => [
+                [
+                    'host' => env('RABBITMQ_HOST', 'app-rabbitmq'),
+                    'port' => env('RABBITMQ_PORT', 5672),
+                    'user' => env('RABBITMQ_USER', 'guest'),
+                    'password' => env('RABBITMQ_PASSWORD', 'guest'),
+                    'vhost' => env('RABBITMQ_VHOST', '/'),
+                ],
+            ],
+
+            'options' => [
+                'ssl_options' => [
+                    'cafile' => env('RABBITMQ_SSL_CAFILE', null),
+                    'local_cert' => env('RABBITMQ_SSL_LOCALCERT', null),
+                    'local_key' => env('RABBITMQ_SSL_LOCALKEY', null),
+                    'verify_peer' => env('RABBITMQ_SSL_VERIFY_PEER', true),
+                    'passphrase' => env('RABBITMQ_SSL_PASSPHRASE', null),
+                ],
+                'queue' => [
+                    'job' => VladimirYuldashev\LaravelQueueRabbitMQ\Queue\Jobs\RabbitMQJob::class,
+                ],
+            ],
+        ],
+
     ],
 
     /*
@@ -86,7 +132,7 @@ return [
 
     'failed' => [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
-        'database' => env('DB_CONNECTION', 'mysql'),
+        'database' => env('DB_CONNECTION', 'pgsql'),
         'table' => 'failed_jobs',
     ],
 

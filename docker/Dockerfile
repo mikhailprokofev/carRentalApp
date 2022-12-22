@@ -7,7 +7,8 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
     pdo_pgsql \
     sodium \
     amqp \
-    sockets
+    sockets \
+    bcmath
 
 RUN apk add --no-cache \
     supervisor \
