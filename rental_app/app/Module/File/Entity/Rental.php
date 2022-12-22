@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\File\Entity;
 
-use App\Common\Type\Price;
+use App\Module\File\Type\Price;
 use DateTimeImmutable;
 use Ramsey\Uuid\UuidInterface;
 
