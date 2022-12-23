@@ -20,10 +20,47 @@ class ImportCarsJob implements ShouldQueue
 
     public function handle(): void
     {
-        // TODO: запрос на проверку дублирования
-        // TODO: создать репозиторий
+        $rawData = array_map(fn (Car $car) => $car->toArray(), $this->data);
 
-        $data = array_map(fn (Car $car) => $car->toArray(), $this->data);
-        DB::table('cars')->insert($data);
+        $uniqueFieldValues = $this->makeUniqueValuesFromDB($rawData, 'number_plate');
+
+        $data = $this->filterByUniqueField($rawData, $uniqueFieldValues, 'number_plate');
+
+        // TODO: вынести в репозиторий
+        if (count($data)) {
+            DB::table('cars')->insert($data);
+        }
+    }
+
+    private function filterByUniqueField(array $arr, array $arrUnique, string $field): array
+    {
+        foreach ($arr as $row) {
+            if (in_array($row[$field], $arrUnique)) {
+                $key = array_search($row[$field], $arrUnique);
+                $data[$key] = $row;
+            }
+        }
+
+        return $data ?? [];
+    }
+
+    private function makeUniqueValuesFromDB(array $arr, string $field): array
+    {
+        $uniqueFieldValues = array_column($arr, $field);
+
+        $duplicateFieldValues = $this->findDuplicateValues($uniqueFieldValues);
+
+        return array_diff($uniqueFieldValues, $duplicateFieldValues);
+    }
+
+    // TODO: вынести в репозиторий
+    private function findDuplicateValues(array $values): array
+    {
+        return DB::table('cars')
+            ->select('number_plate')
+            ->whereIn('number_plate', $values)
+            ->get()
+            ->map(fn ($car) => $car->number_plate)
+            ->toArray();
     }
 }

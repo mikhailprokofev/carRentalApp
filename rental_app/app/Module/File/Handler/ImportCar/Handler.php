@@ -16,6 +16,8 @@ final class Handler
     // TODO: ideas how to do without saving a file in controller
     public function handle(string $fileName): void
     {
-        SendCarsReadingJob::dispatch(storage_path('app') . '/' . $fileName);
+        $test = new SendCarsReadingJob(storage_path('app') . '/' . $fileName);
+        $test->handle();
+//        SendCarsReadingJob::dispatch(storage_path('app') . '/' . $fileName);
     }
 }

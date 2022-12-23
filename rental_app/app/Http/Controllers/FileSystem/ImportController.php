@@ -31,7 +31,7 @@ final class ImportController extends Controller
                         'message' => 'Import in process...',
                     ]);
             } catch (\Exception $e) {
-                Log::error((string) $e->getLine());
+                Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
             }
         }
 

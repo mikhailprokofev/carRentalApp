@@ -22,8 +22,8 @@ final class Car
     public static function make(
         string $id,
         string $numberPlate,
-        string $baseSalary,
         string $model,
+        string $baseSalary,
         ?string $description,
     ) {
         return new Car(

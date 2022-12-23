@@ -11,7 +11,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use SplFileObject;
 
 class SendCarsReadingJob implements ShouldQueue
@@ -82,16 +81,14 @@ class SendCarsReadingJob implements ShouldQueue
     private function requestRentalMicroService(array $result): void
     {
         if (count ($result)) {
-            ImportCarsJob::dispatch($result);
+            $test = new ImportCarsJob($result);
+            $test->handle();
+//            ImportCarsJob::dispatch($result);
         }
     }
 
     private function createDTO(array $data): Car
     {
-//        foreach ($data as $el) {
-//            Log::info($el);
-//        }
-
         return Car::make(...$data);
     }
 }
