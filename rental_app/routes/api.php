@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\FileSystem\ExportController;
-use App\Http\Controllers\FileSystem\ImportController;
+use App\Http\Controllers\FileSystem\ImportCarsController;
+use App\Http\Controllers\FileSystem\ImportRentalsController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +28,6 @@ Route::group([
 Route::group([
     'prefix' => 'import'
 ], function ($router) {
-    Route::post('/cars', [ImportController::class, 'importCars'])->name('import-cars');
+    Route::post('/cars', [ImportCarsController::class, 'import'])->name('import-cars');
+    Route::post('/rentals', [ImportRentalsController::class, 'import'])->name('import-rentals');
 });

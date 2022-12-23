@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Controllers\FileSystem;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\FileSystem\ImportCarRequest;
-use App\Module\File\Handler\ImportCar\Handler;
+use App\Http\Requests\FileSystem\ImportRentalRequest;
+use App\Module\File\Handler\ImportRental\Handler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
-final class ImportController extends Controller
+final class ImportRentalsController extends Controller
 {
     public function __construct(
         private Handler $handler,
     ) {}
 
-    public function importCars(ImportCarRequest $request): JsonResponse
+    public function import(ImportRentalRequest $request): JsonResponse
     {
         $request->validate($request->rules());
 

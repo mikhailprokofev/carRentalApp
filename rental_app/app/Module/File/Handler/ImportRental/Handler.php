@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Module\File\Handler\ImportCar;
+namespace App\Module\File\Handler\ImportRental;
 
-use App\Jobs\FileJob\ReadingCarsJob;
+use App\Jobs\FileJob\ReadingRentalsJob;
 
 final class Handler
 {
@@ -15,6 +15,6 @@ final class Handler
     // TODO: ideas how to do without saving a file in controller
     public function handle(string $fileName): void
     {
-        ReadingCarsJob::dispatch(storage_path('app') . '/' . $fileName);
+        ReadingRentalsJob::dispatch(storage_path('app') . '/' . $fileName);
     }
 }
