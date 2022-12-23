@@ -31,9 +31,10 @@ class SendCarsReadingJob implements ShouldQueue
             $result = $this->readByChunk($resourceGenerator);
             $this->requestRentalMicroService($result);
         }
+
+        $this->deleteFile();
     }
 
-    // TODO: нужен ли генератор для SplFileObject ?
     private function getRows(SplFileObject $resource): Generator
     {
         $resource->rewind();
@@ -42,7 +43,6 @@ class SendCarsReadingJob implements ShouldQueue
             yield $resource->fgetcsv();
         }
 
-        // TODO: как закрыть SplFileObject ?
         $resource = null;
     }
 
@@ -73,22 +73,24 @@ class SendCarsReadingJob implements ShouldQueue
             }
         }
 
-        // TODO: массив Car maybe
         return $result ?? [];
     }
 
     // TODO: maybe send DTO which can be serialized вместо $result
     private function requestRentalMicroService(array $result): void
     {
-        if (count ($result)) {
-            $test = new ImportCarsJob($result);
-            $test->handle();
-//            ImportCarsJob::dispatch($result);
+        if (count($result)) {
+            ImportCarsJob::dispatch($result);
         }
     }
 
     private function createDTO(array $data): Car
     {
         return Car::make(...$data);
+    }
+
+    private function deleteFile(): void
+    {
+        unlink($this->fileName);
     }
 }
