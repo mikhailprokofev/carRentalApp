@@ -8,9 +8,8 @@ use App\Jobs\FileJob\SendCarsReadingJob;
 
 final class Handler
 {
-    // TODO: directory get from di, env
     public function __construct(
-        private string $directory = '/storage/app',
+        private string $directory = 'from di need',
     ) {}
 
     // TODO: ideas how to do without saving a file in controller

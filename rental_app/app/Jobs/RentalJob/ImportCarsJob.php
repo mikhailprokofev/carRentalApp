@@ -3,20 +3,28 @@
 namespace App\Jobs\RentalJob;
 
 use App\Module\File\Entity\Car;
+use App\Module\Rate\Repository\CarRepository;
+use App\Module\Rate\Repository\CarRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\DB;
 
 class ImportCarsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private array $data;
+    private CarRepositoryInterface $carRepository;
+
     public function __construct(
-        private array $data,
-    ) {}
+        array $data,
+    ) {
+        $this->data = $data;
+        // TODO: вынести в di
+        $this->carRepository = new CarRepository();
+    }
 
     public function handle(): void
     {
@@ -26,10 +34,7 @@ class ImportCarsJob implements ShouldQueue
 
         $data = $this->filterByUniqueField($rawData, $uniqueFieldValues, 'number_plate');
 
-        // TODO: вынести в репозиторий
-        if (count($data)) {
-            DB::table('cars')->insert($data);
-        }
+        $this->carRepository->insert($data);
     }
 
     private function filterByUniqueField(array $arr, array $arrUnique, string $field): array
@@ -48,19 +53,8 @@ class ImportCarsJob implements ShouldQueue
     {
         $uniqueFieldValues = array_column($arr, $field);
 
-        $duplicateFieldValues = $this->findDuplicateValues($uniqueFieldValues);
+        $duplicateFieldValues = $this->carRepository->findDuplicateValues($uniqueFieldValues);
 
         return array_diff($uniqueFieldValues, $duplicateFieldValues);
-    }
-
-    // TODO: вынести в репозиторий
-    private function findDuplicateValues(array $values): array
-    {
-        return DB::table('cars')
-            ->select('number_plate')
-            ->whereIn('number_plate', $values)
-            ->get()
-            ->map(fn ($car) => $car->number_plate)
-            ->toArray();
     }
 }

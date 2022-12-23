@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Module\Rate\Repository\CarRepository;
+use App\Module\Rate\Repository\CarRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->instance(CarRepositoryInterface::class, CarRepository::class);
     }
 
     /**
