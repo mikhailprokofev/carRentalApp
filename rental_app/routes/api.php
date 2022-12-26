@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\FileSystem\ExportController;
+use App\Http\Controllers\FileSystem\ImportCarsController;
+use App\Http\Controllers\FileSystem\ImportRentalsController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\RentalController;
@@ -18,6 +20,19 @@ use App\Http\Controllers\RentalController;
 */
 
 Route::get('/healthcheck', [HealthCheckController::class, 'index']);
+
+Route::group([
+    'prefix' => 'export'
+], function ($router) {
+    Route::post('/cars', [ExportController::class, 'exportCars'])->name('export-name');
+});
+
+Route::group([
+    'prefix' => 'import'
+], function ($router) {
+    Route::post('/cars', [ImportCarsController::class, 'import'])->name('import-cars');
+    Route::post('/rentals', [ImportRentalsController::class, 'import'])->name('import-rentals');
+});
 
 Route::resource('cars', CarController::class, ['only' => [
     'index', 'store', 'show', 'update', 'destroy'
