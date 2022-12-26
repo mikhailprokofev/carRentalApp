@@ -22,7 +22,7 @@ final class ImportCarsController extends Controller
 
         if ($file = $request->file('file')) {
             try {
-                $file->storeAs('/', $fileName = date("YmdHis") . '.csv');
+                $file->storeAs('/', $fileName =  'car' . date("YmdHis") . '.csv');
                 $this->handler->handle($fileName);
 
                 return (new JsonResponse())

@@ -16,6 +16,9 @@ final class Rental
         private Price $startSalary,
         private DateTimeImmutable $rentalStartAt,
         private DateTimeImmutable $rentalEndAt,
+        private UuidInterface $carId,
+        private DateTimeImmutable $createdAt,
+        private DateTimeImmutable $updatedAt,
     ) {}
 
     public static function make(
@@ -23,22 +26,29 @@ final class Rental
         string $startSalary,
         string $rentalStartAt,
         string $rentalEndAt,
+        string $carId,
     ) {
         return new Rental(
             UuidV7::fromString($id),
             new Price($startSalary),
             new DateTimeImmutable($rentalStartAt),
             new DateTimeImmutable($rentalEndAt),
+            UuidV7::fromString($carId),
+            new DateTimeImmutable(),
+            new DateTimeImmutable(),
         );
     }
 
     public function toArray(): array
     {
         return [
-            'id' => $this->id->toString(), // TODO: maybe $this->id
-            'base_salary' => $this->startSalary->getDataBaseValue(),
-            'rental_start_at' => $this->rentalStartAt->format('Y-m-d H:i:s'),
-            'rental-end-at' => $this->rentalEndAt->format('Y-m-d H:i:s'),
+            'id' => $this->id,
+            'start_salary' => $this->startSalary->getDataBaseValue(),
+            'cars_id' => $this->carId,
+            'rental_start' => $this->rentalStartAt->format('Y-m-d'),
+            'rental_end' => $this->rentalEndAt->format('Y-m-d'),
+            'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
         ];
     }
 }

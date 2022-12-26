@@ -17,10 +17,14 @@ final class ReadingRentalsJob extends ReadingJobAbstract implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private string $mode;
+
     public function __construct(
         string $fileName,
+        string $mode,
     ) {
         $this->fileName = $fileName;
+        $this->mode = $mode;
         // TODO: di
         $this->fileService = new ReadingCSVService();
         $this->prepareDataService = new PrepareRentalDataService();
@@ -29,7 +33,9 @@ final class ReadingRentalsJob extends ReadingJobAbstract implements ShouldQueue
     protected function requestToMicroService(array $result): void
     {
         if (count($result)) {
-            ImportRentalJob::dispatch($result);
+            $test = new ImportRentalJob($result, $this->mode);
+            $test->handle();
+//            ImportRentalJob::dispatch($result, $this->mode);
         }
     }
 }
