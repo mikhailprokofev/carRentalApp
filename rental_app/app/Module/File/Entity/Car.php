@@ -23,14 +23,14 @@ final class Car
     ) {}
 
     public static function make(
-        string $id,
         string $numberPlate,
         string $model,
         string $baseSalary,
         ?string $description,
+        ?string $id = null,
     ) {
         return new Car(
-            UuidV7::fromString($id),
+            $id ? UuidV7::fromString($id) : UuidV7::uuid7(),
             $numberPlate,
             new Price($baseSalary),
             $model,
@@ -48,8 +48,8 @@ final class Car
             'description' => $this->description,
             'base_salary' => $this->baseSalary->getDataBaseValue(),
             'model' => $this->model,
-            'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
+//            'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
+//            'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
         ];
     }
 }

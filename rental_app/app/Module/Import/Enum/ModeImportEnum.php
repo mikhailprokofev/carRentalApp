@@ -13,4 +13,9 @@ enum ModeImportEnum: string
     {
         return $this->value === ModeImportEnum::ADD->value;
     }
+
+    public function isRewrite(): bool
+    {
+        return $this->value === ModeImportEnum::REWRITE->value;
+    }
 }

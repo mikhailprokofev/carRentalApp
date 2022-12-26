@@ -22,14 +22,14 @@ final class Rental
     ) {}
 
     public static function make(
-        string $id,
         string $startSalary,
         string $rentalStartAt,
         string $rentalEndAt,
         string $carId,
+        ?string $id = null,
     ) {
         return new Rental(
-            UuidV7::fromString($id),
+            $id ? UuidV7::fromString($id) : UuidV7::uuid7(),
             new Price($startSalary),
             new DateTimeImmutable($rentalStartAt),
             new DateTimeImmutable($rentalEndAt),
