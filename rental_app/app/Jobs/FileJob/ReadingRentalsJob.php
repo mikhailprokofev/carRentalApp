@@ -33,9 +33,7 @@ final class ReadingRentalsJob extends ReadingJobAbstract implements ShouldQueue
     protected function requestToMicroService(array $result): void
     {
         if (count($result)) {
-            $test = new ImportRentalJob($result, $this->mode);
-            $test->handle();
-//            ImportRentalJob::dispatch($result, $this->mode);
+            ImportRentalJob::dispatch($result, $this->mode);
         }
     }
 }
