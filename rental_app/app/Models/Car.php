@@ -23,8 +23,6 @@ class Car extends Model
         'description',
         'base_salary',
         'model',
-        'created_at',
-        'updated_at',
     ];
 
     /**

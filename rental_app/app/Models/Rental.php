@@ -8,7 +8,7 @@ use App\Models\Car;
 
 class Rental extends Model
 {
-        use HasFactory;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -20,8 +20,6 @@ class Rental extends Model
         'start_salary',
         'rental_start',
         'rental_end',
-        'created_at',
-        'updated_at',
     ];
 
     /**

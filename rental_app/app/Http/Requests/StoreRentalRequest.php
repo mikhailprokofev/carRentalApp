@@ -13,7 +13,7 @@ class StoreRentalRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreRentalRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'start_salary'  => 'required|integer',
+            'rental_start'  => 'required|date',
+            'rental_end'    => 'required|date',
         ];
     }
 }

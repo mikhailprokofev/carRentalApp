@@ -1,86 +1,73 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Http\Attributes\RouteAttribute as RA;
 use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
+use App\Http\Resources\CarResource;
 use App\Models\Car;
 
 class CarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    #[
+        RA(
+            summary: 'Get All Cars',
+            description: 'Display a listing of the Cars.',
+    )]
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        //
+        return CarResource::collection(
+            Car::orderBy('id')->paginate(20)
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    #[
+        RA(
+            summary: 'Create new Cars',
+            description: 'Create a new specified Cars.',
+    )]
+    public function store(StoreCarRequest $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $car = Car::create($validated);
+        return redirect()->route('car.show', $car);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCarRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreCarRequest $request)
+    #[
+        RA(
+            summary: "Get Car by ID",
+            description: 'Display the specified Car.',
+    )]
+    public function show(Car $car): CarResource
     {
-        //
+        return new CarResource($car);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Car  $car
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Car $car)
+    #[
+        RA(
+            summary: "Update Car by ID",
+            description: 'Update the specified Car in storage.',
+    )]
+    public function update(UpdateCarRequest $request, Car $car): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $car->fill($validated);
+        $car->save();
+        return redirect()->route('car.show', $car);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Car  $car
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Car $car)
+    #[
+        RA(
+            summary: "Delete Car by ID",
+            description: 'Remove the specified Car from storage.',
+    )]
+    public function destroy(Car $car): \Illuminate\Http\RedirectResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCarRequest  $request
-     * @param  \App\Models\Car  $car
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateCarRequest $request, Car $car)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Car  $car
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Car $car)
-    {
-        //
+        $car->delete();
+        return redirect()->route('car.index');
     }
 }
