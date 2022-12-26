@@ -5,6 +5,8 @@ use App\Http\Controllers\FileSystem\ImportCarsController;
 use App\Http\Controllers\FileSystem\ImportRentalsController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\RentalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +33,10 @@ Route::group([
     Route::post('/cars', [ImportCarsController::class, 'import'])->name('import-cars');
     Route::post('/rentals', [ImportRentalsController::class, 'import'])->name('import-rentals');
 });
+
+Route::resource('cars', CarController::class, ['only' => [
+    'index', 'store', 'show', 'update', 'destroy'
+]]);
+Route::resource('rentals', RentalController::class, ['only' => [
+    'index', 'store', 'show', 'update', 'destroy'
+]]);

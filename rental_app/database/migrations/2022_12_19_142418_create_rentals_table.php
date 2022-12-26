@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('rentals', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->integer('start_salary');
-            $table->dateTimeTz('rental_start');
-            $table->dateTimeTz('rental_end');
+            $table->date('rental_start');
+            $table->date('rental_end');
             $table->timestamps();
         });
     }

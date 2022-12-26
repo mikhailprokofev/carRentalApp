@@ -13,7 +13,7 @@ class StoreCarRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class StoreCarRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'number_plate'  => 'required|string',
+            'color'         => 'required|string',
+            'type'          => 'required|string',
+            'description'   => 'required|string',
+            'base_salary'   => 'required|integer',
+            'model'         => 'required|string',
+            'cars_id'       => 'required|uuid',
         ];
     }
 }

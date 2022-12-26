@@ -2,85 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Attributes\RouteAttribute as RA;
 use App\Http\Requests\StoreRentalRequest;
 use App\Http\Requests\UpdateRentalRequest;
+use App\Http\Resources\RentalResource;
 use App\Models\Rental;
 
 class RentalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    #[
+        RA(
+            summary: 'Get All Rentals',
+            description: 'Display a listing of the Rentals.',
+    )]
+    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
-        //
+        return RentalResource::collection(
+            Rental::orderBy('id')->paginate(20)
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    #[
+        RA(
+            summary: 'Create new Rentals',
+            description: 'Create a new specified Rentals.',
+    )]
+    public function store(StoreRentalRequest $request): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $car = Rental::create($validated);
+        return redirect()->route('rental.show', $car);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreRentalRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreRentalRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Rental  $rental
-     * @return \Illuminate\Http\Response
-     */
+    #[
+        RA(
+            summary: "Get Rental by ID",
+            description: 'Display the specified Rental.',
+    )]
     public function show(Rental $rental)
     {
-        //
+        return new RentalResource($rental);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Rental  $rental
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Rental $rental)
+    #[
+        RA(
+            summary: "Update Rental by ID",
+            description: 'Update the specified Rental in storage.',
+    )]
+    public function update(UpdateRentalRequest $request, Rental $rental): \Illuminate\Http\RedirectResponse
     {
-        //
+        $validated = $request->validated();
+        $rental->fill($validated);
+        $rental->save();
+        return redirect()->route('rental.show', $rental);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateRentalRequest  $request
-     * @param  \App\Models\Rental  $rental
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateRentalRequest $request, Rental $rental)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Rental  $rental
-     * @return \Illuminate\Http\Response
-     */
+    #[
+        RA(
+            summary: "Delete Rental by ID",
+            description: 'Remove the specified Rental from storage.',
+    )]
     public function destroy(Rental $rental)
     {
-        //
+        $rental->delete();
+        return redirect()->route('rental.index');
     }
 }

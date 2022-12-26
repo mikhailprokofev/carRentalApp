@@ -13,7 +13,7 @@ class UpdateCarRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'number_plate'  => 'string',
+            'color'         => 'string',
+            'type'          => 'string',
+            'description'   => 'string',
+            'base_salary'   => 'integer',
+            'model'         => 'string',
+            'cars_id'       => 'uuid',
         ];
     }
 }
