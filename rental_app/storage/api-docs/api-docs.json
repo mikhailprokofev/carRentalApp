@@ -12,18 +12,380 @@
         }
     ],
     "paths": {
-        "/healthcheck": {
+        "/cars": {
             "get": {
                 "tags": [
-                    "HealthCheck"
+                    "CarController"
                 ],
-                "description": "Check connection to api",
-                "operationId": "index",
+                "summary": "Get All Cars",
+                "description": "Display a listing of the Cars.",
+                "operationId": "cars.index",
                 "responses": {
                     "200": {
                         "description": "Successful work of server api"
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "CarController"
+                ],
+                "summary": "Create new Cars",
+                "description": "Create a new specified Cars.",
+                "operationId": "cars.store",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "number_plate",
+                        "in": "query",
+                        "description": "number_plate fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "color",
+                        "in": "query",
+                        "description": "color fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "base_salary",
+                        "in": "query",
+                        "description": "base_salary fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "model",
+                        "in": "query",
+                        "description": "model fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "cars_id",
+                        "in": "query",
+                        "description": "cars_id fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ]
+            }
+        },
+        "/cars/{id}": {
+            "get": {
+                "tags": [
+                    "CarController"
+                ],
+                "summary": "Get Car by ID",
+                "description": "Display the specified Car.",
+                "operationId": "cars.show",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Model idetifier",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "CarController"
+                ],
+                "summary": "Update Car by ID",
+                "description": "Update the specified Car in storage.",
+                "operationId": "cars.update",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "number_plate",
+                        "in": "query",
+                        "description": "number_plate fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "color",
+                        "in": "query",
+                        "description": "color fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "base_salary",
+                        "in": "query",
+                        "description": "base_salary fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "model",
+                        "in": "query",
+                        "description": "model fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "cars_id",
+                        "in": "query",
+                        "description": "cars_id fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Model idetifier",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "CarController"
+                ],
+                "summary": "Delete Car by ID",
+                "description": "Remove the specified Car from storage.",
+                "operationId": "cars.destroy",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Model idetifier",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ]
+            }
+        },
+        "/healthcheck": {
+            "get": {
+                "tags": [
+                    "HealthCheckController"
+                ],
+                "summary": "Set your summary",
+                "description": "Check connection to api",
+                "operationId": null,
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                }
+            }
+        },
+        "/rentals": {
+            "get": {
+                "tags": [
+                    "RentalController"
+                ],
+                "summary": "Get All Rentals",
+                "description": "Display a listing of the Rentals.",
+                "operationId": "rentals.index",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "RentalController"
+                ],
+                "summary": "Create new Rentals",
+                "description": "Create a new specified Rentals.",
+                "operationId": "rentals.store",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "start_salary",
+                        "in": "query",
+                        "description": "start_salary fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "rental_start",
+                        "in": "query",
+                        "description": "rental_start fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "rental_end",
+                        "in": "query",
+                        "description": "rental_end fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "date"
+                        }
+                    }
+                ]
+            }
+        },
+        "/rentals/{id}": {
+            "get": {
+                "tags": [
+                    "RentalController"
+                ],
+                "summary": "Get Rental by ID",
+                "description": "Display the specified Rental.",
+                "operationId": "rentals.show",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Model idetifier",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "RentalController"
+                ],
+                "summary": "Update Rental by ID",
+                "description": "Update the specified Rental in storage.",
+                "operationId": "rentals.update",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Model idetifier",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "RentalController"
+                ],
+                "summary": "Delete Rental by ID",
+                "description": "Remove the specified Rental from storage.",
+                "operationId": "rentals.destroy",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Model idetifier",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    }
+                ]
             }
         }
     }
