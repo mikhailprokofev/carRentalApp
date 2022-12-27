@@ -94,9 +94,9 @@
                         }
                     },
                     {
-                        "name": "cars_id",
+                        "name": "car_id",
                         "in": "query",
-                        "description": "cars_id fuild",
+                        "description": "car_id fuild",
                         "required": true,
                         "schema": {
                             "type": "uuid"
@@ -198,9 +198,9 @@
                         }
                     },
                     {
-                        "name": "cars_id",
+                        "name": "car_id",
                         "in": "query",
-                        "description": "cars_id fuild",
+                        "description": "car_id fuild",
                         "required": false,
                         "schema": {
                             "type": "uuid"

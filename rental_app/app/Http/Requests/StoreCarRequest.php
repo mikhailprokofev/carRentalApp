@@ -30,7 +30,7 @@ class StoreCarRequest extends FormRequest
             'description'   => 'required|string',
             'base_salary'   => 'required|integer',
             'model'         => 'required|string',
-            'cars_id'       => 'required|uuid',
+            'car_id'        => 'required|uuid',
         ];
     }
 }

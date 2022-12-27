@@ -11,6 +11,13 @@ class Car extends Model
     use HasFactory;
 
     /**
+     * Следует ли обрабатывать временные метки модели.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -34,12 +41,17 @@ class Car extends Model
         'options' => 'array',
     ];
 
+    public function getKeyType ()
+    {
+        return 'string';
+    }
+
     /**
      * Атрибуты, которые должны быть типизированы.
      *
      * @var array
      */
-    public function rental()
+    public function rentals()
     {
         return $this->hasMany(Rental::class);
     }

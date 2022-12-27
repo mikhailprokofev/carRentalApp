@@ -30,7 +30,7 @@ class UpdateCarRequest extends FormRequest
             'description'   => 'string',
             'base_salary'   => 'integer',
             'model'         => 'string',
-            'cars_id'       => 'uuid',
+            'car_id'        => 'uuid',
         ];
     }
 }

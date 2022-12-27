@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\CarResource;
 
-class RentalResource extends ResourceCollection
+class RentalResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -14,6 +15,14 @@ class RentalResource extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id'            => $this->id,
+            'start_salary'  => $this->start_salary,
+            'rental_start'  => $this->rental_start,
+            'rental_end'    => $this->rental_end,
+            'car'           => new CarResource($this->whenLoaded('car')),
+            'created_at'    => $this -> created_at,
+            'updated_at'    => $this -> updated_at,
+        ];
     }
 }

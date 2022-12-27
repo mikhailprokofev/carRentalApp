@@ -44,7 +44,7 @@ final class Rental
         return [
             'id' => $this->id,
             'start_salary' => $this->startSalary->getDataBaseValue(),
-            'cars_id' => $this->carId,
+            'car_id' => $this->carId,
             'rental_start' => $this->rentalStartAt->format('Y-m-d'),
             'rental_end' => $this->rentalEndAt->format('Y-m-d'),
             'created_at' => $this->createdAt->format('Y-m-d H:i:s'),

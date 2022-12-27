@@ -17,7 +17,7 @@ final class RentalRepository implements RentalRepositoryInterface
 
     public function update(array $data): void
     {
-        DB::table('rentals')->upsert($data, ['cars_id', 'rental_start', 'rental_end'], ['start_salary']);
+        DB::table('rentals')->upsert($data, ['car_id', 'rental_start', 'rental_end'], ['start_salary']);
     }
 
     public function truncate(): void

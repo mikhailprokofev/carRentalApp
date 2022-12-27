@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('rentals', function (Blueprint $table) {
-            $table->foreignUuid('cars_id')
+            $table->foreignUuid('car_id')
                 ->nullable(true)
                     ->constrained();
         });
@@ -28,7 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('rentals', function (Blueprint $table) {
-            $table->dropIfExists('cars_id');
+            $table->dropIfExists('car_id');
         });
     }
 };
