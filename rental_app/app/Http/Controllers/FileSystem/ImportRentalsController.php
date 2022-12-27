@@ -16,7 +16,7 @@ final class ImportRentalsController extends Controller
         private Handler $handler,
     ) {}
 
-    public function import(ImportRentalRequest $request): JsonResponse
+    public function __invoke(ImportRentalRequest $request): JsonResponse
     {
         $fileName = 'rental' . date("YmdHis") . '.csv';
 

@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->instance(CarRepositoryInterface::class, CarRepository::class);
         $this->app->instance(RentalRepositoryInterface::class, RentalRepository::class);
@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         //
     }

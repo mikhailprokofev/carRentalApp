@@ -3,6 +3,7 @@
 use App\Http\Controllers\FileSystem\ExportController;
 use App\Http\Controllers\FileSystem\ImportCarsController;
 use App\Http\Controllers\FileSystem\ImportRentalsController;
+use App\Http\Controllers\FindAffordableCarController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
@@ -30,8 +31,14 @@ Route::group([
 Route::group([
     'prefix' => 'import'
 ], function ($router) {
-    Route::post('/cars', [ImportCarsController::class, 'import'])->name('import-cars');
-    Route::post('/rentals', [ImportRentalsController::class, 'import'])->name('import-rentals');
+    Route::post('/cars', ImportCarsController::class)->name('import-cars');
+    Route::post('/rentals', ImportRentalsController::class)->name('import-rentals');
+});
+
+Route::group([
+    'prefix' => 'car'
+], function ($router) {
+    Route::post('/find/affordable', FindAffordableCarController::class)->name('car-find-affordable');
 });
 
 Route::resource('cars', CarController::class, ['only' => [
