@@ -43,18 +43,19 @@ final class InsertService implements InsertServiceInterface
     private function detectDuplicateValues(string $message): array
     {
         preg_match(
-            '/(\(cars_id[\w,\s]*\))(=)((\()([\w\-:+,\s]*)\))/',
+            '/(\(car_id[\w,\s]*\))(=)((\()([\w\-:+,\s]*)\))/',
             $message,
             $matches,
             PREG_OFFSET_CAPTURE
         );
+
         $duplicatedValues = array_pop($matches)[0];
         return explode(', ', $duplicatedValues);
     }
 
     private function isDuplicatedRow(array $row, array $duplicatedValues): bool
     {
-        return $row['cars_id'] == $duplicatedValues[0]
+        return $row['car_id'] == $duplicatedValues[0]
             && $row['rental_start'] == $duplicatedValues[1]
             && $row['rental_end'] == $duplicatedValues[2];
     }
