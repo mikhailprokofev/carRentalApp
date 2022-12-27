@@ -25,6 +25,6 @@ final class WorkDayRule implements Rule
 
     public function message(): string
     {
-        return 'The :attribute must be work day';
+        return ':attribute должен быть рабочим днем';
     }
 }

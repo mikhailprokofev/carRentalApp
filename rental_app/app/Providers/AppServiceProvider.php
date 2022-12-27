@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Module\Rate\Repository\CarRepository;
-use App\Module\Rate\Repository\CarRepositoryInterface;
-use App\Module\Rate\Repository\RentalRepository;
-use App\Module\Rate\Repository\RentalRepositoryInterface;
+use App\Repository\CarRepository;
+use App\Repository\CarRepositoryInterface;
+use App\Repository\RentalRepository;
+use App\Repository\RentalRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

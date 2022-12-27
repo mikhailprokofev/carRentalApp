@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Rate\Repository;
+namespace App\Repository;
+
+use Ramsey\Uuid\UuidInterface;
 
 interface RentalRepositoryInterface
 {
@@ -11,4 +13,6 @@ interface RentalRepositoryInterface
     public function update(array $data): void;
 
     public function truncate(): void;
+
+    public function findLastRentalByCar(UuidInterface $catId): object;
 }

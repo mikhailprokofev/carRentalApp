@@ -6,12 +6,9 @@ namespace App\Module\Import\Strategy\InsertRental;
 
 use App\Module\Import\Service\InsertService;
 use App\Module\Import\Service\InsertServiceInterface;
-use App\Module\Rate\Repository\RentalRepository;
-use App\Module\Rate\Repository\RentalRepositoryInterface;
+use App\Repository\RentalRepository;
+use App\Repository\RentalRepositoryInterface;
 use Closure;
-use Doctrine\DBAL\Query\QueryException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 final class RewriteStrategy implements InsertStrategyInterface
 {

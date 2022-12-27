@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FindAffordableCarRequest;
 use App\Module\Car\Handler\FindAffordableCar\Handler;
+use App\Module\Car\Handler\FindAffordableCar\Input;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -19,19 +20,8 @@ final class FindAffordableCarController extends Controller
 
     public function __invoke(FindAffordableCarRequest $request): JsonResponse
     {
-        // TODO: message из валидации не выводится
-//        $test = new FindAffordableCarRequest();
-//        try {
-//            $this->validate($request, $test->rules(), $test->messages());
-//            $test->validated();
-//        } catch (ValidationException $e) {
-//            dd($e->getMessage());
-//        }
-
-        $input = $request->validated();
-
         try {
-            $this->handler->handle($input);
+            $this->handler->handle(Input::make($request));
 
             return $this->successOutput();
         } catch (\Exception $e) {

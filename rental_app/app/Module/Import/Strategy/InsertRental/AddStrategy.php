@@ -6,8 +6,8 @@ namespace App\Module\Import\Strategy\InsertRental;
 
 use App\Module\Import\Service\InsertService;
 use App\Module\Import\Service\InsertServiceInterface;
-use App\Module\Rate\Repository\RentalRepository;
-use App\Module\Rate\Repository\RentalRepositoryInterface;
+use App\Repository\RentalRepository;
+use App\Repository\RentalRepositoryInterface;
 use Closure;
 
 final class AddStrategy implements InsertStrategyInterface
