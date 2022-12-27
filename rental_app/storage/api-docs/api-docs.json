@@ -116,7 +116,8 @@
                         "description": "Model idetifier",
                         "required": true,
                         "schema": {
-                            "type": "uuid"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     }
                 ]
@@ -194,7 +195,8 @@
                         "description": "Model idetifier",
                         "required": true,
                         "schema": {
-                            "type": "uuid"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     }
                 ]
@@ -218,7 +220,8 @@
                         "description": "Model idetifier",
                         "required": true,
                         "schema": {
-                            "type": "uuid"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     }
                 ]
@@ -302,15 +305,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "mode",
-                        "in": "query",
-                        "description": "mode fuild",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ]
             }
@@ -368,6 +362,15 @@
                         "schema": {
                             "type": "date"
                         }
+                    },
+                    {
+                        "name": "car_id",
+                        "in": "query",
+                        "description": "car_id fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ]
             }
@@ -392,7 +395,8 @@
                         "description": "Model idetifier",
                         "required": true,
                         "schema": {
-                            "type": "uuid"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     }
                 ]
@@ -411,12 +415,40 @@
                 },
                 "parameters": [
                     {
+                        "name": "rental_start",
+                        "in": "query",
+                        "description": "rental_start fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "rental_end",
+                        "in": "query",
+                        "description": "rental_end fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "car_id",
+                        "in": "query",
+                        "description": "car_id fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "id",
                         "in": "path",
                         "description": "Model idetifier",
                         "required": true,
                         "schema": {
-                            "type": "uuid"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     }
                 ]
@@ -440,7 +472,8 @@
                         "description": "Model idetifier",
                         "required": true,
                         "schema": {
-                            "type": "uuid"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     }
                 ]

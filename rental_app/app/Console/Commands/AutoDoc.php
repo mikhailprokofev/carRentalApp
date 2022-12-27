@@ -70,7 +70,8 @@ class AutoDoc extends Command
                         'description' => 'Model idetifier',
                         'required' => true,
                         'schema' => (object) [
-                            'type' => 'uuid',
+                            'type' => 'string',
+                            'format' => 'uuid'
                         ],
                     ];
                     $url .= '{id}';

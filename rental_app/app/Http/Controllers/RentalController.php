@@ -31,7 +31,7 @@ class RentalController extends Controller
     {
         $validated = $request->validated();
         $car = Rental::create($validated);
-        return redirect()->route('rental.show', $car);
+        return redirect()->route('rentals.show', $car);
     }
 
     #[
@@ -54,7 +54,7 @@ class RentalController extends Controller
         $validated = $request->validated();
         $rental->fill($validated);
         $rental->save();
-        return redirect()->route('rental.show', $rental);
+        return redirect()->route('rentals.show', $rental);
     }
 
     #[
@@ -65,6 +65,6 @@ class RentalController extends Controller
     public function destroy(Rental $rental)
     {
         $rental->delete();
-        return redirect()->route('rental.index');
+        return redirect()->route('rentals.index');
     }
 }

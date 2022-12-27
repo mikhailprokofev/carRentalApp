@@ -34,7 +34,7 @@ class CarController extends Controller
     {
         $validated = $request->validated();
         $car = Car::create($validated);
-        return redirect()->route('car.show', $car);
+        return redirect()->route('cars.show', $car);
     }
 
     #[
@@ -57,7 +57,7 @@ class CarController extends Controller
         $validated = $request->validated();
         $car->fill($validated);
         $car->save();
-        return redirect()->route('car.show', $car);
+        return redirect()->route('cars.show', $car);
     }
 
     #[
@@ -68,6 +68,6 @@ class CarController extends Controller
     public function destroy(Car $car): \Illuminate\Http\RedirectResponse
     {
         $car->delete();
-        return redirect()->route('car.index');
+        return redirect()->route('cars.index');
     }
 }

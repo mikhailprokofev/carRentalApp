@@ -25,8 +25,9 @@ class StoreRentalRequest extends FormRequest
     {
         return [
             'start_salary'  => 'required|integer',
-            'rental_start'  => 'required|date',
-            'rental_end'    => 'required|date',
+            'rental_start'  => 'required|date|after_or_equal:yesterday',
+            'rental_end'    => 'required|date|after_or_equal:rental_start',
+            'car_id'        => 'required|string'
         ];
     }
 }
