@@ -18,7 +18,7 @@ class RentalController extends Controller
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return RentalResource::collection(
-            Rental::orderBy('id')->paginate(20)
+            Rental::with('car')->orderBy('created_at')->paginate(20)
         );
     }
 

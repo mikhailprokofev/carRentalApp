@@ -3,10 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Faker\Factory as Faker;
+use App\Models\Car;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Rental>
- */
 class RentalFactory extends Factory
 {
     /**
@@ -16,8 +15,13 @@ class RentalFactory extends Factory
      */
     public function definition()
     {
+        $faker = Faker::create();
         return [
-            //
+            'id' => $faker->uuid(),
+            'start_salary' => 100 * $faker->numberBetween(1,15),
+            'rental_start' => $faker->dateTimeInInterval('now', '+ 1 year'),
+            'rental_end' => $faker->dateTimeInInterval('now', '+ 1 year'),
+            'car_id'   => Car::factory(),
         ];
     }
 }

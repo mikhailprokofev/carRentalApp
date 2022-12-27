@@ -18,8 +18,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cars', function (Blueprint $table) {
-//            $table->string('color')->change()->nullable(false);
-//            $table->string('type')->change()->nullable(false);
             $table->dropUnique('cars_number_plate_unique');
         });
     }

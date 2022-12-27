@@ -31,12 +31,17 @@ class Rental extends Model
         'options' => 'array',
     ];
 
+    public function getKeyType ()
+    {
+        return 'string';
+    }
+
     /**
      * Атрибуты, которые должны быть типизированы.
      *
      * @var array
      */
-    public function rental()
+    public function car()
     {
         return $this->belongsTo(Car::class);
     }

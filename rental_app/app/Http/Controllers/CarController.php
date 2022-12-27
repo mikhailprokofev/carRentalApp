@@ -21,7 +21,7 @@ class CarController extends Controller
     public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         return CarResource::collection(
-            Car::orderBy('id')->paginate(20)
+            Car::with('rentals')->orderBy('created_at')->paginate(20)
         );
     }
 
