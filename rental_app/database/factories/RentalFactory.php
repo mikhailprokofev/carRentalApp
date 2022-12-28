@@ -17,7 +17,6 @@ class RentalFactory extends Factory
     {
         $faker = Faker::create();
         return [
-            'id' => $faker->uuid(),
             'start_salary' => 100 * $faker->numberBetween(1,15),
             'rental_start' => $faker->dateTimeInInterval('now', '+ 1 year'),
             'rental_end' => $faker->dateTimeInInterval('now', '+ 1 year'),

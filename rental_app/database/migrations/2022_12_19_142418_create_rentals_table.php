@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('rentals', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
             $table->integer('start_salary');
             $table->date('rental_start');
             $table->date('rental_end');
