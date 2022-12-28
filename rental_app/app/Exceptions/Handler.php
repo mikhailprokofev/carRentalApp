@@ -40,16 +40,24 @@ class Handler extends ExceptionHandler
 
     public function register()
     {
-        $this->renderable(function (ValidationException $e, $request) {
-            return response()->json([
-                'message' => 'Ошибка валидации',
-                'errors' => $e->errors(),
-            ], 404);
-        });
-        $this->renderable(function (NotFoundHttpException $e, $request) {
-            return response()->json([
-                'message' => 'Bad request'
-            ], 404);
+        $this->renderable(function (\Exception $e, $request) {
+            $response = match (true) {
+                $e instanceof ValidationException => [
+                    [
+                        'message'   => 'Ошибка валидации',
+                        'errors'    => $e->errors(),
+                    ],
+                    404
+                ],
+                default => [
+                    [
+                        'message'   => get_class($e),
+                        'errors'    => $e->getMessage(),
+                    ],
+                    404
+                ],
+            };
+            return response()->json(...$response);
         });
     }
 }
