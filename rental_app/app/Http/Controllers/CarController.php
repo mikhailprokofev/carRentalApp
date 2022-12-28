@@ -44,7 +44,7 @@ class CarController extends Controller
     )]
     public function show(Car $car): CarResource
     {
-        return new CarResource($car);
+        return new CarResource($car->load('rentals'));
     }
 
     #[
