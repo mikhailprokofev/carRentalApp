@@ -41,7 +41,6 @@ final class WorkDayRule implements Rule
     {
         $handle = $this->handle();
 
-
         $validator->setCustomMessages([
             $handle => $this->message(),
         ]);
