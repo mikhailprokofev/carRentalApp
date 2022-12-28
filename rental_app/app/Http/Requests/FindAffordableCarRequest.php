@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Common\Rules\WorkDayRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 final class FindAffordableCarRequest extends FormRequest
@@ -17,18 +16,8 @@ final class FindAffordableCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_at' => [
-                'required',
-                'date',
-                'after:yesterday',
-                new WorkDayRule(),
-            ],
-            'end_at' => [
-                'required',
-                'date',
-                'after:start_at',
-                new WorkDayRule(),
-            ],
+            'start_at' => 'required|date|after:yesterday|workday',
+            'end_at' => 'required|date|after:start_at|workday',
             'car_id' => 'nullable|string|uuid',
         ];
     }

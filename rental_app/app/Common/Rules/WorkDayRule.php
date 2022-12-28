@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Common\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 final class WorkDayRule implements Rule
 {
+    protected const RULE = 'workday';
+
     public function __construct() {}
 
     /**
@@ -26,5 +29,23 @@ final class WorkDayRule implements Rule
     public function message(): string
     {
         return ':attribute должен быть рабочим днем';
+    }
+
+    public static function handle(): string
+    {
+        return static::RULE;
+    }
+
+
+    public function validate(string $attribute, $value, $params, Validator $validator): bool
+    {
+        $handle = $this->handle();
+
+
+        $validator->setCustomMessages([
+            $handle => $this->message(),
+        ]);
+
+        return $this->passes($attribute, $value);
     }
 }

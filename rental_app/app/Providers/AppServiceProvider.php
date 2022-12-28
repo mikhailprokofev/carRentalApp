@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Common\Rules\WorkDayRule;
 use App\Repository\CarRepository;
 use App\Repository\CarRepositoryInterface;
 use App\Repository\RentalRepository;
 use App\Repository\RentalRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,8 +28,8 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(): void
+    public function boot(ValidatorFactory $validator): void
     {
-        //
+        $validator->extend('workday', WorkDayRule::class);
     }
 }
