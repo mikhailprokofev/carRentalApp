@@ -26,14 +26,14 @@ final class Input
         );
     }
 
-    public function getStartAt(): DateTimeImmutable
+    public function getStartAt(): string
     {
-        return $this->startAt;
+        return $this->startAt->format('Y-m-d');
     }
 
-    public function getEndAt(): DateTimeImmutable
+    public function getEndAt(): string
     {
-        return $this->endAt;
+        return $this->endAt->format('Y-m-d');
     }
 
     public function getCarId(): ?UuidInterface

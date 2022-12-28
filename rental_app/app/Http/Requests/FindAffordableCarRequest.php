@@ -20,7 +20,7 @@ final class FindAffordableCarRequest extends FormRequest
             'start_at' => [
                 'required',
                 'date',
-                'after:' . date('Y-m-d'),
+                'after:yesterday',
                 new WorkDayRule(),
             ],
             'end_at' => [
@@ -37,7 +37,8 @@ final class FindAffordableCarRequest extends FormRequest
     {
         return [
             'required' => 'Необходимо заполнить поле :attribute',
-            'after' => ':attribute должна быть позже даты начала аренды',
+            'after:start_at' => ':attribute должна быть позже даты начала аренды',
+//            'after:yesterday' => ':attribute должна быть позже',
         ];
     }
 

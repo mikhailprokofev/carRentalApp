@@ -4,27 +4,33 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Handler\FindAffordableCar;
 
-use App\Repository\RentalRepository;
+use App\Repository\CarRepository;
+use App\Repository\CarRepositoryInterface;
+use function PHPUnit\Framework\isNull;
 
 final class Handler
 {
+    private CarRepositoryInterface $carRepository;
+
     public function __construct(
-        private RentalRepository $rentalRepository,
-    ) {}
+        CarRepository $carRepository,
+    ) {
+        $this->carRepository = $carRepository;
+    }
 
     public function handle(Input $input): array
     {
-//        if ($carId = $input->getCarId()) {
-//            $rental = $this->rentalRepository->findLastRentalByCar($carId);
-//            if ($rental ? $this->isAccessCar($rental) : true) {
-//                // find car + return []
-//            }
-//        }
-        dd($this->rentalRepository->find($input->getCarId(), '2022-12-12', '2022-12-24'));
-    }
+        $cars = null;
 
-    private function isAccessCar(): bool
-    {
-        return true;
+        if ($carId = $input->getCarId()) {
+            $cars = $this->carRepository->findAffordableCarById($carId, $input->getStartAt(), $input->getEndAt());
+        }
+
+        if (isNull($cars) || $cars->isEmpty()) {
+            $cars = $this->carRepository->findAffordableCars($input->getStartAt(), $input->getEndAt());
+        }
+
+        // TODO: найти машины из репозиотрия
+        return $cars->map(fn($car) => $car->id)->toArray();
     }
 }

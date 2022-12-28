@@ -21,9 +21,9 @@ final class FindAffordableCarController extends Controller
     public function __invoke(FindAffordableCarRequest $request): JsonResponse
     {
         try {
-            $this->handler->handle(Input::make($request));
+            $result = $this->handler->handle(Input::make($request));
 
-            return $this->successOutput();
+            return $this->successOutput($result);
         } catch (\Exception $e) {
             Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
         }
@@ -31,13 +31,12 @@ final class FindAffordableCarController extends Controller
         return $this->failedOutput();
     }
 
-    private function successOutput(): JsonResponse
+    private function successOutput(array $items): JsonResponse
     {
         return (new JsonResponse())
             ->setStatusCode(200)
             ->setData([
-                'message' => 'Found affordable car', // TODO: отдать данные машины(-)
-                // items
+                'items' => $items,
             ]);
     }
 
