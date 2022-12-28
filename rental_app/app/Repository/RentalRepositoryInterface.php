@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Rate\Repository;
+namespace App\Repository;
+
+use Illuminate\Support\Collection;
+use Ramsey\Uuid\UuidInterface;
 
 interface RentalRepositoryInterface
 {

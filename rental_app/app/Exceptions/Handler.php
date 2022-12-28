@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -39,6 +40,12 @@ class Handler extends ExceptionHandler
 
     public function register()
     {
+        $this->renderable(function (ValidationException $e, $request) {
+            return response()->json([
+                'message' => 'Ошибка валидации',
+                'errors' => $e->errors(),
+            ], 404);
+        });
         $this->renderable(function (NotFoundHttpException $e, $request) {
             return response()->json([
                 'message' => 'Bad request'

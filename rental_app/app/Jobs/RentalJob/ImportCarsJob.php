@@ -2,8 +2,8 @@
 
 namespace App\Jobs\RentalJob;
 
-use App\Module\Rate\Repository\CarRepository;
-use App\Module\Rate\Repository\CarRepositoryInterface;
+use App\Repository\CarRepository;
+use App\Repository\CarRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
