@@ -9,16 +9,13 @@ use DateTimeImmutable;
 use Ramsey\Uuid\Rfc4122\UuidV7;
 use Ramsey\Uuid\UuidInterface;
 
-final class Car
+final class CarDTO
 {
-    // TODO: number_plate - создать поле (проверка значения в конструкторе на регулярку)
     public function __construct(
         private UuidInterface $id,
         private string $numberPlate,
         private Price $baseSalary,
         private string $model,
-        private DateTimeImmutable $createdAt,
-        private DateTimeImmutable $updatedAt,
         private ?string $description,
     ) {}
 
@@ -29,13 +26,11 @@ final class Car
         ?string $description,
         ?string $id = null,
     ) {
-        return new Car(
+        return new CarDTO(
             $id ? UuidV7::fromString($id) : UuidV7::uuid7(),
             $numberPlate,
             new Price($baseSalary),
             $model,
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
             $description,
         );
     }
@@ -48,8 +43,6 @@ final class Car
             'description' => $this->description,
             'base_salary' => $this->baseSalary->getDataBaseValue(),
             'model' => $this->model,
-//            'created_at' => $this->createdAt->format('Y-m-d H:i:s'),
-//            'updated_at' => $this->updatedAt->format('Y-m-d H:i:s'),
         ];
     }
 }

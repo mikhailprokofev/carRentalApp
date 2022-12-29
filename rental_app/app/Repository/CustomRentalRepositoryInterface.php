@@ -7,7 +7,7 @@ namespace App\Repository;
 use Illuminate\Support\Collection;
 use Ramsey\Uuid\UuidInterface;
 
-interface RentalRepositoryInterface
+interface CustomRentalRepositoryInterface
 {
     public function insert(array $data): void;
 

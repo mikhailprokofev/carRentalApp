@@ -7,7 +7,7 @@ namespace App\Repository;
 use Illuminate\Support\Collection;
 use Ramsey\Uuid\UuidInterface;
 
-interface CarRepositoryInterface
+interface CustomCarRepositoryInterface
 {
     public function findDuplicateValues(array $values): array;
 

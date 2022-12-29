@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Module\File\Service\PrepareData;
 
-use App\Module\File\Entity\Car;
+use App\Module\File\Entity\CarDTO;
 
 final class PrepareCarDataService implements PrepareDataServiceInterface
 {
     public function prepareData(array $data): array
     {
-        return (Car::make(...$data))->toArray();
+        return (CarDTO::make(...$data))->toArray();
     }
 }
