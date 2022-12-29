@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Handler\FindAffordableCar;
 
-use App\Repository\CarRepository;
-use App\Repository\CarRepositoryInterface;
+use App\Repository\CustomCustomCarRepository;
+use App\Repository\CustomCarRepositoryInterface;
 use function PHPUnit\Framework\isNull;
 
 final class Handler
 {
-    private CarRepositoryInterface $carRepository;
+    private CustomCarRepositoryInterface $carRepository;
 
     public function __construct(
-        CarRepository $carRepository,
+        CustomCustomCarRepository $carRepository,
     ) {
         $this->carRepository = $carRepository;
     }

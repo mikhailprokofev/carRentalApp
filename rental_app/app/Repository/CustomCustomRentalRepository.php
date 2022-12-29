@@ -7,7 +7,7 @@ namespace App\Repository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-final class RentalRepository implements RentalRepositoryInterface
+final class CustomCustomRentalRepository implements CustomRentalRepositoryInterface
 {
     public function insert(array $data): void
     {

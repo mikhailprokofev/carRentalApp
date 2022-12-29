@@ -2,8 +2,8 @@
 
 namespace App\Jobs\RentalJob;
 
-use App\Repository\CarRepository;
-use App\Repository\CarRepositoryInterface;
+use App\Repository\CustomCustomCarRepository;
+use App\Repository\CustomCarRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -15,14 +15,14 @@ class ImportCarsJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private array $data;
-    private CarRepositoryInterface $carRepository;
+    private CustomCarRepositoryInterface $carRepository;
 
     public function __construct(
         array $data,
     ) {
         $this->data = $data;
         // TODO: вынести в di
-        $this->carRepository = new CarRepository();
+        $this->carRepository = new CustomCustomCarRepository();
     }
 
     public function handle(): void
