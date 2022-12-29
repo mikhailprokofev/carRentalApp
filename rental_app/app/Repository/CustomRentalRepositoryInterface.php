@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use Illuminate\Support\Collection;
-use Ramsey\Uuid\UuidInterface;
 
 interface CustomRentalRepositoryInterface
 {
@@ -14,4 +13,6 @@ interface CustomRentalRepositoryInterface
     public function update(array $data): void;
 
     public function truncate(): void;
+
+    public function findLoadCarsInfo(int $year, int $month): Collection;
 }
