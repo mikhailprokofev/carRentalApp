@@ -18,7 +18,7 @@ class CarController extends Controller
             summary: 'Get All Cars',
             description: 'Display a listing of the Cars.',
     )]
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index()
     {
         return CarResource::collection(
             Car::with('rentals')->orderBy('created_at')->paginate(20)
@@ -30,11 +30,12 @@ class CarController extends Controller
             summary: 'Create new Cars',
             description: 'Create a new specified Cars.',
     )]
-    public function store(StoreCarRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreCarRequest $request)
     {
         $validated = $request->validated();
+        $validated['base_salary'] *= 100;
         $car = Car::create($validated);
-        return redirect()->route('cars.show', $car);
+        return $this->show($car);
     }
 
     #[
@@ -52,12 +53,15 @@ class CarController extends Controller
             summary: "Update Car by ID",
             description: 'Update the specified Car in storage.',
     )]
-    public function update(UpdateCarRequest $request, Car $car): \Illuminate\Http\RedirectResponse
+    public function update(UpdateCarRequest $request, Car $car)
     {
         $validated = $request->validated();
+        if (!empty($validated['base_salary'])) {
+            $validated['base_salary'] *= 100;
+        }
         $car->fill($validated);
         $car->save();
-        return redirect()->route('cars.show', $car);
+        return $this->show($car);
     }
 
     #[
@@ -65,9 +69,9 @@ class CarController extends Controller
             summary: "Delete Car by ID",
             description: 'Remove the specified Car from storage.',
     )]
-    public function destroy(Car $car): \Illuminate\Http\RedirectResponse
+    public function destroy(Car $car)
     {
         $car->delete();
-        return redirect()->route('cars.index');
+        return json_encode(['id' => $car->id]);
     }
 }
