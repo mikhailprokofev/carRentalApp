@@ -27,7 +27,7 @@ class StoreRentalRequest extends FormRequest
             'start_salary'  => 'required|integer',
             'rental_start'  => 'required|date|after_or_equal:yesterday',
             'rental_end'    => 'required|date|after_or_equal:rental_start',
-            'car_id'        => 'required|string'
+            'car_id'        => 'required|uuid|string'
         ];
     }
 }

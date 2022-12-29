@@ -24,9 +24,10 @@ class UpdateRentalRequest extends FormRequest
     public function rules()
     {
         return [
+            'start_salary'  => 'integer',
             'rental_start'  => 'date|after_or_equal:yesterday',
             'rental_end'    => 'date|after_or_equal:rental_start',
-            'car_id'        => 'string'
+            'car_id'        => 'uuid|string'
         ];
     }
 }

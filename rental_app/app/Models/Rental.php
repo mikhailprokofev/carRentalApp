@@ -20,6 +20,7 @@ class Rental extends Model
         'start_salary',
         'rental_start',
         'rental_end',
+        'car_id',
     ];
 
     /**

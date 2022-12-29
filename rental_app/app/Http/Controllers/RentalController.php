@@ -30,8 +30,8 @@ class RentalController extends Controller
     public function store(StoreRentalRequest $request): \Illuminate\Http\RedirectResponse
     {
         $validated = $request->validated();
-        $car = Rental::create($validated);
-        return redirect()->route('rentals.show', $car);
+        $rental = Rental::create($validated);
+        return redirect()->route('rentals.show', $rental);
     }
 
     #[
