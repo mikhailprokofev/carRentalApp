@@ -5,7 +5,6 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions zip \
     pgsql \
     pdo_pgsql \
-    sodium \
     amqp \
     sockets \
     bcmath

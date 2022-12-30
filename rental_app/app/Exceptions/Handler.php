@@ -4,8 +4,6 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -53,6 +51,9 @@ class Handler extends ExceptionHandler
                     [
                         'message'   => get_class($e),
                         'errors'    => $e->getMessage(),
+                        'path'      => url()->current(),
+                        'prewpath'  => url()->previous(),
+                        'method'    => request()->method(),
                     ],
                     404
                 ],

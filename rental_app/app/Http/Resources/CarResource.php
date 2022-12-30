@@ -21,7 +21,7 @@ class CarResource extends JsonResource
             'color'         => $this -> color,
             'type'          => $this -> type,
             'description'   => $this -> description,
-            'base_salary'   => $this -> base_salary,
+            'base_salary'   => number_format((float)round($this->base_salary / 100,2), 2, '.', ''),
             'model'         => $this -> model,
             'rental'        => RentalResource::collection($this -> whenLoaded('rentals')),
             'created_at'    => $this -> created_at,

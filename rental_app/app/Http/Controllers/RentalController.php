@@ -15,7 +15,7 @@ class RentalController extends Controller
             summary: 'Get All Rentals',
             description: 'Display a listing of the Rentals.',
     )]
-    public function index(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function index()
     {
         return RentalResource::collection(
             Rental::with('car')->orderBy('created_at')->paginate(20)
@@ -27,11 +27,12 @@ class RentalController extends Controller
             summary: 'Create new Rentals',
             description: 'Create a new specified Rentals.',
     )]
-    public function store(StoreRentalRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(StoreRentalRequest $request)
     {
         $validated = $request->validated();
-        $car = Rental::create($validated);
-        return redirect()->route('rentals.show', $car);
+        $validated['start_salary'] *= 100;
+        $rental = Rental::create($validated);
+        return $this->show($rental);
     }
 
     #[
@@ -49,12 +50,15 @@ class RentalController extends Controller
             summary: "Update Rental by ID",
             description: 'Update the specified Rental in storage.',
     )]
-    public function update(UpdateRentalRequest $request, Rental $rental): \Illuminate\Http\RedirectResponse
+    public function update(UpdateRentalRequest $request, Rental $rental)
     {
         $validated = $request->validated();
+        if(!empty($validated['start_salary'])){
+            $validated['start_salary'] *= 100;
+        }
         $rental->fill($validated);
         $rental->save();
-        return redirect()->route('rentals.show', $rental);
+        return $this->show($rental);
     }
 
     #[

@@ -32,8 +32,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     healthcheck:
       test: pg_isready -U${POSTGRES_USER} -d${POSTGRES_DB} -p5432
-      interval: 5s
-      timeout: 5s
+      interval: 3s
+      timeout: 3s
       retries: 10
 
   app-rabbitmq:
@@ -43,8 +43,8 @@ services:
       - '5672:15672'
     healthcheck:
       test: rabbitmq-diagnostics -q ping
-      interval: 5s
-      timeout: 5s
+      interval: 3s
+      timeout: 3s
       retries: 3
 
   app-redis:
@@ -52,6 +52,9 @@ services:
     container_name: app-redis
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+      interval: 3s
+      timeout: 3s
+      retries: 3
 
   portainer:
     image: portainer/portainer-ce:latest
