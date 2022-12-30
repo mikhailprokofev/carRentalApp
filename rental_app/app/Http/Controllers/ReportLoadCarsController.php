@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ReportLoadCarsRequest;
 use App\Module\Report\Load\Cars\Handler;
 use App\Module\Report\Load\Cars\Input;
 use Illuminate\Http\JsonResponse;
@@ -16,10 +15,10 @@ final class ReportLoadCarsController extends Controller
         private Handler $handler,
     ) {}
 
-    public function __invoke(ReportLoadCarsRequest $request): JsonResponse
+    public function __invoke(string $year, string $month): JsonResponse
     {
         try {
-            $result = $this->handler->handle(Input::make($request));
+            $result = $this->handler->handle(Input::make($year, $month));
 
             return $this->successOutput($result);
         } catch (\Exception $e) {

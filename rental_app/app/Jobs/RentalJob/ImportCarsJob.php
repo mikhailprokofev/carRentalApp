@@ -2,7 +2,7 @@
 
 namespace App\Jobs\RentalJob;
 
-use App\Repository\CustomCustomCarRepository;
+use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,7 +22,7 @@ class ImportCarsJob implements ShouldQueue
     ) {
         $this->data = $data;
         // TODO: вынести в di
-        $this->carRepository = new CustomCustomCarRepository();
+        $this->carRepository = new CustomCarRepository();
     }
 
     public function handle(): void

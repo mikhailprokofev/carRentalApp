@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\UuidInterface;
 
-final class CustomCustomCarRepository implements CustomCarRepositoryInterface
+final class CustomCarRepository implements CustomCarRepositoryInterface
 {
     public function findDuplicateValues(array $values): array
     {

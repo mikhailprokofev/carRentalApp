@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Module\Report\Load\Cars;
 
-use Illuminate\Http\Request;
-
 final class Input
 {
     public function __construct(
@@ -13,11 +11,11 @@ final class Input
         private int $year,
     ) {}
 
-    public static function make(Request $request): self
+    public static function make(string $year, string $month): self
     {
         return new self(
-            (int) $request->get('month'),
-            (int) $request->get('year'),
+            (int) $month,
+            (int) $year,
         );
     }
 

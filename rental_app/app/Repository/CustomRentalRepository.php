@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-final class CustomCustomRentalRepository implements CustomRentalRepositoryInterface
+final class CustomRentalRepository implements CustomRentalRepositoryInterface
 {
     public function insert(array $data): void
     {

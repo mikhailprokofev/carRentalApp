@@ -20,3 +20,4 @@ Homestead.yaml
 /.idea
 /.vscode
 **/.DS_Store
+**/.editorconfig

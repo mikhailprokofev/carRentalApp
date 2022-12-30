@@ -45,7 +45,7 @@ Route::group([
 Route::group([
     'prefix' => 'report'
 ], function ($router) {
-    Route::post('/load/cars', ReportLoadCarsController::class)->name('report-load-cars');
+    Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)->name('report-load-cars');
 });
 
 Route::resource('cars', CarController::class, ['only' => [

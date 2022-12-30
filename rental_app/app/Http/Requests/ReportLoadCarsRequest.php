@@ -15,10 +15,11 @@ final class ReportLoadCarsRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'month' => 'required|integer|max:12|min:1',
-            'year' => 'required|integer|max:' . date('Y', time()) . '|min:1970',
-        ];
+        return  [];
+//        return [
+//            'month' => 'required|integer|max:12|min:1',
+//            'year' => 'required|integer|max:' . date('Y', time()) . '|min:1970',
+//        ];
     }
 
     public function messages(): array

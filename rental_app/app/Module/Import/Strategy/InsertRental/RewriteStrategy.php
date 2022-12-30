@@ -6,7 +6,7 @@ namespace App\Module\Import\Strategy\InsertRental;
 
 use App\Module\Import\Service\InsertService;
 use App\Module\Import\Service\InsertServiceInterface;
-use App\Repository\CustomCustomRentalRepository;
+use App\Repository\CustomRentalRepository;
 use App\Repository\CustomRentalRepositoryInterface;
 use Closure;
 
@@ -18,7 +18,7 @@ final class RewriteStrategy implements InsertStrategyInterface
     public function __construct()
     {
         $this->insertService = new InsertService();
-        $this->rentalRepository = new CustomCustomRentalRepository();
+        $this->rentalRepository = new CustomRentalRepository();
     }
 
     public function import(array $data): void
