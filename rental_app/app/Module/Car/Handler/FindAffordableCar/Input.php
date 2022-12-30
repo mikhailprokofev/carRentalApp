@@ -17,7 +17,7 @@ final class Input
         private ?UuidInterface $carId,
     ) {}
 
-    public static function make(Request $request): static
+    public static function make(Request $request): self
     {
         return new self(
             new DateTimeImmutable($request->get('start_at')),

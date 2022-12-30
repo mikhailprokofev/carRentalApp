@@ -5,6 +5,7 @@ use App\Http\Controllers\FileSystem\ImportCarsController;
 use App\Http\Controllers\FileSystem\ImportRentalsController;
 use App\Http\Controllers\FindAffordableCarController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
+use App\Http\Controllers\ReportLoadCarsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\RentalController;
@@ -39,6 +40,12 @@ Route::group([
     'prefix' => 'car'
 ], function ($router) {
     Route::post('/find/affordable', FindAffordableCarController::class)->name('car-find-affordable');
+});
+
+Route::group([
+    'prefix' => 'report'
+], function ($router) {
+    Route::post('/load/cars', ReportLoadCarsController::class)->name('report-load-cars');
 });
 
 Route::resource('cars', CarController::class, ['only' => [
