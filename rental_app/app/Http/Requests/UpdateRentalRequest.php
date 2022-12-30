@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use DateTime;
 
 class UpdateRentalRequest extends FormRequest
 {
@@ -25,9 +27,38 @@ class UpdateRentalRequest extends FormRequest
     {
         return [
             'start_salary'  => 'integer',
-            'rental_start'  => 'date|after_or_equal:yesterday',
-            'rental_end'    => 'date|after_or_equal:rental_start',
+            'rental_start'  => 'date|after_or_equal:yesterday|workday',
+            'rental_end'    => 'date|after_or_equal:rental_start|workday',
             'car_id'        => 'uuid|string'
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function(Validator $validator) {
+            $startAt = $validator->validated()['rental_start'];
+            $endAt = $validator->validated()['rental_end'];
+
+            $this->addIntervalValidation($validator, $startAt, $endAt);
+        });
+    }
+
+    private function addIntervalValidation(
+        Validator $validator,
+        string $startAt,
+        string $endAt,
+        int $interval = 30
+    ): void {
+        if ($this->assertRentalInterval($startAt, $endAt, $interval)) {
+            $validator->errors()->add(
+                'interval',
+                "Интервал между датами начала и конца не должен быть больше $interval"
+            );
+        }
+    }
+
+    private function assertRentalInterval(string $startAt, string $endAt, int $interval): bool
+    {
+        return date_diff(new DateTime($endAt), new DateTime($startAt))->days > $interval;
     }
 }
