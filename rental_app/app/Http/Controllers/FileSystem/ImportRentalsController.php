@@ -18,7 +18,7 @@ final class ImportRentalsController extends Controller
 
     public function __invoke(ImportRentalRequest $request): JsonResponse
     {
-        $fileName = 'rental' . date("YmdHis") . '.csv';
+        $fileName = 'rental' . date('YmdHis') . '.csv';
 
         $request->validate($request->rules());
 

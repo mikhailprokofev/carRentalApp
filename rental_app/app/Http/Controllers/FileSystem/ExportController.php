@@ -16,6 +16,5 @@ final class ExportController extends Controller
      */
     public function exportCars(ExportCarRequest $request): Response
     {
-
     }
 }

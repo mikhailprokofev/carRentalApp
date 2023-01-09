@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Car;
 
-class Rental extends Model
+final class Rental extends Model
 {
     use HasFactory;
 
@@ -32,7 +33,7 @@ class Rental extends Model
         'options' => 'array',
     ];
 
-    public function getKeyType ()
+    public function getKeyType()
     {
         return 'string';
     }

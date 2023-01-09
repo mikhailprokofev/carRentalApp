@@ -6,5 +6,4 @@ namespace App\Module\File\Handler\ExportCar;
 
 final class Handler
 {
-
 }

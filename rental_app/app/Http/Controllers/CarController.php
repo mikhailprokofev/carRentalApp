@@ -12,16 +12,15 @@ use App\Models\Car;
 
 class CarController extends Controller
 {
-
     #[
         RA(
             summary: 'Get All Cars',
             description: 'Display a listing of the Cars.',
-    )]
+        )]
     public function index()
     {
         return CarResource::collection(
-            Car::with('rentals')->orderBy('created_at')->paginate(20)
+            Car::with('rentals')->orderBy('created_at')->paginate(20),
         );
     }
 
@@ -29,20 +28,21 @@ class CarController extends Controller
         RA(
             summary: 'Create new Cars',
             description: 'Create a new specified Cars.',
-    )]
+        )]
     public function store(StoreCarRequest $request)
     {
         $validated = $request->validated();
         $validated['base_salary'] *= 100;
         $car = Car::create($validated);
+
         return $this->show($car);
     }
 
     #[
         RA(
-            summary: "Get Car by ID",
+            summary: 'Get Car by ID',
             description: 'Display the specified Car.',
-    )]
+        )]
     public function show(Car $car): CarResource
     {
         return new CarResource($car->load('rentals'));
@@ -50,28 +50,30 @@ class CarController extends Controller
 
     #[
         RA(
-            summary: "Update Car by ID",
+            summary: 'Update Car by ID',
             description: 'Update the specified Car in storage.',
-    )]
+        )]
     public function update(UpdateCarRequest $request, Car $car)
     {
         $validated = $request->validated();
-        if (!empty($validated['base_salary'])) {
+        if (! empty($validated['base_salary'])) {
             $validated['base_salary'] *= 100;
         }
         $car->fill($validated);
         $car->save();
+
         return $this->show($car);
     }
 
     #[
         RA(
-            summary: "Delete Car by ID",
+            summary: 'Delete Car by ID',
             description: 'Remove the specified Car from storage.',
-    )]
+        )]
     public function destroy(Car $car)
     {
         $car->delete();
+
         return json_encode(['id' => $car->id]);
     }
 }

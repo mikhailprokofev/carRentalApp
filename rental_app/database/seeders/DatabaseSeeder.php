@@ -1,7 +1,11 @@
 <?php
-use Illuminate\Database\Seeder;
+
+declare(strict_types=1);
+
 use App\Models\Rental;
-class DatabaseSeeder extends Seeder
+use Illuminate\Database\Seeder;
+
+final class DatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 final class InsertService implements InsertServiceInterface
 {
     private const EXCEPTION_MESSAGE = 'Unique violation';
+
     private const FORMAT_DUPLICATE_LOG = 'Duplicate row: car_id = %s, rental_start = %s, rental_end = %s';
 
     public function recursionInsert(array $data, Closure $commitData): void
@@ -46,10 +47,11 @@ final class InsertService implements InsertServiceInterface
             '/(\(car_id[\w,\s]*\))(=)((\()([\w\-:+,\s]*)\))/',
             $message,
             $matches,
-            PREG_OFFSET_CAPTURE
+            PREG_OFFSET_CAPTURE,
         );
 
         $duplicatedValues = array_pop($matches)[0];
+
         return explode(', ', $duplicatedValues);
     }
 

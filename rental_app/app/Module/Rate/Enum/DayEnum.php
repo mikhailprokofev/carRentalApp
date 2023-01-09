@@ -13,7 +13,7 @@ enum DayEnum: int implements BinaryEnumInterface
 
     public function getBinaryInt(): int
     {
-        return match($this) {
+        return match ($this) {
             DayEnum::THIRTY_DAY => 1 << 3,
             DayEnum::SEVENTEEN_DAY => 1 << 2,
             DayEnum::NINE_DAY => 1 << 1,

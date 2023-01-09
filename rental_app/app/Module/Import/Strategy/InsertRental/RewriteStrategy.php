@@ -13,6 +13,7 @@ use Closure;
 final class RewriteStrategy implements InsertStrategyInterface
 {
     private CustomRentalRepositoryInterface $rentalRepository;
+
     private InsertServiceInterface $insertService;
 
     public function __construct()
@@ -33,9 +34,9 @@ final class RewriteStrategy implements InsertStrategyInterface
 
 //        try {
 //            DB::beginTransaction();
-            $this->rentalRepository->truncate();
-            // TODO: проверка на доступность автомобиля
-            $this->insertService->recursionInsert($data, $this->commitData($this->rentalRepository));
+        $this->rentalRepository->truncate();
+        // TODO: проверка на доступность автомобиля
+        $this->insertService->recursionInsert($data, $this->commitData($this->rentalRepository));
 //            DB::commit();
 //        } catch (QueryException $e) {
 //            Log::error($e->getMessage());
@@ -45,10 +46,10 @@ final class RewriteStrategy implements InsertStrategyInterface
 
     private function commitData(CustomRentalRepositoryInterface $rentalRepository): Closure
     {
-       return function ($data) use ($rentalRepository) {
+        return function ($data) use ($rentalRepository) {
             if (count($data)) {
                 $rentalRepository->insert($data);
             }
-       };
+        };
     }
 }

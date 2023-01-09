@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCarRequest extends FormRequest
+final class UpdateCarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +26,12 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'number_plate'  => 'string',
-            'color'         => 'string',
-            'type'          => 'string',
-            'description'   => 'string',
-            'base_salary'   => 'integer|min:1000|max:5000',
-            'model'         => 'string',
+            'number_plate' => 'string',
+            'color' => 'string',
+            'type' => 'string',
+            'description' => 'string',
+            'base_salary' => 'integer|min:1000|max:5000',
+            'model' => 'string',
         ];
     }
 }

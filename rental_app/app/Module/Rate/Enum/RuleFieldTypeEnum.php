@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Rate\Enum;
+
 enum RuleFieldTypeEnum: string
 {
     case STRING = 'string';
@@ -12,11 +15,11 @@ enum RuleFieldTypeEnum: string
     {
         $filter = array_filter(
             RuleFieldTypeEnum::cases(),
-            fn (RuleFieldTypeEnum $case) => str_contains($value, $case->value), 
+            fn (RuleFieldTypeEnum $case) => str_contains($value, $case->value),
         );
 
-        return ($test = array_pop($filter)) ? 
-            $test->value : 
+        return ($test = array_pop($filter)) ?
+            $test->value :
             RuleFieldTypeEnum::STRING->value;
     }
 }

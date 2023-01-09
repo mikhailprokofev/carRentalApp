@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Common\Rules\WorkDayRule;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
+use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
