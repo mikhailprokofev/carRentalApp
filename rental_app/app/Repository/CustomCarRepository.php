@@ -34,29 +34,35 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
             ->select('r.car_id')
             ->whereRaw("not isempty(daterange('$start', '$end') * daterange(r.rental_start - $restDays, r.rental_end + $restDays))")
             ->orWhereRaw("daterange(r.rental_start - $restDays, r.rental_end + $restDays) @> ('$start')::date")
-            ->groupBy('c.id');
+            ->groupBy('r.car_id');
     }
 
+    // TODO: optimize: duplicate in findAffordableCars
     public function findAffordableCarById(UuidInterface $carId, string $start, string $end, int $restDays = 4): Collection
     {
         $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
 
-        $subQb
-            ->leftJoin('rentals', 'c.id', '=', 'rentals.car_id')
-            ->whereNull('c.id')
+        $qb = DB::table('cars', 'c')
+            ->leftJoinSub($subQb, 'r', function ($join) {
+                $join->on('c.id', '=', 'r.car_id');
+            })
+            ->whereNull('r.car_id')
             ->where('c.id', $carId);
 
-        return $subQb->get();
+        return $qb->get();
     }
 
+    // TODO: optimize: duplicate in findAffordableCarById
     public function findAffordableCars(string $start, string $end, int $restDays = 4): Collection
     {
         $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
 
-        $subQb
-            ->leftJoin('rentals', 'c.id', '=', 'rentals.car_id')
-            ->whereNull('c.id');
+        $qb = DB::table('cars', 'c')
+            ->leftJoinSub($subQb, 'r', function ($join) {
+                $join->on('c.id', '=', 'r.car_id');
+            })
+            ->whereNull('r.car_id');
 
-        return $subQb->get();
+        return $qb->get();
     }
 }

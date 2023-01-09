@@ -6,7 +6,6 @@ namespace App\Module\Car\Handler\FindAffordableCar;
 
 use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
-use function PHPUnit\Framework\isNull;
 
 final class Handler
 {
@@ -26,7 +25,7 @@ final class Handler
             $cars = $this->carRepository->findAffordableCarById($carId, $input->getStartAt(), $input->getEndAt());
         }
 
-        if (isNull($cars) || $cars->isEmpty()) {
+        if (is_null($cars) || $cars->isEmpty()) {
             $cars = $this->carRepository->findAffordableCars($input->getStartAt(), $input->getEndAt());
         }
 
