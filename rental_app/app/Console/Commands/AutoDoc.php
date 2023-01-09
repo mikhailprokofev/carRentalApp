@@ -94,8 +94,6 @@ class AutoDoc extends Command
                             ],
                         ];
                     }
-
-                    echo json_encode($curRoutParams, JSON_PRETTY_PRINT), "\n";
                 }
             }
 

@@ -53,7 +53,7 @@ class StoreRentalRequest extends FormRequest
             $result = $sssr->findAffordableCarById(Uuid::fromString($car_id), $startAt, $endAt);
             $car = $result->map(fn($car) => $car->id)->toArray();
 
-            if (!empty($car)) {
+            if (empty($car)) {
                 $validator->errors()->add(
                     'affordable',
                     "На выбранный диапазон дат уже есть аренда"
