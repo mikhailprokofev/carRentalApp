@@ -6,7 +6,8 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\FileSystem\ExportController;
 use App\Http\Controllers\FileSystem\ImportCarsController;
 use App\Http\Controllers\FileSystem\ImportRentalsController;
-use App\Http\Controllers\FindAffordableCarController;
+use App\Http\Controllers\ListAvailableCarController;
+use App\Http\Controllers\CheckAvailableCarController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\ReportLoadCarsController;
@@ -41,7 +42,8 @@ Route::group([
 Route::group([
     'prefix' => 'car',
 ], function ($router) {
-    Route::post('/find/affordable', FindAffordableCarController::class)->name('car-find-affordable');
+    Route::post('/available/check', CheckAvailableCarController::class)->name('car-available-check');
+    Route::post('/available/list', ListAvailableCarController::class)->name('car-available-list');
 });
 
 Route::group([

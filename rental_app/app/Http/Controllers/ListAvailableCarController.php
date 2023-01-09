@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FindAffordableCarRequest;
-use App\Module\Car\Handler\FindAffordableCar\Handler;
-use App\Module\Car\Handler\FindAffordableCar\Input;
+use App\Http\Requests\ListAvailableCarRequest;
+use App\Module\Car\Handler\ListAvailable\Handler;
+use App\Module\Car\Handler\ListAvailable\Input;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
-final class FindAffordableCarController extends Controller
+final class ListAvailableCarController extends Controller
 {
     public function __construct(
         private Handler $handler,
     ) {}
 
-    public function __invoke(FindAffordableCarRequest $request): JsonResponse
+    public function __invoke(ListAvailableCarRequest $request): JsonResponse
     {
         try {
             $result = $this->handler->handle(Input::make($request));
@@ -29,13 +29,11 @@ final class FindAffordableCarController extends Controller
         return $this->failedOutput();
     }
 
-    private function successOutput(array $items): JsonResponse
+    private function successOutput(array $result): JsonResponse
     {
         return (new JsonResponse())
             ->setStatusCode(200)
-            ->setData([
-                'items' => $items,
-            ]);
+            ->setData($result);
     }
 
     private function failedOutput(): JsonResponse

@@ -8,7 +8,7 @@ use DateTime;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-final class FindAffordableCarRequest extends FormRequest
+final class ListAvailableCarRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -20,7 +20,6 @@ final class FindAffordableCarRequest extends FormRequest
         return [
             'start_at' => 'required|date|after:today|workday',
             'end_at' => 'required|date|after:start_at|workday',
-            'car_id' => 'nullable|string|uuid',
         ];
     }
 

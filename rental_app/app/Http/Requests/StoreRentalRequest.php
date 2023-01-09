@@ -52,7 +52,7 @@ final class StoreRentalRequest extends FormRequest
             $endAt = $validator->validated()['rental_end'];
             $sssr = new CCR();
 
-            $result = $sssr->findAffordableCarById(Uuid::fromString($car_id), $startAt, $endAt);
+            $result = $sssr->findAvailableCarById(Uuid::fromString($car_id), $startAt, $endAt);
             $car = $result->map(fn ($car) => $car->id)->toArray();
 
             if (empty($car)) {
