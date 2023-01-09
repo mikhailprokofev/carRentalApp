@@ -16,8 +16,7 @@ final class CarDTO
         private Price $baseSalary,
         private string $model,
         private ?string $description,
-    ) {
-    }
+    ) {}
 
     public static function make(
         string $numberPlate,

@@ -14,8 +14,7 @@ final class ImportRentalsController extends Controller
 {
     public function __construct(
         private Handler $handler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ImportRentalRequest $request): JsonResponse
     {

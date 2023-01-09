@@ -13,8 +13,7 @@ final class ReportLoadCarsController extends Controller
 {
     public function __construct(
         private Handler $handler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(string $year, string $month): JsonResponse
     {

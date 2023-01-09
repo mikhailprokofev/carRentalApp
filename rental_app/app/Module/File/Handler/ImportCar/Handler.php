@@ -10,8 +10,7 @@ final class Handler
 {
     public function __construct(
         private string $directory = 'from di need',
-    ) {
-    }
+    ) {}
 
     // TODO: ideas how to do without saving a file in controller
     public function handle(string $fileName): void

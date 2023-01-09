@@ -15,8 +15,7 @@ final class Input
         private DateTimeImmutable $startAt,
         private DateTimeImmutable $endAt,
         private ?UuidInterface $carId,
-    ) {
-    }
+    ) {}
 
     public static function make(Request $request): self
     {

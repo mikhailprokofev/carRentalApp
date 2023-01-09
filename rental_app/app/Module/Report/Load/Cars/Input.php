@@ -9,8 +9,7 @@ final class Input
     public function __construct(
         private int $month,
         private int $year,
-    ) {
-    }
+    ) {}
 
     public static function make(string $year, string $month): self
     {

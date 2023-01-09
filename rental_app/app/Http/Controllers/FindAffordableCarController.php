@@ -14,8 +14,7 @@ final class FindAffordableCarController extends Controller
 {
     public function __construct(
         private Handler $handler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(FindAffordableCarRequest $request): JsonResponse
     {

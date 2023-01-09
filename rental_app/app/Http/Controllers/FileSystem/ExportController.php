@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 final class ExportController extends Controller
 {
     /**
-     * @param  ExportCarRequest  $request
+     * @param ExportCarRequest $request
      * @return Response
      */
     public function exportCars(ExportCarRequest $request): Response

@@ -14,8 +14,7 @@ final class ImportCarsController extends Controller
 {
     public function __construct(
         private Handler $handler,
-    ) {
-    }
+    ) {}
 
     public function __invoke(ImportCarRequest $request): JsonResponse
     {

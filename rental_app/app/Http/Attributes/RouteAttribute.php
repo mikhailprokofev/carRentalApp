@@ -12,6 +12,5 @@ final class RouteAttribute
     public function __construct(
         ?string $description = null,
         ?string $summary = null,
-    ) {
-    }
+    ) {}
 }
