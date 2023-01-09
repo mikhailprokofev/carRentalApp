@@ -28,29 +28,34 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
         }
     }
 
-    private function subQueryFindAffordable(string $start, string $end, int $restDays = 3): Builder
+    public function subQueryFindAffordable(string $start, string $end, int $restDays = 4): Builder
     {
-        return DB::table('cars', 'c')
-            ->select('c.id as id')
-            ->leftJoin('rentals', 'c.id', '=', 'rentals.car_id')
-            ->whereRaw("isempty(daterange('$start', '$end') * daterange(rentals.rental_start, rentals.rental_end + $restDays))")
-            ->orWhereNull('rentals.id')
+        return DB::table('rentals', 'r')
+            ->select('r.car_id')
+            ->whereRaw("not isempty(daterange('$start', '$end') * daterange(r.rental_start - $restDays, r.rental_end + $restDays))")
+            ->orWhereRaw("daterange(r.rental_start - $restDays, r.rental_end + $restDays) @> ('$start')::date")
             ->groupBy('c.id');
     }
 
-    public function findAffordableCarById(UuidInterface $carId, string $start, string $end): Collection
+    public function findAffordableCarById(UuidInterface $carId, string $start, string $end, int $restDays = 4): Collection
     {
-        $subQb = $this->subQueryFindAffordable($start, $end);
+        $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
 
         $subQb
+            ->leftJoin('rentals', 'c.id', '=', 'rentals.car_id')
+            ->whereNull('c.id')
             ->where('c.id', $carId);
 
         return $subQb->get();
     }
 
-    public function findAffordableCars(string $start, string $end): Collection
+    public function findAffordableCars(string $start, string $end, int $restDays = 4): Collection
     {
-        $subQb = $this->subQueryFindAffordable($start, $end);
+        $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
+
+        $subQb
+            ->leftJoin('rentals', 'c.id', '=', 'rentals.car_id')
+            ->whereNull('c.id');
 
         return $subQb->get();
     }
