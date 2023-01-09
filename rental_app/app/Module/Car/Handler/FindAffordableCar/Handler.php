@@ -6,6 +6,8 @@ namespace App\Module\Car\Handler\FindAffordableCar;
 
 use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
+use Illuminate\Support\Collection;
+use Ramsey\Uuid\UuidInterface;
 
 final class Handler
 {
@@ -19,17 +21,30 @@ final class Handler
 
     public function handle(Input $input): array
     {
-        $cars = null;
+        $carId = $input->getCarId();
 
-        if ($carId = $input->getCarId()) {
-            $cars = $this->carRepository->findAffordableCarById($carId, $input->getStartAt(), $input->getEndAt());
-        }
+        // TODO: цепочка обязанностей
+        $cars = $carId ? $this->findCar($carId, $input->getStartAt(), $input->getEndAt()) : null;
 
-        if (is_null($cars) || $cars->isEmpty()) {
-            $cars = $this->carRepository->findAffordableCars($input->getStartAt(), $input->getEndAt());
-        }
+        $cars = is_null($cars) || $cars->isEmpty() ? $this->findCars($input->getStartAt(), $input->getEndAt()) : $cars;
+        // TODO: цепочка обязанностей end
 
-        // TODO: найти машины из репозиотрия
-        return $cars->map(fn ($car) => $car->id)->toArray();
+        return $this->makeOutput($cars);
+    }
+
+    // TODO: найти больше инфр о машинах
+    private function makeOutput(Collection $cars): array
+    {
+        return $cars->map(fn($car) => $car->id)->toArray();
+    }
+
+    private function findCar(UuidInterface $carId, string $startAt, string $endAt): Collection
+    {
+        return $this->carRepository->findAffordableCarById($carId, $startAt, $endAt);
+    }
+
+    private function findCars(string $startAt, string $endAt): Collection
+    {
+        return $this->carRepository->findAffordableCars($startAt, $endAt);
     }
 }
