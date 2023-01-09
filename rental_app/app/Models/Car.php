@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Rental;
 
 class Car extends Model
 {
@@ -41,7 +40,7 @@ class Car extends Model
         'options' => 'array',
     ];
 
-    public function getKeyType ()
+    public function getKeyType()
     {
         return 'string';
     }

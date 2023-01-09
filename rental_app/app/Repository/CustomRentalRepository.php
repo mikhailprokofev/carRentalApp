@@ -60,7 +60,7 @@ final class CustomRentalRepository implements CustomRentalRepositoryInterface
             ->select(
                 'c.number_plate',
                 DB::raw('(sum(EXTRACT(day from r.rental_end) - EXTRACT(day from r.rental_start))) as diff')
-            )->leftJoinSub($subQb, 'r',  function ($join) {
+            )->leftJoinSub($subQb, 'r', function ($join) {
                 $join->on('r.car_id', '=', 'c.id');
             })
             ->groupBy(DB::raw('rollup (c.number_plate)'));

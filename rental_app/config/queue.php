@@ -76,22 +76,19 @@ return [
             'queue' => env('RABBITMQ_QUEUE', 'default'),
             'connection' => PhpAmqpLib\Connection\AMQPLazyConnection::class,
 
-
-//            'queue_params'    => [
-//                'passive'     => false,
-//                'durable'     => true,
-//                'exclusive'   => false,
-//                'auto_delete' => false,
-//            ],
-//
-//            'exchange_params' => [
-//                'type'        => 'direct', // more info at http://www.rabbitmq.com/tutorials/amqp-concepts.html
-//                'passive'     => false,
-//                'durable'     => true, // the exchange will survive server restarts
-//                'auto_delete' => false,
-//            ],
-
-
+            //            'queue_params'    => [
+            //                'passive'     => false,
+            //                'durable'     => true,
+            //                'exclusive'   => false,
+            //                'auto_delete' => false,
+            //            ],
+            //
+            //            'exchange_params' => [
+            //                'type'        => 'direct', // more info at http://www.rabbitmq.com/tutorials/amqp-concepts.html
+            //                'passive'     => false,
+            //                'durable'     => true, // the exchange will survive server restarts
+            //                'auto_delete' => false,
+            //            ],
 
             'hosts' => [
                 [

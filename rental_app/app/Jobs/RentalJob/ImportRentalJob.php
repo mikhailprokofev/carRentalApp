@@ -17,7 +17,9 @@ final class ImportRentalJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private array $data;
+
     private ModeImportEnum $mode;
+
     private ImportStrategyFactory $factory;
 
     public function __construct(

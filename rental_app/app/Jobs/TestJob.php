@@ -15,7 +15,8 @@ class TestJob implements ShouldQueue
 
     public function __construct(
         private array $data,
-    ) {}
+    ) {
+    }
 
     public function handle(): void
     {

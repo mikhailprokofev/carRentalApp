@@ -42,22 +42,23 @@ class Handler extends ExceptionHandler
             $response = match (true) {
                 $e instanceof ValidationException => [
                     [
-                        'message'   => 'Ошибка валидации',
-                        'errors'    => $e->errors(),
+                        'message' => 'Ошибка валидации',
+                        'errors' => $e->errors(),
                     ],
-                    404
+                    404,
                 ],
                 default => [
                     [
-                        'message'   => get_class($e),
-                        'errors'    => $e->getMessage(),
-                        'path'      => url()->current(),
-                        'prewpath'  => url()->previous(),
-                        'method'    => request()->method(),
+                        'message' => get_class($e),
+                        'errors' => $e->getMessage(),
+                        'path' => url()->current(),
+                        'prewpath' => url()->previous(),
+                        'method' => request()->method(),
                     ],
-                    404
+                    404,
                 ],
             };
+
             return response()->json(...$response);
         });
     }

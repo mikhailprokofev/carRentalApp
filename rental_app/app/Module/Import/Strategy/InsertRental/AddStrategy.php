@@ -13,6 +13,7 @@ use Closure;
 final class AddStrategy implements InsertStrategyInterface
 {
     private CustomRentalRepositoryInterface $rentalRepository;
+
     private InsertServiceInterface $insertService;
 
     public function __construct()

@@ -38,5 +38,4 @@ final class ReportLoadCarsRequest extends FormRequest
             'year' => 'Год',
         ];
     }
-
 }

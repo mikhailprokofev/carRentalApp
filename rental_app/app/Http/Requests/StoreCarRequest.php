@@ -24,12 +24,12 @@ class StoreCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'number_plate'  => 'required|string',
-            'color'         => 'required|string',
-            'type'          => 'required|string',
-            'description'   => 'required|string',
-            'base_salary'   => 'required|integer|min:1000|max:5000',
-            'model'         => 'required|string',
+            'number_plate' => 'required|string',
+            'color' => 'required|string',
+            'type' => 'required|string',
+            'description' => 'required|string',
+            'base_salary' => 'required|integer|min:1000|max:5000',
+            'model' => 'required|string',
         ];
     }
 }

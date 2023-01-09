@@ -7,7 +7,8 @@ namespace App\Module\Rate\Utility;
 final class EnumBinaryConvert
 {
     // TODO: заменить сравнение на побитовые операции
-    public static function convertToBinary(string $class, int $value): int {
+    public static function convertToBinary(string $class, int $value): int
+    {
         $int = 0;
 
         foreach ($class::cases() as $case) {
@@ -20,7 +21,8 @@ final class EnumBinaryConvert
         return $int;
     }
 
-    public static function convertToArray(string $class, int $binaryInt): array {
+    public static function convertToArray(string $class, int $binaryInt): array
+    {
         $result = [];
 
         foreach ($class::cases() as $case) {

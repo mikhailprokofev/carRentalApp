@@ -30,6 +30,6 @@ final class Handler
         }
 
         // TODO: найти машины из репозиотрия
-        return $cars->map(fn($car) => $car->id)->toArray();
+        return $cars->map(fn ($car) => $car->id)->toArray();
     }
 }

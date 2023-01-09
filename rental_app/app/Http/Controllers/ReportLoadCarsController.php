@@ -13,7 +13,8 @@ final class ReportLoadCarsController extends Controller
 {
     public function __construct(
         private Handler $handler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(string $year, string $month): JsonResponse
     {
@@ -22,7 +23,7 @@ final class ReportLoadCarsController extends Controller
 
             return $this->successOutput($result);
         } catch (\Exception $e) {
-            Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+            Log::error($e->getMessage().PHP_EOL.$e->getTraceAsString());
         }
 
         return $this->failedOutput();

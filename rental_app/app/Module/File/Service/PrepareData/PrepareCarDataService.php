@@ -10,6 +10,6 @@ final class PrepareCarDataService implements PrepareDataServiceInterface
 {
     public function prepareData(array $data): array
     {
-        return (CarDTO::make(...$data))->toArray();
+        return CarDTO::make(...$data)->toArray();
     }
 }

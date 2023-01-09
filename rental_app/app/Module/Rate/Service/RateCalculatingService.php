@@ -23,7 +23,8 @@ final class RateCalculatingService implements RateCalculatingServiceInterface
         return array_sum($payment);
     }
 
-    private function calculateDiffDays(int $interval, array $days): array {
+    private function calculateDiffDays(int $interval, array $days): array
+    {
         $arr[] = 0;
         $arr = array_merge($arr, $days);
         $arr[$lastIndex = count($arr) - 1] = $interval;

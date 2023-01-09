@@ -15,6 +15,7 @@ class ImportCarsJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private array $data;
+
     private CustomCarRepositoryInterface $carRepository;
 
     public function __construct(

@@ -35,6 +35,7 @@ final class Handler
     {
         $output['list'] = $this->prepareList($data, $lastDay);
         $output['total_load'] = $this->calculateTotalLoad($output['list']);
+
         return $output;
     }
 
@@ -55,6 +56,7 @@ final class Handler
     private function calculateLastMonthDay(int $year, int $month): int
     {
         $date = (new DateTimeImmutable("$year-$month-01"))->format('Y-m-t');
+
         return (int) date('d', strtotime($date));
     }
 
@@ -64,6 +66,7 @@ final class Handler
             $data,
             function (float $total, array $car) {
                 $total += $car['load'];
+
                 return $total;
             },
             0

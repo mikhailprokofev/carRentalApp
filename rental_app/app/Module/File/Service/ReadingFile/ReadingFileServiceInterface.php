@@ -18,7 +18,7 @@ interface ReadingFileServiceInterface
         Generator $resourceGenerator,
         PrepareDataServiceInterface $prepareDataService,
         int $chunk = 100
-    ): array ;
+    ): array;
 
     public function deleteFile(string $fileName): void;
 }

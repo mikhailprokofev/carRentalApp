@@ -14,11 +14,12 @@ final class ImportCarsController extends Controller
 {
     public function __construct(
         private Handler $handler,
-    ) {}
+    ) {
+    }
 
     public function __invoke(ImportCarRequest $request): JsonResponse
     {
-        $fileName =  'car' . date("YmdHis") . '.csv';
+        $fileName = 'car'.date('YmdHis').'.csv';
 
         $request->validate($request->rules());
 
@@ -31,7 +32,7 @@ final class ImportCarsController extends Controller
 
                 return $this->successOutput();
             } catch (\Exception $e) {
-                Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+                Log::error($e->getMessage().PHP_EOL.$e->getTraceAsString());
             }
         }
 

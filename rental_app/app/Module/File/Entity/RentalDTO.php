@@ -17,7 +17,8 @@ final class RentalDTO
         private DateTimeImmutable $rentalStartAt,
         private DateTimeImmutable $rentalEndAt,
         private UuidInterface $carId,
-    ) {}
+    ) {
+    }
 
     public static function make(
         string $startSalary,

@@ -30,6 +30,7 @@ final class ReadingCSVService implements ReadingFileServiceInterface
             | SplFileObject::SKIP_EMPTY
             | SplFileObject::DROP_NEW_LINE
         );
+
         return $resource;
     }
 

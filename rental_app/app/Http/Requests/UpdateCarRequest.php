@@ -24,12 +24,12 @@ class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'number_plate'  => 'string',
-            'color'         => 'string',
-            'type'          => 'string',
-            'description'   => 'string',
-            'base_salary'   => 'integer|min:1000|max:5000',
-            'model'         => 'string',
+            'number_plate' => 'string',
+            'color' => 'string',
+            'type' => 'string',
+            'description' => 'string',
+            'base_salary' => 'integer|min:1000|max:5000',
+            'model' => 'string',
         ];
     }
 }

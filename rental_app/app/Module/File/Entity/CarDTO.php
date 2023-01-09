@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Module\File\Entity;
 
 use App\Module\File\Type\Price;
-use DateTimeImmutable;
 use Ramsey\Uuid\Rfc4122\UuidV7;
 use Ramsey\Uuid\UuidInterface;
 
@@ -17,7 +16,8 @@ final class CarDTO
         private Price $baseSalary,
         private string $model,
         private ?string $description,
-    ) {}
+    ) {
+    }
 
     public static function make(
         string $numberPlate,

@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Car;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CarFactory extends Factory
 {
-
     protected $model = Car::class;
+
     /**
      * Define the model's default state.
      *
@@ -16,7 +16,6 @@ class CarFactory extends Factory
      */
     public function definition()
     {
-
         $faker = \Faker\Factory::create();
 
         $typesArray = [
@@ -30,24 +29,23 @@ class CarFactory extends Factory
             'Honda Civic',
             'Bugatty',
             'Lada Granta',
-            'Reno Logan'
+            'Reno Logan',
         ];
 
         return [
             'id' => $faker->uuid(),
-            'number_plate' => $faker->languageCode() . 
-                $faker->numberBetween(100,999) .
-                $faker->languageCode()
-            ,
+            'number_plate' => $faker->languageCode().
+                $faker->numberBetween(100, 999).
+                $faker->languageCode(),
             'color' => $faker->colorName(),
-            'type'  => $typesArray[
-                $faker->numberBetween(0,2)
+            'type' => $typesArray[
+                $faker->numberBetween(0, 2)
             ],
             'description' => $faker->text(80),
-            'base_salary' => 100 * $faker->numberBetween(1,15),
+            'base_salary' => 100 * $faker->numberBetween(1, 15),
             'model' => $carModels[
-                $faker->numberBetween(0,2)
-            ]
+                $faker->numberBetween(0, 2)
+            ],
         ];
     }
 }

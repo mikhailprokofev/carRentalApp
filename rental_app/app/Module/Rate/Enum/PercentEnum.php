@@ -13,7 +13,7 @@ enum PercentEnum: int implements BinaryEnumInterface
 
     public function getBinaryInt(): int
     {
-        return match($this) {
+        return match ($this) {
             PercentEnum::FIFTEEN_PERCENT => 1 << 3,
             PercentEnum::TEN_PERCENT => 1 << 2,
             PercentEnum::FIVE_PERCENT => 1 << 1,

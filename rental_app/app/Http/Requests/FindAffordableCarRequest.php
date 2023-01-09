@@ -43,7 +43,7 @@ final class FindAffordableCarRequest extends FormRequest
 
     public function withValidator(Validator $validator): void
     {
-        $validator->after(function(Validator $validator) {
+        $validator->after(function (Validator $validator) {
             $startAt = $validator->validated()['start_at'];
             $endAt = $validator->validated()['end_at'];
 

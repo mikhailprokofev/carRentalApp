@@ -11,7 +11,9 @@ final class WorkDayRule implements Rule
 {
     protected const RULE = 'workday';
 
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * Determine if the validation rule passes.
@@ -23,7 +25,8 @@ final class WorkDayRule implements Rule
     public function passes($attribute, mixed $value): bool
     {
         $weekDay = date('w', strtotime($value));
-        return ($weekDay != 0 && $weekDay != 6);
+
+        return $weekDay != 0 && $weekDay != 6;
     }
 
     public function message(): string
@@ -35,7 +38,6 @@ final class WorkDayRule implements Rule
     {
         return static::RULE;
     }
-
 
     public function validate(string $attribute, $value, $params, Validator $validator): bool
     {

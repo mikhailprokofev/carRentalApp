@@ -10,11 +10,12 @@ final class Handler
 {
     public function __construct(
         private string $directory = 'from di need',
-    ) {}
+    ) {
+    }
 
     // TODO: ideas how to do without saving a file in controller
     public function handle(string $fileName, string $mode): void
     {
-        ReadingRentalsJob::dispatch(storage_path('app') . '/' . $fileName, $mode);
+        ReadingRentalsJob::dispatch(storage_path('app').'/'.$fileName, $mode);
     }
 }

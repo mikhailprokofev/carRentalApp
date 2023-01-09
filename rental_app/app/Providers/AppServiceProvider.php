@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Common\Rules\WorkDayRule;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

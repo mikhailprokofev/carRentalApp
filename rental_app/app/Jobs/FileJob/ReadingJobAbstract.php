@@ -10,7 +10,9 @@ use App\Module\File\Service\ReadingFile\ReadingFileServiceInterface;
 abstract class ReadingJobAbstract
 {
     protected string $fileName;
+
     protected PrepareDataServiceInterface $prepareDataService;
+
     protected ReadingFileServiceInterface $fileService;
 
     public function handle(): void

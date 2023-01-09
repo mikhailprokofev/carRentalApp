@@ -2,9 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use App\Module\Rate\Enum\RuleFieldTypeEnum;
+use Illuminate\Console\Command;
 
 class AutoDoc extends Command
 {
@@ -30,11 +29,11 @@ class AutoDoc extends Command
     public function handle()
     {
         \Artisan::call('route:list --json -vvv');
-        $allRoutes = json_decode(\Artisan::output(),true);
+        $allRoutes = json_decode(\Artisan::output(), true);
 
         $needleRoutes = array_values(
             array_filter(
-                $allRoutes, 
+                $allRoutes,
                 function ($current) {
                     return in_array('api', $current['middleware']);
                 }
@@ -45,25 +44,24 @@ class AutoDoc extends Command
 
         foreach ($needleRoutes as $curRout) {
             $subject = explode('@', $curRout['action']);
-                $controller = $subject[0];
-                $method     = $subject[1] ?? '__invoke';
-                $url        = '/' . preg_replace('/\\{.+\\}/', '', $curRout['uri']);
-                $httpMethod = strtolower(explode('|', $curRout['method'])[0]);
+            $controller = $subject[0];
+            $method = $subject[1] ?? '__invoke';
+            $url = '/'.preg_replace('/\\{.+\\}/', '', $curRout['uri']);
+            $httpMethod = strtolower(explode('|', $curRout['method'])[0]);
 
-            $controllerFullName = explode("\\", $controller);
-                $tag        = array_pop($controllerFullName);
+            $controllerFullName = explode('\\', $controller);
+            $tag = array_pop($controllerFullName);
 
             $reflection = new \ReflectionMethod($controller, $method);
-                $params     = $reflection->getParameters();
-                $attributes = $reflection->getAttributes();
+            $params = $reflection->getParameters();
+            $attributes = $reflection->getAttributes();
 
             $curRoutParams = [];
 
             foreach ($params as $param) {
                 $type = $param->getType();
 
-                if (str_contains($type, 'Model'))
-                {
+                if (str_contains($type, 'Model')) {
                     $curRoutParams[] = (object) [
                         'name' => 'id',
                         'in' => 'path',
@@ -71,18 +69,17 @@ class AutoDoc extends Command
                         'required' => true,
                         'schema' => (object) [
                             'type' => 'string',
-                            'format' => 'uuid'
+                            'format' => 'uuid',
                         ],
                     ];
                     $url .= '{id}';
                 }
 
-                if (str_contains($type, 'Request'))
-                {
-                    $request    = (string) $type;
-                    $rules      = (new $request)->rules();
+                if (str_contains($type, 'Request')) {
+                    $request = (string) $type;
+                    $rules = (new $request)->rules();
 
-                    foreach ($rules as $rule=>$rule_desc) {
+                    foreach ($rules as $rule => $rule_desc) {
                         $curRoutParams[] = (object) [
                             'name' => $rule,
                             'in' => 'query',
@@ -99,39 +96,39 @@ class AutoDoc extends Command
 
             $summary = 'Set your summary';
             $description = 'Set your description';
-            foreach($attributes as $attribute){
-                $summary     = $attribute->getArguments()['summary'] ?? $summary;
+            foreach ($attributes as $attribute) {
+                $summary = $attribute->getArguments()['summary'] ?? $summary;
                 $description = $attribute->getArguments()['description'] ?? $description;
             }
 
             $paths[$url][$httpMethod] = [
-                'tags'          => [$tag],
-                'summary'       => $summary,
-                'description'   => $description,
-                'operationId'   => $curRout['name'],
-                'responses'     => (object) [
-                    '200'   => (object) [
-                        "description" => "Successful work of server api"
+                'tags' => [$tag],
+                'summary' => $summary,
+                'description' => $description,
+                'operationId' => $curRout['name'],
+                'responses' => (object) [
+                    '200' => (object) [
+                        'description' => 'Successful work of server api',
                     ],
-                ]
+                ],
             ];
 
-            if (!empty($curRoutParams)) 
-            {
+            if (! empty($curRoutParams)) {
                 $paths[$url][$httpMethod]['parameters'] = $curRoutParams;
             }
         }
 
         $this->setAutoDoc($paths);
+
         return Command::SUCCESS;
     }
 
     public function setAutoDoc(array $paths): void
     {
-        $json = json_decode(file_get_contents(base_path() .'/storage/api-docs/autodoc.json'),true);
+        $json = json_decode(file_get_contents(base_path().'/storage/api-docs/autodoc.json'), true);
         $json['paths'] = $paths;
-        $file = fopen(base_path() .'/storage/api-docs/api-docs.json', "w") or die("Unable to open file!");
-        fwrite($file,json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $file = fopen(base_path().'/storage/api-docs/api-docs.json', 'w') or exit('Unable to open file!');
+        fwrite($file, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         fclose($file);
     }
 }
