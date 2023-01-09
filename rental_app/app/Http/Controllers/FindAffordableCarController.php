@@ -24,7 +24,7 @@ final class FindAffordableCarController extends Controller
 
             return $this->successOutput($result);
         } catch (\Exception $e) {
-            Log::error($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
         }
 
         return $this->failedOutput();

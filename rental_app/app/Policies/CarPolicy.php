@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
 use App\Models\Car;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CarPolicy
+final class CarPolicy
 {
     use HandlesAuthorization;
 

@@ -69,7 +69,7 @@ final class Handler
 
                 return $total;
             },
-            0
+            0,
         );
 
         return $total ? round($total / count($data), 2) : 0;

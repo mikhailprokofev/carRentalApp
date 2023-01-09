@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\FileSystem\ExportController;
 use App\Http\Controllers\FileSystem\ImportCarsController;

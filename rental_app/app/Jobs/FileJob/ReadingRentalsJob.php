@@ -15,7 +15,10 @@ use Illuminate\Queue\SerializesModels;
 
 final class ReadingRentalsJob extends ReadingJobAbstract implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private string $mode;
 

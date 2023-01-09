@@ -19,7 +19,7 @@ final class ImportRentalsController extends Controller
 
     public function __invoke(ImportRentalRequest $request): JsonResponse
     {
-        $fileName = 'rental'.date('YmdHis').'.csv';
+        $fileName = 'rental' . date('YmdHis') . '.csv';
 
         $request->validate($request->rules());
 
@@ -33,7 +33,7 @@ final class ImportRentalsController extends Controller
 
                 return $this->successOutput();
             } catch (\Exception $e) {
-                Log::error($e->getMessage().PHP_EOL.$e->getTraceAsString());
+                Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
             }
         }
 

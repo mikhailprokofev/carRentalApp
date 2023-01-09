@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Console\Commands;
 
 use App\Module\Rate\Enum\RuleFieldTypeEnum;
 use Illuminate\Console\Command;
 
-class AutoDoc extends Command
+final class AutoDoc extends Command
 {
     /**
      * The name and signature of the console command.
@@ -36,8 +38,8 @@ class AutoDoc extends Command
                 $allRoutes,
                 function ($current) {
                     return in_array('api', $current['middleware']);
-                }
-            )
+                },
+            ),
         );
 
         $paths = [];
@@ -46,7 +48,7 @@ class AutoDoc extends Command
             $subject = explode('@', $curRout['action']);
             $controller = $subject[0];
             $method = $subject[1] ?? '__invoke';
-            $url = '/'.preg_replace('/\\{.+\\}/', '', $curRout['uri']);
+            $url = '/' . preg_replace('/\\{.+\\}/', '', $curRout['uri']);
             $httpMethod = strtolower(explode('|', $curRout['method'])[0]);
 
             $controllerFullName = explode('\\', $controller);
@@ -77,7 +79,7 @@ class AutoDoc extends Command
 
                 if (str_contains($type, 'Request')) {
                     $request = (string) $type;
-                    $rules = (new $request)->rules();
+                    $rules = (new $request())->rules();
 
                     foreach ($rules as $rule => $rule_desc) {
                         $curRoutParams[] = (object) [
@@ -125,9 +127,9 @@ class AutoDoc extends Command
 
     public function setAutoDoc(array $paths): void
     {
-        $json = json_decode(file_get_contents(base_path().'/storage/api-docs/autodoc.json'), true);
+        $json = json_decode(file_get_contents(base_path() . '/storage/api-docs/autodoc.json'), true);
         $json['paths'] = $paths;
-        $file = fopen(base_path().'/storage/api-docs/api-docs.json', 'w') or exit('Unable to open file!');
+        $file = fopen(base_path() . '/storage/api-docs/api-docs.json', 'w') or exit('Unable to open file!');
         fwrite($file, json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         fclose($file);
     }

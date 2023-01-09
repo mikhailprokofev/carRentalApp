@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use App\Module\Rate\Service\RateCalculatingService;
 use DateTimeImmutable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RentalResource extends JsonResource
+final class RentalResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.

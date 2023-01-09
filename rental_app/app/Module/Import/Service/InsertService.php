@@ -47,7 +47,7 @@ final class InsertService implements InsertServiceInterface
             '/(\(car_id[\w,\s]*\))(=)((\()([\w\-:+,\s]*)\))/',
             $message,
             $matches,
-            PREG_OFFSET_CAPTURE
+            PREG_OFFSET_CAPTURE,
         );
 
         $duplicatedValues = array_pop($matches)[0];

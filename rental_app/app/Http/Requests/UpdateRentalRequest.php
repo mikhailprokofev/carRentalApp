@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use DateTime;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRentalRequest extends FormRequest
+final class UpdateRentalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -47,12 +49,12 @@ class UpdateRentalRequest extends FormRequest
         Validator $validator,
         string $startAt,
         string $endAt,
-        int $interval = 30
+        int $interval = 30,
     ): void {
         if ($this->assertRentalInterval($startAt, $endAt, $interval)) {
             $validator->errors()->add(
                 'interval',
-                "Интервал между датами начала и конца не должен быть больше $interval"
+                "Интервал между датами начала и конца не должен быть больше $interval",
             );
         }
     }

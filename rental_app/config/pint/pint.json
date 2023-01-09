@@ -1,9 +1,17 @@
 {
     "preset": "psr12",
+    "exclude": [
+        "config/",
+        "database/migrations/",
+        "bootstrap/"
+    ],
+    "notName": [
+        "**.env",
+        "**.json"
+    ],
     "rules": {
         "whitespace_after_comma_in_array": true,
         "declare_strict_types": true,
-        "final_class": true,
         "lowercase_static_reference": true,
         "multiline_whitespace_before_semicolons": true,
         "no_blank_lines_after_phpdoc": true,
@@ -29,6 +37,16 @@
                 "match",
                 "parameters"
             ]
+        },
+        "concat_space": {
+            "spacing": "one"
+        },
+        "new_with_braces": {
+            "anonymous_class": false,
+            "named_class": true
+        },
+        "final_internal_class": {
+            "consider_absent_docblock_as_internal_class": false
         }
     }
 }

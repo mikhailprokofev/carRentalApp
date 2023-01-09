@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Module\Rate\Enum;
 
 enum RuleFieldTypeEnum: string

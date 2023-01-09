@@ -20,7 +20,7 @@ class CarController extends Controller
     public function index()
     {
         return CarResource::collection(
-            Car::with('rentals')->orderBy('created_at')->paginate(20)
+            Car::with('rentals')->orderBy('created_at')->paginate(20),
         );
     }
 

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Car;
 use Faker\Factory as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class RentalFactory extends Factory
+final class RentalFactory extends Factory
 {
     /**
      * Define the model's default state.

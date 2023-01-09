@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Factories;
 
 use App\Models\Car;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CarFactory extends Factory
+final class CarFactory extends Factory
 {
     protected $model = Car::class;
 
@@ -34,8 +36,8 @@ class CarFactory extends Factory
 
         return [
             'id' => $faker->uuid(),
-            'number_plate' => $faker->languageCode().
-                $faker->numberBetween(100, 999).
+            'number_plate' => $faker->languageCode() .
+                $faker->numberBetween(100, 999) .
                 $faker->languageCode(),
             'color' => $faker->colorName(),
             'type' => $typesArray[

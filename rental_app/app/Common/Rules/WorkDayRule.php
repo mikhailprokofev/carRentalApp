@@ -9,7 +9,7 @@ use Illuminate\Validation\Validator;
 
 final class WorkDayRule implements Rule
 {
-    protected const RULE = 'workday';
+    private const RULE = 'workday';
 
     public function __construct()
     {
@@ -36,7 +36,7 @@ final class WorkDayRule implements Rule
 
     public static function handle(): string
     {
-        return static::RULE;
+        return self::RULE;
     }
 
     public function validate(string $attribute, $value, $params, Validator $validator): bool

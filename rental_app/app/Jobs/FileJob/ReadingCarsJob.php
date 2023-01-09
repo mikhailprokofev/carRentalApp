@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Jobs\FileJob;
 
 use App\Jobs\RentalJob\ImportCarsJob;
@@ -11,9 +13,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ReadingCarsJob extends ReadingJobAbstract implements ShouldQueue
+final class ReadingCarsJob extends ReadingJobAbstract implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         string $fileName,

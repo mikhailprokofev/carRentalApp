@@ -41,7 +41,7 @@ final class CustomRentalRepository implements CustomRentalRepositoryInterface
                     WHEN EXTRACT(month from r.rental_end) != 12
                         THEN date_trunc('month', r.rental_start) + '1 month'::INTERVAL - '1 day'::INTERVAL
                     ELSE r.rental_end
-                END as rental_end")
+                END as rental_end"),
             )
             ->where(function ($query) use ($month) {
                 $query->whereRaw("EXTRACT(month from r.rental_start) = $month")
@@ -59,7 +59,7 @@ final class CustomRentalRepository implements CustomRentalRepositoryInterface
         $qb = DB::table('cars', 'c')
             ->select(
                 'c.number_plate',
-                DB::raw('(sum(EXTRACT(day from r.rental_end) - EXTRACT(day from r.rental_start))) as diff')
+                DB::raw('(sum(EXTRACT(day from r.rental_end) - EXTRACT(day from r.rental_start))) as diff'),
             )->leftJoinSub($subQb, 'r', function ($join) {
                 $join->on('r.car_id', '=', 'c.id');
             })

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCarRequest extends FormRequest
+final class UpdateCarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

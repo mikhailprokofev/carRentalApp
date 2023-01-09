@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CarResource extends JsonResource
+final class CarResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.

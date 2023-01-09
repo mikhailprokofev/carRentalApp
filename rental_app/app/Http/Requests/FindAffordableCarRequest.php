@@ -55,12 +55,12 @@ final class FindAffordableCarRequest extends FormRequest
         Validator $validator,
         string $startAt,
         string $endAt,
-        int $interval = 30
+        int $interval = 30,
     ): void {
         if ($this->assertRentalInterval($startAt, $endAt, $interval)) {
             $validator->errors()->add(
                 'interval',
-                "Интервал между датами начала и конца не должен быть больше $interval"
+                "Интервал между датами начала и конца не должен быть больше $interval",
             );
         }
     }

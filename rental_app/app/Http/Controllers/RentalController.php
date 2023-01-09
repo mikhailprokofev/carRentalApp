@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Attributes\RouteAttribute as RA;
@@ -8,7 +10,7 @@ use App\Http\Requests\UpdateRentalRequest;
 use App\Http\Resources\RentalResource;
 use App\Models\Rental;
 
-class RentalController extends Controller
+final class RentalController extends Controller
 {
     #[
         RA(
@@ -18,7 +20,7 @@ class RentalController extends Controller
     public function index()
     {
         return RentalResource::collection(
-            Rental::with('car')->orderBy('created_at')->paginate(20)
+            Rental::with('car')->orderBy('created_at')->paginate(20),
         );
     }
 

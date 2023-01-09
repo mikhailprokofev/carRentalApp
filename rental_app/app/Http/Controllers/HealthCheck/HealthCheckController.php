@@ -16,7 +16,7 @@ final class HealthCheckController extends Controller
         tags: ['HealthCheck'],
         responses: [
             new OA\Response(response: 200, description: 'Successful work of server api'),
-        ]
+        ],
     )]
     public function index()
     {
