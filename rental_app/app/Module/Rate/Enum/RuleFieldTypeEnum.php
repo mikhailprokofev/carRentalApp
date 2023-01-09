@@ -15,8 +15,6 @@ enum RuleFieldTypeEnum: string
             fn (RuleFieldTypeEnum $case) => str_contains($value, $case->value), 
         );
 
-        // echo json_encode($filter);
-
         return ($test = array_pop($filter)) ? 
             $test->value : 
             RuleFieldTypeEnum::STRING->value;

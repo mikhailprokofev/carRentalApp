@@ -44,9 +44,9 @@ class AutoDoc extends Command
         $paths = [];
 
         foreach ($needleRoutes as $curRout) {
-            $object = explode('@', $curRout['action']);
-                $controller = $object[0];
-                $method     = $object[1];
+            $subject = explode('@', $curRout['action']);
+                $controller = $subject[0];
+                $method     = $subject[1] ?? '__invoke';
                 $url        = '/' . preg_replace('/\\{.+\\}/', '', $curRout['uri']);
                 $httpMethod = strtolower(explode('|', $curRout['method'])[0]);
 
@@ -77,7 +77,7 @@ class AutoDoc extends Command
                     $url .= '{id}';
                 }
 
-                if(str_contains($type, 'Request'))
+                if (str_contains($type, 'Request'))
                 {
                     $request    = (string) $type;
                     $rules      = (new $request)->rules();
@@ -89,10 +89,13 @@ class AutoDoc extends Command
                             'description' => "$rule fuild",
                             'required' => str_contains($rule_desc, 'required'),
                             'schema' => (object) [
-                                'type' => RuleFieldTypeEnum::isEqual($rule_desc),
+                                'type' => 'string',
+                                'format' => RuleFieldTypeEnum::isEqual($rule_desc),
                             ],
                         ];
                     }
+
+                    echo json_encode($curRoutParams, JSON_PRETTY_PRINT), "\n";
                 }
             }
 

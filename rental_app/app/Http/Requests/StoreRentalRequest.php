@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Repository\CustomCarRepository as CCR;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Ramsey\Uuid\Uuid;
 use DateTime;
 
 class StoreRentalRequest extends FormRequest
@@ -21,7 +23,7 @@ class StoreRentalRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array<string, mixed> 
      */
     public function rules()
     {
@@ -40,6 +42,23 @@ class StoreRentalRequest extends FormRequest
             $endAt = $validator->validated()['rental_end'];
 
             $this->addIntervalValidation($validator, $startAt, $endAt);
+        });
+
+        $validator->after(function (Validator $validator) { 
+            $car_id = $validator->validated()['car_id'];
+            $startAt = $validator->validated()['rental_start'];
+            $endAt = $validator->validated()['rental_end'];
+            $sssr = new CCR();
+
+            $result = $sssr->findAffordableCarById(Uuid::fromString($car_id), $startAt, $endAt);
+            $car = $result->map(fn($car) => $car->id)->toArray();
+
+            if (!empty($car)) {
+                $validator->errors()->add(
+                    'affordable',
+                    "На выбранный диапазон дат уже есть аренда"
+                );
+            }
         });
     }
 

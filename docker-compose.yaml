@@ -8,8 +8,8 @@ services:
     ports:
       - '80:80'
     volumes:
-      - ./rental_app:/var/www
-      - ./.env:/var/www/.env
+      - ./rental_app/:/var/www/
+      - .env:/var/www/.env
     depends_on:
       app-rabbitmq:
         condition: service_healthy

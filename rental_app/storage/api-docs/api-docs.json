@@ -12,6 +12,53 @@
         }
     ],
     "paths": {
+        "/car/find/affordable": {
+            "post": {
+                "tags": [
+                    "FindAffordableCarController"
+                ],
+                "summary": "Set your summary",
+                "description": "Set your description",
+                "operationId": "car-find-affordable",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "start_at",
+                        "in": "query",
+                        "description": "start_at fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_at",
+                        "in": "query",
+                        "description": "end_at fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "car_id",
+                        "in": "query",
+                        "description": "car_id fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ]
+            }
+        },
         "/cars": {
             "get": {
                 "tags": [
@@ -45,7 +92,8 @@
                         "description": "number_plate fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -54,7 +102,8 @@
                         "description": "color fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -63,7 +112,8 @@
                         "description": "type fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -72,7 +122,8 @@
                         "description": "description fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -81,7 +132,8 @@
                         "description": "base_salary fuild",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string",
+                            "format": "integer"
                         }
                     },
                     {
@@ -90,7 +142,8 @@
                         "description": "model fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     }
                 ]
@@ -141,7 +194,8 @@
                         "description": "number_plate fuild",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -150,7 +204,8 @@
                         "description": "color fuild",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -159,7 +214,8 @@
                         "description": "type fuild",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -168,7 +224,8 @@
                         "description": "description fuild",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -177,7 +234,8 @@
                         "description": "base_salary fuild",
                         "required": false,
                         "schema": {
-                            "type": "integer"
+                            "type": "string",
+                            "format": "integer"
                         }
                     },
                     {
@@ -186,7 +244,8 @@
                         "description": "model fuild",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     },
                     {
@@ -277,7 +336,8 @@
                         "description": "file fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
                         }
                     }
                 ]
@@ -303,7 +363,18 @@
                         "description": "file fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "description": "mode fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
                         }
                     }
                 ]
@@ -342,7 +413,8 @@
                         "description": "start_salary fuild",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "string",
+                            "format": "integer"
                         }
                     },
                     {
@@ -351,7 +423,8 @@
                         "description": "rental_start fuild",
                         "required": true,
                         "schema": {
-                            "type": "date"
+                            "type": "string",
+                            "format": "date"
                         }
                     },
                     {
@@ -360,7 +433,8 @@
                         "description": "rental_end fuild",
                         "required": true,
                         "schema": {
-                            "type": "date"
+                            "type": "string",
+                            "format": "date"
                         }
                     },
                     {
@@ -369,7 +443,8 @@
                         "description": "car_id fuild",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     }
                 ]
@@ -420,7 +495,8 @@
                         "description": "rental_start fuild",
                         "required": false,
                         "schema": {
-                            "type": "date"
+                            "type": "string",
+                            "format": "date"
                         }
                     },
                     {
@@ -429,7 +505,8 @@
                         "description": "rental_end fuild",
                         "required": false,
                         "schema": {
-                            "type": "date"
+                            "type": "string",
+                            "format": "date"
                         }
                     },
                     {
@@ -438,7 +515,8 @@
                         "description": "car_id fuild",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "string",
+                            "format": "uuid"
                         }
                     },
                     {
@@ -474,6 +552,43 @@
                         "schema": {
                             "type": "string",
                             "format": "uuid"
+                        }
+                    }
+                ]
+            }
+        },
+        "/report/load/cars": {
+            "post": {
+                "tags": [
+                    "ReportLoadCarsController"
+                ],
+                "summary": "Set your summary",
+                "description": "Set your description",
+                "operationId": "report-load-cars",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "description": "month fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "integer"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "year fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "integer"
                         }
                     }
                 ]

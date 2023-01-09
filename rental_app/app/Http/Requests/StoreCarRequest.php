@@ -28,7 +28,7 @@ class StoreCarRequest extends FormRequest
             'color'         => 'required|string',
             'type'          => 'required|string',
             'description'   => 'required|string',
-            'base_salary'   => 'required|integer',
+            'base_salary'   => 'required|integer|min:1000|max:5000',
             'model'         => 'required|string',
         ];
     }

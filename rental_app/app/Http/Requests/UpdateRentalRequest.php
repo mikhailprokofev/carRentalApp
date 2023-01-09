@@ -26,7 +26,6 @@ class UpdateRentalRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_salary'  => 'integer',
             'rental_start'  => 'date|after_or_equal:yesterday|workday',
             'rental_end'    => 'date|after_or_equal:rental_start|workday',
             'car_id'        => 'uuid|string'
@@ -36,10 +35,12 @@ class UpdateRentalRequest extends FormRequest
     public function withValidator(Validator $validator): void
     {
         $validator->after(function(Validator $validator) {
-            $startAt = $validator->validated()['rental_start'];
-            $endAt = $validator->validated()['rental_end'];
-
-            $this->addIntervalValidation($validator, $startAt, $endAt);
+            $startAt = $validator->validated()['rental_start'] ?? null;
+            $endAt = $validator->validated()['rental_end'] ?? null;
+            if (!empty($startAt) && !empty($endAt))
+            {
+                $this->addIntervalValidation($validator, $startAt, $endAt);
+            }
         });
     }
 
