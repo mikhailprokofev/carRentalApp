@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Car\Handler\FindAffordableCar;
+namespace App\Module\Car\Handler\CheckAvailable;
 
 use DateTimeImmutable;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ final class Input
     public function __construct(
         private DateTimeImmutable $startAt,
         private DateTimeImmutable $endAt,
-        private ?UuidInterface $carId,
+        private string $numberPlate,
     ) {}
 
     public static function make(Request $request): self
@@ -22,7 +22,7 @@ final class Input
         return new self(
             new DateTimeImmutable($request->get('start_at')),
             new DateTimeImmutable($request->get('end_at')),
-            $request->get('car_id') ? UuidV7::fromString($request->get('car_id')) : null,
+            $request->get('number_plate'),
         );
     }
 
@@ -36,8 +36,8 @@ final class Input
         return $this->endAt->format('Y-m-d');
     }
 
-    public function getCarId(): ?UuidInterface
+    public function getNumberPlate(): string
     {
-        return $this->carId;
+        return $this->numberPlate;
     }
 }

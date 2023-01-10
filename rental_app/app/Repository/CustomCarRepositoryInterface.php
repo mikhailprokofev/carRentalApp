@@ -13,7 +13,16 @@ interface CustomCarRepositoryInterface
 
     public function insert(array $data): void;
 
-    public function findAffordableCarById(UuidInterface $carId, string $start, string $end): Collection;
+    public function findAvailableCarById(UuidInterface $carId, string $start, string $end): Collection;
 
-    public function findAffordableCars(string $start, string $end): Collection;
+    public function findAvailableCars(string $start, string $end): Collection;
+
+    public function findAvailableCarByNumberPlate(
+        string $numberPlate,
+        string $start,
+        string $end,
+        int $restDays = 4
+    ): Collection;
+
+    public function isExistByNumberPlate(string $numberPlate): bool;
 }

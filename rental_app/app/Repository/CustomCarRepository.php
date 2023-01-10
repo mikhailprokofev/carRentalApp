@@ -38,7 +38,7 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
     }
 
     // TODO: optimize: duplicate in findAffordableCars
-    public function findAffordableCarById(UuidInterface $carId, string $start, string $end, int $restDays = 4): Collection
+    public function findAvailableCarById(UuidInterface $carId, string $start, string $end, int $restDays = 4): Collection
     {
         $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
 
@@ -53,7 +53,26 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
     }
 
     // TODO: optimize: duplicate in findAffordableCarById
-    public function findAffordableCars(string $start, string $end, int $restDays = 4): Collection
+    public function findAvailableCarByNumberPlate(
+        string $numberPlate,
+        string $start,
+        string $end,
+        int $restDays = 4
+    ): Collection {
+        $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
+
+        $qb = DB::table('cars', 'c')
+            ->leftJoinSub($subQb, 'r', function ($join) {
+                $join->on('c.id', '=', 'r.car_id');
+            })
+            ->whereNull('r.car_id')
+            ->where('c.number_plate', $numberPlate);
+
+        return $qb->get();
+    }
+
+    // TODO: optimize: duplicate in findAffordableCarById
+    public function findAvailableCars(string $start, string $end, int $restDays = 4): Collection
     {
         $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
 
@@ -64,5 +83,12 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
             ->whereNull('r.car_id');
 
         return $qb->get();
+    }
+
+    public function isExistByNumberPlate(string $numberPlate): bool
+    {
+        return DB::table('cars', 'c')
+            ->where('c.number_plate', $numberPlate)
+            ->exists();
     }
 }
