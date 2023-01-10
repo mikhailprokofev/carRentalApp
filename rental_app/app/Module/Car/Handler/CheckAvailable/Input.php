@@ -22,7 +22,7 @@ final class Input
         return new self(
             new DateTimeImmutable($request->get('start_at')),
             new DateTimeImmutable($request->get('end_at')),
-            $request->get('car_id'),
+            $request->get('number_plate'),
         );
     }
 

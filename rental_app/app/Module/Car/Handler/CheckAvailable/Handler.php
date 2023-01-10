@@ -52,6 +52,6 @@ final class Handler
 
     private function findCar(string $numberPlate, string $startAt, string $endAt): Collection
     {
-        return $this->carRepository->findAvailableCars($numberPlate, $startAt, $endAt);
+        return $this->carRepository->findAvailableCarByNumberPlate($numberPlate, $startAt, $endAt);
     }
 }

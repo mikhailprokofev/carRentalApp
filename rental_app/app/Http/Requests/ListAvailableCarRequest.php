@@ -27,18 +27,18 @@ final class ListAvailableCarRequest extends FormRequest
     {
         return [
             'required' => 'Необходимо заполнить поле :attribute',
-            'after:start_at' => ':attribute должна быть позже даты начала аренды',
-            'after:today' => ':attribute должна быть не раньше, чем завтра',
+//            'after:start_at' => ':attribute должна быть позже даты начала аренды',
+//            'after:today' => ':attribute должна быть не раньше, чем завтра',
         ];
     }
 
-    public function attributes(): array
-    {
-        return [
-            'start_at' => 'Дата начала аренды',
-            'end_at' => 'Дата окончания аренды',
-        ];
-    }
+//    public function attributes(): array
+//    {
+//        return [
+//            'start_at' => 'Дата начала аренды',
+//            'end_at' => 'Дата окончания аренды',
+//        ];
+//    }
 
     public function withValidator(Validator $validator): void
     {

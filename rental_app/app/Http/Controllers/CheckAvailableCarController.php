@@ -29,7 +29,7 @@ final class CheckAvailableCarController extends Controller
         return $this->failedOutput();
     }
 
-    private function successOutput(array $result): JsonResponse
+    private function successOutput(bool $result): JsonResponse
     {
         return (new JsonResponse())
             ->setStatusCode(200)
