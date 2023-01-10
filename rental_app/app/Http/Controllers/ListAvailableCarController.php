@@ -41,7 +41,7 @@ final class ListAvailableCarController extends Controller
         return (new JsonResponse())
             ->setStatusCode(404)
             ->setData([
-                'message' => 'Not found affordable car',
+                'message' => 'Error during search of available cars',
             ]);
     }
 }
