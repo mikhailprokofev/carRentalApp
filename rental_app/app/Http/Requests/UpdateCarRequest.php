@@ -30,7 +30,7 @@ final class UpdateCarRequest extends FormRequest
             'color' => 'string',
             'type' => 'string',
             'description' => 'string',
-            'base_salary' => 'integer|min:1000|max:5000',
+            'base_salary' => 'bail|integer|min:1000|max:5000',
             'model' => 'string',
         ];
     }

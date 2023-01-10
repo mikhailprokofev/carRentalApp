@@ -44,7 +44,7 @@ final class Handler extends ExceptionHandler
             $response = match (true) {
                 $e instanceof ValidationException => [
                     [
-                        'message' => 'Ошибка валидации',
+                        'message' => 'Validation Error',
                         'errors' => $e->errors(),
                     ],
                     404,

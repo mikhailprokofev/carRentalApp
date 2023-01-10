@@ -9,6 +9,7 @@ use App\Http\Requests\StoreRentalRequest;
 use App\Http\Requests\UpdateRentalRequest;
 use App\Http\Resources\RentalResource;
 use App\Models\Rental;
+use App\Models\Car;
 
 final class RentalController extends Controller
 {
@@ -32,7 +33,14 @@ final class RentalController extends Controller
     public function store(StoreRentalRequest $request)
     {
         $validated = $request->validated();
-        $validated['start_salary'] *= 100;
+
+        $startSalary = Car::where('id', '=', $validated['car_id'])
+                ->orwhere('number_plate', '=', $validated['car_id'])
+                ->first()
+                ->base_salary;
+
+        $validated['start_salary'] = $startSalary;
+
         $rental = Rental::create($validated);
 
         return $this->show($rental);
@@ -56,9 +64,6 @@ final class RentalController extends Controller
     public function update(UpdateRentalRequest $request, Rental $rental)
     {
         $validated = $request->validated();
-        if (! empty($validated['start_salary'])) {
-            $validated['start_salary'] *= 100;
-        }
         $rental->fill($validated);
         $rental->save();
 

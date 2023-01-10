@@ -28,9 +28,9 @@ final class UpdateRentalRequest extends FormRequest
     public function rules()
     {
         return [
-            'rental_start' => 'date|after_or_equal:yesterday|workday',
-            'rental_end' => 'date|after_or_equal:rental_start|workday',
-            'car_id' => 'uuid|string',
+            'rental_start' => 'bail|date|after_or_equal:yesterday|workday',
+            'rental_end' => 'bail|date|after_or_equal:rental_start|workday',
+            'car_id' => 'uuid|string|exists:cars,id',
         ];
     }
 
@@ -54,7 +54,7 @@ final class UpdateRentalRequest extends FormRequest
         if ($this->assertRentalInterval($startAt, $endAt, $interval)) {
             $validator->errors()->add(
                 'interval',
-                "Интервал между датами начала и конца не должен быть больше $interval",
+                "The interval between the start and end dates must not be more than $interval days",
             );
         }
     }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use App\Repository\CustomCarRepository as CCR;
-use DateTime;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Ramsey\Uuid\Uuid;
+use DateTime;
 
 final class StoreRentalRequest extends FormRequest
 {
@@ -30,10 +30,9 @@ final class StoreRentalRequest extends FormRequest
     public function rules()
     {
         return [
-            'start_salary' => 'required|integer',
-            'rental_start' => 'required|date|after_or_equal:yesterday|workday',
-            'rental_end' => 'required|date|after_or_equal:rental_start|workday',
-            'car_id' => 'required|uuid|string',
+            'rental_start' => 'bail|required|date|after_or_equal:yesterday|workday',
+            'rental_end' => 'bail|required|date|after_or_equal:rental_start|workday',
+            'car_id' => 'required|uuid|string|exists:cars,id',
         ];
     }
 
@@ -50,6 +49,7 @@ final class StoreRentalRequest extends FormRequest
             $car_id = $validator->validated()['car_id'];
             $startAt = $validator->validated()['rental_start'];
             $endAt = $validator->validated()['rental_end'];
+
             $sssr = new CCR();
 
             $result = $sssr->findAvailableCarById(Uuid::fromString($car_id), $startAt, $endAt);
@@ -58,7 +58,7 @@ final class StoreRentalRequest extends FormRequest
             if (empty($car)) {
                 $validator->errors()->add(
                     'affordable',
-                    'На выбранный диапазон дат уже есть аренда',
+                    'There are already rentals for the selected date range',
                 );
             }
         });
@@ -73,7 +73,7 @@ final class StoreRentalRequest extends FormRequest
         if ($this->assertRentalInterval($startAt, $endAt, $interval)) {
             $validator->errors()->add(
                 'interval',
-                "Интервал между датами начала и конца не должен быть больше $interval",
+                "The interval between the start and end dates must not be more than $interval days",
             );
         }
     }
