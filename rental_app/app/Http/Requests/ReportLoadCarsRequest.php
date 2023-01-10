@@ -21,20 +21,20 @@ final class ReportLoadCarsRequest extends Request
         ];
     }
 
-    public function messages(): array
-    {
-        return [
-            'max' => ':attribute не должен быть больше 12',
-            'min' => ':attribute не должен быть меньше 1',
-            'required' => 'Необходимо заполнить поле :attribute',
-        ];
-    }
+//    public function messages(): array
+//    {
+//        return [
+//            'max' => ':attribute не должен быть больше 12',
+//            'min' => ':attribute не должен быть меньше 1',
+//            'required' => 'Необходимо заполнить поле :attribute',
+//        ];
+//    }
 
-    public function attributes(): array
-    {
-        return [
-            'month' => 'Месяц',
-            'year' => 'Год',
-        ];
-    }
+//    public function attributes(): array
+//    {
+//        return [
+//            'month' => 'Месяц',
+//            'year' => 'Год',
+//        ];
+//    }
 }

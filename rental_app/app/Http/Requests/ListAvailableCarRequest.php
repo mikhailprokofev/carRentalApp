@@ -18,15 +18,15 @@ final class ListAvailableCarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'start_at' => 'required|date|after:today|workday',
-            'end_at' => 'required|date|after:start_at|workday',
+            'start_at' => 'bail|required|date|after:today|workday',
+            'end_at' => 'bail|required|date|after:start_at|workday',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'required' => 'Необходимо заполнить поле :attribute',
+//            'required' => 'Необходимо заполнить поле :attribute',
 //            'after:start_at' => ':attribute должна быть позже даты начала аренды',
 //            'after:today' => ':attribute должна быть не раньше, чем завтра',
         ];
@@ -59,7 +59,7 @@ final class ListAvailableCarRequest extends FormRequest
         if ($this->assertRentalInterval($startAt, $endAt, $interval)) {
             $validator->errors()->add(
                 'interval',
-                "Интервал между датами начала и конца не должен быть больше $interval",
+                "The interval between the start and end dates must not be more than $interval days",
             );
         }
     }

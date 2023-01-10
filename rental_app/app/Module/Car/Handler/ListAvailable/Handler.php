@@ -25,7 +25,6 @@ final class Handler
         return $this->makeOutput($cars);
     }
 
-    // TODO: вывести гос знаки
     private function makeOutput(Collection $cars): array
     {
         return [
