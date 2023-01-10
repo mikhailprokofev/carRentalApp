@@ -26,7 +26,7 @@ final class StoreCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'number_plate' => 'required|string',
+            'number_plate' => 'required|string|unique:cars',
             'color' => 'required|string',
             'type' => 'required|string',
             'description' => 'required|string',

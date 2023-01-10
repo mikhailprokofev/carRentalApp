@@ -49,14 +49,28 @@ Route::group([
 Route::group([
     'prefix' => 'report',
 ], function ($router) {
-//    Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)
+    //    Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)
 //        ->whereNumber(['year', 'month'])->where('month', [1-12]);
     Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)->name('report-load-cars');
 });
 
-Route::resource('cars', CarController::class, ['only' => [
-    'index', 'store', 'show', 'update', 'destroy',
-]]);
-Route::resource('rentals', RentalController::class, ['only' => [
-    'index', 'store', 'show', 'update', 'destroy',
-]]);
+Route::resource('cars', CarController::class, [
+    'only' => [
+        'index',
+        'store',
+        'show',
+        'update',
+        'destroy',
+    ]
+])->scoped(['number_plate']);
+
+
+Route::resource('rentals', RentalController::class, [
+    'only' => [
+        'index',
+        'store',
+        'show',
+        'update',
+        'destroy',
+    ]
+]);

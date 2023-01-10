@@ -26,7 +26,7 @@ final class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'number_plate' => 'string',
+            'number_plate' => 'string|unique:cars',
             'color' => 'string',
             'type' => 'string',
             'description' => 'string',

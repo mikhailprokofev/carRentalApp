@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Uuid;
 
 final class Car extends Model
 {
@@ -32,6 +33,22 @@ final class Car extends Model
         'base_salary',
         'model',
     ];
+
+    /**
+     * Получить модель для привязанного к маршруту значения параметра.
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        if (!Uuid::isValid($value)) {
+            return $this->where('number_plate', $value)->firstOrFail();
+        } else {
+            return $this->where('id', $value)->firstOrFail();
+        }
+    }
 
     /**
      * Атрибуты, которые должны быть типизированы.
