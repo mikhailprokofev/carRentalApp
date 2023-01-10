@@ -49,6 +49,8 @@ Route::group([
 Route::group([
     'prefix' => 'report',
 ], function ($router) {
+//    Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)
+//        ->whereNumber(['year', 'month'])->where('month', [1-12]);
     Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)->name('report-load-cars');
 });
 

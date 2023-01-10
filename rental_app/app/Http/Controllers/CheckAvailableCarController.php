@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckAvailableCarRequest;
 use App\Module\Car\Handler\CheckAvailable\Handler;
 use App\Module\Car\Handler\CheckAvailable\Input;
+use DomainException;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -20,13 +22,12 @@ final class CheckAvailableCarController extends Controller
     {
         try {
             $result = $this->handler->handle(Input::make($request));
-
             return $this->successOutput($result);
         } catch (\Exception $e) {
             Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
         }
 
-        return $this->failedOutput();
+        return $this->failedOutput($this->makeErrorMessage($e));
     }
 
     private function successOutput(bool $result): JsonResponse
@@ -36,12 +37,17 @@ final class CheckAvailableCarController extends Controller
             ->setData($result);
     }
 
-    private function failedOutput(): JsonResponse
+    private function failedOutput(string $message): JsonResponse
     {
         return (new JsonResponse())
             ->setStatusCode(404)
             ->setData([
-                'message' => 'Not found affordable car',
+                'message' => $message,
             ]);
+    }
+
+    private function makeErrorMessage(Exception $e): string
+    {
+        return $e instanceof DomainException ? $e->getMessage() : 'Bad Request';
     }
 }

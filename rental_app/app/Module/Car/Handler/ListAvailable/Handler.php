@@ -29,7 +29,7 @@ final class Handler
     private function makeOutput(Collection $cars): array
     {
         return [
-            'items' => $cars->map(fn($car) => $car->id)->toArray(),
+            'items' => $cars->map(fn($car) => $car->number_plate)->toArray(),
         ];
     }
 

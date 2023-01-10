@@ -6,7 +6,7 @@ namespace App\Module\Car\Handler\CheckAvailable;
 
 use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
-use Exception;
+use DomainException;
 use Illuminate\Support\Collection;
 
 final class Handler
@@ -22,7 +22,7 @@ final class Handler
     /**
      * @param Input $input
      * @return bool
-     * @throws Exception
+     * @throws DomainException
      */
     public function handle(Input $input): bool
     {
@@ -41,12 +41,12 @@ final class Handler
     /**
      * @param string $numberPlate
      * @return void
-     * @throws Exception
+     * @throws DomainException
      */
     private function assertExistence(string $numberPlate): void
     {
         if (!$this->carRepository->isExistByNumberPlate($numberPlate)) {
-            throw new Exception('Car does not exist');
+            throw new DomainException('Car does not exist');
         }
     }
 
