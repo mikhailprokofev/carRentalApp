@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Common\Controller\Traits\OutputTrait;
 use App\Http\Requests\CheckAvailableCarRequest;
 use App\Module\Car\Handler\CheckAvailable\Handler;
 use App\Module\Car\Handler\CheckAvailable\Input;
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Log;
 
 final class CheckAvailableCarController extends Controller
 {
+    use OutputTrait;
+
     public function __construct(
         private Handler $handler,
     ) {}
@@ -27,27 +30,6 @@ final class CheckAvailableCarController extends Controller
             Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
         }
 
-        return $this->failedOutput($this->makeErrorMessage($e));
-    }
-
-    private function successOutput(bool $result): JsonResponse
-    {
-        return (new JsonResponse())
-            ->setStatusCode(200)
-            ->setData($result);
-    }
-
-    private function failedOutput(string $message): JsonResponse
-    {
-        return (new JsonResponse())
-            ->setStatusCode(404)
-            ->setData([
-                'message' => $message,
-            ]);
-    }
-
-    private function makeErrorMessage(Exception $e): string
-    {
-        return $e instanceof DomainException ? $e->getMessage() : 'Bad Request';
+        return $this->failedOutput($this->makeFailedOutputMessage($e));
     }
 }

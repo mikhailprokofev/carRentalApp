@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Handler\ListAvailable;
 
+use App\Common\Type\Price;
 use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
 use Illuminate\Support\Collection;
@@ -28,7 +29,11 @@ final class Handler
     private function makeOutput(Collection $cars): array
     {
         return [
-            'items' => $cars->map(fn($car) => $car->number_plate)->toArray(),
+            'items' => $cars->map(fn($car) => [
+                'number plate' => $car->number_plate,
+                'model' => $car->model,
+                'base salary' => (new Price($car->base_salary))->getApiValue(),
+            ])->toArray(),
         ];
     }
 

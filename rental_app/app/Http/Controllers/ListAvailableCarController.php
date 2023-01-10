@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Common\Controller\Traits\OutputTrait;
 use App\Http\Requests\ListAvailableCarRequest;
 use App\Module\Car\Handler\ListAvailable\Handler;
 use App\Module\Car\Handler\ListAvailable\Input;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Log;
 
 final class ListAvailableCarController extends Controller
 {
+    use OutputTrait;
+
     public function __construct(
         private Handler $handler,
     ) {}
@@ -26,22 +29,6 @@ final class ListAvailableCarController extends Controller
             Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
         }
 
-        return $this->failedOutput();
-    }
-
-    private function successOutput(array $result): JsonResponse
-    {
-        return (new JsonResponse())
-            ->setStatusCode(200)
-            ->setData($result);
-    }
-
-    private function failedOutput(): JsonResponse
-    {
-        return (new JsonResponse())
-            ->setStatusCode(404)
-            ->setData([
-                'message' => 'Error during search of available cars',
-            ]);
+        return $this->failedOutput($this->makeFailedOutputMessage($e));
     }
 }

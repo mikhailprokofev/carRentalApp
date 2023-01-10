@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Module\File\Type;
+namespace App\Common\Type;
 
 final class Price
 {
-    private string $value;
+    private int $value;
 
     public function __construct(
-        string $value,
+        int $value,
     ) {
-        $this->value = bcdiv($value, '1', 2);
+        $this->value = (int) bcdiv((string) $value, '1', 2);
     }
 
     public function getDataBaseValue(): int
     {
-        return $this->value * 100;
+        return $this->value;
     }
 
     public function getApiValue(): float
     {
-        return (float) $this->value;
+        return (float) $this->value / 100;
     }
 }
