@@ -21,7 +21,7 @@ final class ReportLoadCarsController extends Controller
 
     public function __invoke(ReportLoadCarsRequest $request, string $year, string $month): JsonResponse
     {
-        $request->merge(['year' => $year, 'month' => $month]);
+        $request->merge(['year' => (int) $year, 'month' => (int) $month]);
         $request->validate($request->rules());
 
         try {
