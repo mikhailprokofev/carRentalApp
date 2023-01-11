@@ -14,7 +14,7 @@ final class Price
         $this->value = bcdiv($value, '1', 2);
     }
 
-    public function getDataBaseValue(): int
+    public function getDataBaseValue(): float
     {
         return $this->value * 100;
     }
