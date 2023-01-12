@@ -92,7 +92,9 @@ final class Handler
 
             $this->storeReportToCache($report, $year, $month);
         }
-dd(Cache::tags('report_load')->get($year . $month));
+//        Redis::set('dfd', 123);
+
+//        Cache::store('redis')->set('t', 894);
         return $report;
     }
 
@@ -103,7 +105,12 @@ dd(Cache::tags('report_load')->get($year . $month));
      */
     private function getReportFromCache(int $year, int $month): ?array
     {
-        return Cache::has($year . $month) ? Cache::tags('report_load')->get($year . $month) : null;
+        //TODO: may be right
+//        return Cache::has($year . $month) ? Cache::tags('report_load')->get($year . $month) : null;
+
+        $report = Redis::hgetall($year . $month);
+
+        return $report ? json_decode(array_key_first($report), true) : null;
     }
 
     private function storeReportToCache(array $data, int $year, int $month): void
@@ -111,7 +118,12 @@ dd(Cache::tags('report_load')->get($year . $month));
 //        Cache::remember('report_load', $this->timeStore, function () use ($data) {
 //            return $data;
 //        });
-//Redis::
-        Cache::tags('report_load')->put($year . $month, $data, $this->timeStore);
+
+        //TODO: may be right
+//        Cache::tags('report_load')->put($year . $month, $data, $this->timeStore);
+
+        // TODO: work
+//        Redis::hmset($year . $month, $data, $this->timeStore);
+        Redis::hmset($year . $month, json_encode($data), $this->timeStore);
     }
 }
