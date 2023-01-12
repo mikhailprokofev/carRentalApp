@@ -18,7 +18,7 @@ final class Handler
 
     public function __construct(
         CustomRentalRepository $rentalRepository,
-        ?int $timeStore = 1,
+        ?int $timeStore = 7200,
     ) {
         $this->rentalRepository = $rentalRepository;
         $this->timeStore = $timeStore;
@@ -110,7 +110,7 @@ final class Handler
 
         $report = Redis::hgetall($year . $month);
 
-        return $report ? json_decode(array_key_first($report), true) : null;
+        return $report ? json_decode(array_pop($report), true) : null;
     }
 
     private function storeReportToCache(array $data, int $year, int $month): void
@@ -123,7 +123,8 @@ final class Handler
 //        Cache::tags('report_load')->put($year . $month, $data, $this->timeStore);
 
         // TODO: work
-//        Redis::hmset($year . $month, $data, $this->timeStore);
-        Redis::hmset($year . $month, json_encode($data), $this->timeStore);
+        Redis::hmset($year . $month, [json_encode($data)]);
+        Redis::expire($year . $month, $this->timeStore * 60);
+//        Redis::hmset($year . $month, ['test' => 'sds']);
     }
 }
