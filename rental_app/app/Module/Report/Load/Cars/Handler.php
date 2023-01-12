@@ -4,23 +4,30 @@ declare(strict_types=1);
 
 namespace App\Module\Report\Load\Cars;
 
+use App\Module\Cache\Serializer\ArrayCacheSerializer;
+use App\Module\Cache\Strategy\RedisCacheInterfaceStrategy;
+use App\Module\Cache\Strategy\RedisStrategySerializeCacheStrategy;
 use App\Repository\CustomRentalRepository;
 use App\Repository\CustomRentalRepositoryInterface;
 use DateTimeImmutable;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
 
 final class Handler
 {
     private CustomRentalRepositoryInterface $rentalRepository;
+    private RedisCacheInterfaceStrategy $redisCacheStrategy;
     private int $timeStore;
 
     public function __construct(
         CustomRentalRepository $rentalRepository,
-        ?int $timeStore = 7200,
+//        ?CacheSerializerInterface $cacheSerializer,
+//        ?RedisCacheInterfaceStrategy $redisCacheStrategy,
+        ?int $timeStore = 2, // in seconds
     ) {
         $this->rentalRepository = $rentalRepository;
+
+        $cacheSerializer = $cacheSerializer ?? new ArrayCacheSerializer();
+        $this->redisCacheStrategy = $redisCacheStrategy ?? new RedisStrategySerializeCacheStrategy($cacheSerializer);
         $this->timeStore = $timeStore;
     }
 
@@ -92,39 +99,17 @@ final class Handler
 
             $this->storeReportToCache($report, $year, $month);
         }
-//        Redis::set('dfd', 123);
 
-//        Cache::store('redis')->set('t', 894);
         return $report;
     }
 
-    /**
-     * @return array|null
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
     private function getReportFromCache(int $year, int $month): ?array
     {
-        //TODO: may be right
-//        return Cache::has($year . $month) ? Cache::tags('report_load')->get($year . $month) : null;
-
-        $report = Redis::hgetall($year . $month);
-
-        return $report ? json_decode(array_pop($report), true) : null;
+        return $this->redisCacheStrategy->getCacheValue($year . $month);
     }
 
     private function storeReportToCache(array $data, int $year, int $month): void
     {
-//        Cache::remember('report_load', $this->timeStore, function () use ($data) {
-//            return $data;
-//        });
-
-        //TODO: may be right
-//        Cache::tags('report_load')->put($year . $month, $data, $this->timeStore);
-
-        // TODO: work
-        Redis::hmset($year . $month, [json_encode($data)]);
-        Redis::expire($year . $month, $this->timeStore * 60);
-//        Redis::hmset($year . $month, ['test' => 'sds']);
+        $this->redisCacheStrategy->setCacheValue($year . $month, $data, $this->timeStore * 60);
     }
 }
