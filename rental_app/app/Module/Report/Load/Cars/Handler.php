@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Report\Load\Cars;
 
-use App\Module\Cache\Serializer\ArrayCacheSerializer;
 use App\Module\Cache\Strategy\RedisCacheInterfaceStrategy;
-use App\Module\Cache\Strategy\RedisStrategySerializeCacheStrategy;
-use App\Repository\CustomRentalRepository;
 use App\Repository\CustomRentalRepositoryInterface;
 use DateTimeImmutable;
 use Illuminate\Support\Collection;
@@ -19,15 +16,12 @@ final class Handler
     private int $timeStore;
 
     public function __construct(
-        CustomRentalRepository $rentalRepository,
-//        ?CacheSerializerInterface $cacheSerializer,
-//        ?RedisCacheInterfaceStrategy $redisCacheStrategy,
+        CustomRentalRepositoryInterface $rentalRepository,
+        RedisCacheInterfaceStrategy $redisCacheStrategy,
         ?int $timeStore = 7200, // in seconds
     ) {
         $this->rentalRepository = $rentalRepository;
-
-        $cacheSerializer = $cacheSerializer ?? new ArrayCacheSerializer();
-        $this->redisCacheStrategy = $redisCacheStrategy ?? new RedisStrategySerializeCacheStrategy($cacheSerializer);
+        $this->redisCacheStrategy = $redisCacheStrategy;
         $this->timeStore = $timeStore;
     }
 

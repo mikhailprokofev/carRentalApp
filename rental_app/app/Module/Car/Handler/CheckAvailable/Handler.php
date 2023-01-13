@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Handler\CheckAvailable;
 
-use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
 use DomainException;
 use Illuminate\Support\Collection;
 
 final class Handler
 {
-    private CustomCarRepositoryInterface $carRepository;
-
     public function __construct(
-        CustomCarRepository $carRepository,
-    ) {
-        $this->carRepository = $carRepository;
-    }
+        private CustomCarRepositoryInterface $carRepository,
+    ) {}
 
     /**
      * @param Input $input

@@ -5,20 +5,14 @@ declare(strict_types=1);
 namespace App\Module\Car\Handler\ListAvailable;
 
 use App\Common\Type\Price;
-use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
 use Illuminate\Support\Collection;
-use Ramsey\Uuid\UuidInterface;
 
 final class Handler
 {
-    private CustomCarRepositoryInterface $carRepository;
-
     public function __construct(
-        CustomCarRepository $carRepository,
-    ) {
-        $this->carRepository = $carRepository;
-    }
+        private CustomCarRepositoryInterface $carRepository,
+    ) {}
 
     public function handle(Input $input): array
     {
