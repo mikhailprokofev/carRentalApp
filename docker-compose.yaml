@@ -50,6 +50,9 @@ services:
   app-redis:
     image: redis:6
     container_name: app-redis
+    hostname: redis
+    ports:
+      - 6379:6379
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
       interval: 3s
@@ -68,6 +71,16 @@ services:
       - ./docker/portainer-data:/var/portainer/data
     ports:
       - 9081:9000
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=redis
+    ports:
+      - "8081:8081"
 
 volumes:
   app-postgres-data:
