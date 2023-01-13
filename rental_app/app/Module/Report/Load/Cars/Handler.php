@@ -46,10 +46,7 @@ final class Handler
 
     private function prepareCarList(Collection $cars, int $lastDay): array
     {
-        $list = array_map(
-            fn (object $car) => $this->prepareCar($car, $lastDay),
-            $cars->toArray()
-        );
+        $list = array_map(fn (object $car) => $this->prepareCar($car, $lastDay), $cars->toArray());
 
         return array_filter($list, fn(array $car) => count($car));
     }
@@ -64,11 +61,7 @@ final class Handler
 
     private function prepareTotalLoad(array $loadCars): float
     {
-        $total = array_reduce(
-            $loadCars,
-            fn (float $total, array $loadCar) => $total + $loadCar['load'],
-            0,
-        );
+        $total = array_reduce($loadCars, fn (float $total, array $loadCar) => $total + $loadCar['load'], 0);
 
         return CalculatorPercent::calculate($total, count($loadCars));
     }
