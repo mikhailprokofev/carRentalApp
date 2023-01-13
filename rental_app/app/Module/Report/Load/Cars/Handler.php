@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Module\Report\Load\Cars;
 
+use App\Common\Output\Output;
+use App\Common\Utility\CalculatorDate;
+use App\Common\Utility\CalculatorPercent;
 use App\Module\Cache\Strategy\RedisCacheInterfaceStrategy;
 use App\Repository\CustomRentalRepositoryInterface;
-use DateTimeImmutable;
 use Illuminate\Support\Collection;
 
 final class Handler
@@ -25,7 +27,7 @@ final class Handler
         $this->timeStore = $timeStore;
     }
 
-    public function handle(Input $input): array
+    public function handle(Input $input): Output
     {
         $year = $input->getYear();
         $month = $input->getMonth();
@@ -33,68 +35,70 @@ final class Handler
         return $this->makeOutput($year, $month);
     }
 
-    private function makeReport(Collection $data, int $lastDay): array
+    private function makeReport(Collection $data, int $lastDay): Output
     {
-        $output['list'] = $this->prepareList($data, $lastDay);
-        $output['total_load'] = $this->calculateTotalLoad($output['list']);
+        $list = $this->prepareCarList($data, $lastDay);
 
-        return $output;
+        return (new Output())
+            ->set('list', $list)
+            ->set('total_load', $this->prepareTotalLoad($list));
     }
 
-    private function prepareList(Collection $data, int $lastDay): array
+    private function prepareCarList(Collection $cars, int $lastDay): array
     {
-        foreach ($data->toArray() as $car) {
-            if ($car->number_plate) {
-                $result[] = [
-                    'number_plate' => $car->number_plate,
-                    'load' => $this->calculateCarLoad($lastDay, $car->diff),
-                ];
-            }
-        }
+        $list = array_map(
+            fn (object $car) => $this->prepareCar($car, $lastDay),
+            $cars->toArray()
+        );
 
-        return $result ?? [];
+        return array_filter($list, fn(array $car) => count($car));
     }
 
-    private function calculateLastMonthDay(int $year, int $month): int
+    private function prepareCar(object $car, int $lastDay): array
     {
-        $date = (new DateTimeImmutable("$year-$month-01"))->format('Y-m-t');
-
-        return (int) date('d', strtotime($date));
+        return $car->number_plate ? [
+            'number_plate' => $car->number_plate,
+            'load' => $this->calculateCarLoad($lastDay, $car->diff ? (int) $car->diff : 0),
+        ] : [];
     }
 
-    private function calculateTotalLoad(array $data): float
+    private function prepareTotalLoad(array $loadCars): float
     {
         $total = array_reduce(
-            $data,
-            function (float $total, array $car) {
-                $total += $car['load'];
-
-                return $total;
-            },
+            $loadCars,
+            fn (float $total, array $loadCar) => $total + $loadCar['load'],
             0,
         );
 
-        return $total ? round($total / count($data), 2) : 0;
+        return CalculatorPercent::calculate($total, count($loadCars));
     }
 
-    private function calculateCarLoad(int $lastDay, ?string $diff): float
+    private function calculateCarLoad(int $monthLastDay, int $diff): float
     {
-        return round((int) $diff ? (int) $diff / $lastDay * 100 : 0, 2);
+        return CalculatorPercent::calculate($monthLastDay, $diff);
     }
 
-    private function makeOutput(int $year, int $month): array
+    private function calculateMonthLastDay(int $year, int $month): int
+    {
+        return CalculatorDate::calculateMonthLastDay($year, $month);
+    }
+
+    private function makeOutput(int $year, int $month): Output
     {
         if (!$report = $this->getReportFromCache($year, $month)) {
             $data = $this->rentalRepository->findLoadCarsInfo($year, $month);
 
-            $lastDay = $this->calculateLastMonthDay($year, $month);
+            $monthLastDay = $this->calculateMonthLastDay($year, $month);
 
-            $report = $this->makeReport($data, $lastDay);
+            $report = $this->makeReport($data, $monthLastDay);
 
-            $this->storeReportToCache($report, $year, $month);
+            $this->storeReportToCache($report->getAll(), $year, $month);
+
+            return $report;
+        } else {
+            return (new Output())
+                ->setCollection($report);
         }
-
-        return $report;
     }
 
     private function getReportFromCache(int $year, int $month): ?array
