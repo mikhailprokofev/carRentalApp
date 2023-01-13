@@ -42,7 +42,7 @@ final class ArrayCacheSerializer implements CacheSerializerInterface
 
         $result[is_numeric($key) ? $keyIndexDash . $key : $key] = count($keys)
             ? $this->makeArray($keys, $value, $keyIndexDash)
-            : $value;
+            : $this->formatValue($value);
 
         return $result;
     }
@@ -56,5 +56,10 @@ final class ArrayCacheSerializer implements CacheSerializerInterface
         }
 
         return $result ?? [];
+    }
+
+    private function formatValue(string $value): string|int|float
+    {
+        return is_numeric($value) ? $value + 0 : $value;
     }
 }
