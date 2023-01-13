@@ -22,7 +22,7 @@ final class Handler
         CustomRentalRepository $rentalRepository,
 //        ?CacheSerializerInterface $cacheSerializer,
 //        ?RedisCacheInterfaceStrategy $redisCacheStrategy,
-        ?int $timeStore = 2, // in seconds
+        ?int $timeStore = 7200, // in seconds
     ) {
         $this->rentalRepository = $rentalRepository;
 
