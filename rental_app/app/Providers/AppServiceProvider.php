@@ -10,21 +10,28 @@ use Illuminate\Support\ServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register(): void
     {
-        //
+        $this->app->bind(
+            'App\Repository\CustomCarRepositoryInterface',
+            'App\Repository\CustomCarRepository'
+        );
+
+        $this->app->bind(
+            'App\Repository\CustomRentalRepositoryInterface',
+            'App\Repository\CustomRentalRepository'
+        );
+
+        $this->app->bind(
+            'App\Module\Cache\Serializer\CacheSerializerInterface',
+            'App\Module\Cache\Serializer\ArrayCacheSerializer'
+        );
+
+        $this->app->when('App\Module\Report\Load\Cars\Handler')
+            ->needs('App\Module\Cache\Strategy\RedisCacheInterfaceStrategy')
+            ->give('App\Module\Cache\Strategy\RedisStrategySerializeCacheStrategy');
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
     public function boot(ValidatorFactory $validator): void
     {
         $validator->extend('workday', WorkDayRule::class);
