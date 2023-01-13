@@ -12,11 +12,11 @@ return new class extends Migration
     {
         Schema::create('import_statuses', function (Blueprint $table) {
             $table->uuid('id')->primary()->default(DB::raw('uuid_generate_v4()'));
-            $table->enum('status', ImportStatusEnum::getAll());
-            $table->integer('duplicated_rows');
-            $table->integer('validated_rows');
-            $table->integer('read_rows');
-            $table->integer('inserted_rows');
+            $table->enum('status', ImportStatusEnum::toArray())->default(ImportStatusEnum::BEGIN->value);
+            $table->unsignedInteger('duplicated_rows')->default(0);
+            $table->unsignedInteger('validated_rows')->default(0);
+            $table->unsignedInteger('read_rows')->default(0);
+            $table->unsignedInteger('inserted_rows')->default(0);
             $table->string('filename', 256);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
