@@ -47,7 +47,7 @@ final class Handler extends ExceptionHandler
                         'message' => 'Validation Error',
                         'errors' => $e->errors(),
                     ],
-                    409,
+                    400,
                 ],
                 default => [
                     [
