@@ -7,7 +7,7 @@ namespace App\Http\Controllers\HealthCheck;
 use App\Common\Validator\DomainValidator;
 use App\Http\Controllers\Controller;
 use App\Models\ImportStatus;
-use App\Module\Import\Constraint\RentalDomainConstraint;
+use App\Module\Import\Rule\RentalDomainRule;
 use App\Module\Import\Enum\ImportStatusEnum;
 use OpenApi\Attributes as OA;
 
@@ -24,8 +24,12 @@ final class HealthCheckController extends Controller
     )]
     public function index()
     {
-        $constraint = new RentalDomainConstraint(new DomainValidator());
-        $constraint->validate(['field' => 123]);
+        $constraint = new RentalDomainRule(new DomainValidator());
+
+        $constraint->validate([
+            'rentalStart' => '10-12-2000',
+            'rentalEnd' => '10-12-2000',
+        ]);
 //        $import = ImportStatus::create(['status' => ImportStatusEnum::DONE->value]);
 //        dd($import);
         return 'OK';
