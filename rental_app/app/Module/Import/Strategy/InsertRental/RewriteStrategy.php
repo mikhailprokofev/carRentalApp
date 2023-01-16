@@ -48,11 +48,13 @@ final class RewriteStrategy implements InsertStrategyInterface
 
         $result = [];
 
-        $importStatus = $this->findOrCreateImport($data, $filename);
+        $importStatus = $this->findOrCreateImport($filename);
+
+        $importStatus->addCountRowsImport('read_rows', count($data));
 
         $this->rentalRepository->truncate();
 
-        $importStatus = $this->updateStatusImport($importStatus, ImportStatusEnum::INPROGRESS);
+        $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
 
         // TODO: валидацию вынести куда-нибудь
         foreach ($data as $el) {
@@ -60,7 +62,7 @@ final class RewriteStrategy implements InsertStrategyInterface
                 $validator = Validator::make($el, RentalDomainRules::rules());
                 $validator->validated(); // //        if ($validator->fails()) {
 
-                $importStatus = $this->addCountRowsImport($importStatus, 'validated_rows', 1);
+                $importStatus->addCountRowsImport('validated_rows', 1);
 
                 $result[] = $el;
             } catch (ValidationException $exception) {
@@ -71,14 +73,11 @@ final class RewriteStrategy implements InsertStrategyInterface
         $this->insertService->recursionInsert($result, $this->commitData($this->rentalRepository));
 
         // TODO: минус дубликаты
-        $importStatus = $this->addCountRowsImport($importStatus, 'inserted_rows', count($result));
+        $importStatus->addCountRowsImport('inserted_rows', count($result));
 
         if ($isLast) {
-            $importStatus = $this->updateStatusImport($importStatus, ImportStatusEnum::DONE);
+            $importStatus->updateStatusImport(ImportStatusEnum::DONE);
         }
-
-        // TODO: доб÷вить error status
-
 
 //            DB::commit();
 //        } catch (QueryException $e) {
@@ -97,43 +96,10 @@ final class RewriteStrategy implements InsertStrategyInterface
     }
 
     // TODO: events
-    private function makeImport(string $filename, int $readRows): ImportStatus
+    private function findOrCreateImport(string $filename): ImportStatus
     {
-        return ImportStatus::create([
-            'status' => ImportStatusEnum::BEGIN->value,
-            'filename' => $filename,
-            'read_rows' => $readRows,
-        ]);
-    }
+        $importStatuses = $this->importStatusRepository->findByFileName($filename);
 
-    private function updateStatusImport(ImportStatus $importStatus, ImportStatusEnum $status): ImportStatus
-    {
-        $importStatus->setAttribute('status', $status->value);
-        $importStatus->save();
-        return $importStatus;
-    }
-
-    private function addCountRowsImport(ImportStatus $importStatus, string $field, int $count): ImportStatus
-    {
-        $count += $importStatus->getAttributeValue($field);
-        $importStatus->setAttribute($field, $count);
-        $importStatus->save();
-        return $importStatus;
-    }
-
-    private function findOrCreateImport(array $data, string $filename): ImportStatus
-    {
-        $importStatus = $this->importStatusRepository->findByFileName($filename);
-
-        $readRows = count($data);
-
-        if ($importStatus->count()) {
-            $importStatus = $importStatus->first();
-            $importStatus = $this->addCountRowsImport($importStatus, 'read_rows', $readRows);
-        } else {
-            $importStatus = $this->makeImport($filename, $readRows);
-        }
-
-        return $importStatus;
+        return $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($filename);
     }
 }

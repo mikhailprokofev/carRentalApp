@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\Jobs\RentalJob;
 
+use App\Models\ImportStatus;
+use App\Module\Import\Enum\ImportStatusEnum;
 use App\Module\Import\Enum\ModeImportEnum;
 use App\Module\Import\Factory\ImportStrategyFactory;
+use App\Repository\ImportStatusRepository;
+use App\Repository\ImportStatusRepositoryInterface;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -29,6 +34,8 @@ final class ImportRentalJob implements ShouldQueue
 
     private ImportStrategyFactory $factory;
 
+    private ImportStatusRepositoryInterface $importStatusRepository;
+
     public function __construct(
         array $data,
         string $mode,
@@ -41,11 +48,27 @@ final class ImportRentalJob implements ShouldQueue
         $this->isLast = $isLast;
         // TODO: вынести в di
         $this->factory = new ImportStrategyFactory();
+        $this->importStatusRepository = new ImportStatusRepository();
     }
 
     public function handle(): void
     {
-        $importStrategy = $this->factory->make($this->mode);
-        $importStrategy->import($this->data, $this->fileName, $this->isLast);
+        try {
+            $importStrategy = $this->factory->make($this->mode);
+            $importStrategy->import($this->data, $this->fileName, $this->isLast);
+        } catch (Exception $exception) {
+            $this->turnErrorImportStatus(ImportStatusEnum::ERROR);
+            throw $exception;
+        }
+    }
+
+    // TODO: events
+    private function turnErrorImportStatus(ImportStatusEnum $status): void
+    {
+        $importStatuses = $this->importStatusRepository->findByFileName($this->fileName);
+
+        $importStatus = $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($this->fileName);
+
+        $importStatus->updateStatusImport($status);
     }
 }

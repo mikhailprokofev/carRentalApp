@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Module\Import\Enum\ImportStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,5 +50,23 @@ class ImportStatus extends Model
     public function getKeyType()
     {
         return 'string';
+    }
+
+    public function updateStatusImport(ImportStatusEnum $status): void
+    {
+        $this->setAttribute('status', $status);
+        $this->save();
+    }
+
+    public function addCountRowsImport(string $field, int $count): void
+    {
+        $count += $this->getAttributeValue($field);
+        $this->setAttribute($field, $count);
+        $this->save();
+    }
+
+    public static function initImport(string $fileName): self
+    {
+        return ImportStatus::create(['filename' => $fileName]);
     }
 }
