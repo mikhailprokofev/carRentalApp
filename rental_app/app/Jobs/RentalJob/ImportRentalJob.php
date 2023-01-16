@@ -23,14 +23,22 @@ final class ImportRentalJob implements ShouldQueue
 
     private ModeImportEnum $mode;
 
+    private string $fileName;
+
+    private bool $isLast;
+
     private ImportStrategyFactory $factory;
 
     public function __construct(
         array $data,
         string $mode,
+        string $fileName,
+        bool $isLast,
     ) {
         $this->data = $data;
         $this->mode = ModeImportEnum::tryFrom($mode);
+        $this->fileName = $fileName;
+        $this->isLast = $isLast;
         // TODO: вынести в di
         $this->factory = new ImportStrategyFactory();
     }
@@ -38,6 +46,6 @@ final class ImportRentalJob implements ShouldQueue
     public function handle(): void
     {
         $importStrategy = $this->factory->make($this->mode);
-        $importStrategy->import($this->data);
+        $importStrategy->import($this->data, $this->fileName, $this->isLast);
     }
 }

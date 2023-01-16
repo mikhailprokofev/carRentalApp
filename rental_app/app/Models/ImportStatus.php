@@ -25,6 +25,18 @@ class ImportStatus extends Model
     ];
 
     /**
+     * Значения по умолчанию для атрибутов модели.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'duplicated_rows' => 0,
+        'validated_rows' => 0,
+        'read_rows' => 0,
+        'inserted_rows' => 0,
+    ];
+
+    /**
      * Атрибуты, которые должны быть типизированы.
      *
      * @var array

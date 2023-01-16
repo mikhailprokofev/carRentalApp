@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Import\Rule;
+namespace App\Common\Validator\Rule;
 
 use App\Common\Validator\DomainValidator;
 use App\Common\Validator\Exception\DomainValidationException;
@@ -17,7 +17,7 @@ final class RentalDomainRule extends AbstractRule
     {
         return [
             'rentalStart' => 'date', // |
-            'rentalEnd' => 'date'
+            'rentalEnd' => 'date',
         ];
     }
 

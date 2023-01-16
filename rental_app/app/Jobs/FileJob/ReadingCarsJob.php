@@ -29,10 +29,10 @@ final class ReadingCarsJob extends ReadingJobAbstract implements ShouldQueue
         $this->prepareDataService = new PrepareCarDataService();
     }
 
-    protected function requestToMicroService(array $result): void
+    protected function requestToMicroService(array $result, bool $isLast = false): void
     {
         if (count($result)) {
-            ImportCarsJob::dispatch($result);
+            ImportCarsJob::dispatch($result, $isLast);
         }
     }
 }

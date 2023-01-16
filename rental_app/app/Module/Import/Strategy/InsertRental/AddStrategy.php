@@ -22,7 +22,7 @@ final class AddStrategy implements InsertStrategyInterface
         $this->rentalRepository = new CustomRentalRepository();
     }
 
-    public function import(array $data): void
+    public function import(array $data, string $filename, bool $isLast): void
     {
         // TODO: проверка на доступность автомобиля
         $this->insertService->recursionInsert($data, $this->commitData($this->rentalRepository));

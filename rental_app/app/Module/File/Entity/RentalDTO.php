@@ -14,8 +14,8 @@ final class RentalDTO
     public function __construct(
         private UuidInterface $id,
         private Price $startSalary,
-        private DateTimeImmutable $rentalStartAt,
-        private DateTimeImmutable $rentalEndAt,
+        private string $rentalStartAt,
+        private string $rentalEndAt,
         private UuidInterface $carId,
     ) {}
 
@@ -29,8 +29,10 @@ final class RentalDTO
         return new RentalDTO(
             $id ? UuidV7::fromString($id) : UuidV7::uuid7(),
             new Price($startSalary),
-            new DateTimeImmutable($rentalStartAt),
-            new DateTimeImmutable($rentalEndAt),
+            $rentalStartAt,
+            $rentalEndAt,
+//            new DateTimeImmutable($rentalStartAt),
+//            new DateTimeImmutable($rentalEndAt),
             UuidV7::fromString($carId),
         );
     }
@@ -41,8 +43,10 @@ final class RentalDTO
             'id' => $this->id,
             'start_salary' => $this->startSalary->getDataBaseValue(),
             'car_id' => $this->carId,
-            'rental_start' => $this->rentalStartAt->format('Y-m-d'),
-            'rental_end' => $this->rentalEndAt->format('Y-m-d'),
+//            'rental_start' => $this->rentalStartAt->format('Y-m-d'),
+//            'rental_end' => $this->rentalEndAt->format('Y-m-d'),
+            'rental_start' => $this->rentalStartAt,
+            'rental_end' => $this->rentalEndAt,
         ];
     }
 }

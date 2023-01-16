@@ -7,7 +7,7 @@ namespace App\Http\Controllers\HealthCheck;
 use App\Common\Validator\DomainValidator;
 use App\Http\Controllers\Controller;
 use App\Models\ImportStatus;
-use App\Module\Import\Rule\RentalDomainRule;
+use App\Common\Validator\Rule\RentalDomainRule;
 use App\Module\Import\Enum\ImportStatusEnum;
 use OpenApi\Attributes as OA;
 

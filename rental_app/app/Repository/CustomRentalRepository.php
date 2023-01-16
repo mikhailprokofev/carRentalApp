@@ -14,7 +14,6 @@ final class CustomRentalRepository implements CustomRentalRepositoryInterface
     public function insert(array $data): void
     {
         DB::table('rentals')->insert($data);
-        Log::info('4');
     }
 
     public function update(array $data): void
