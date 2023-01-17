@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace App\Module\Import\Rule;
 
+use App\Models\Car;
+use App\Models\Rental;
+use App\Repository\CustomCarRepositoryInterface;
 use DateTime;
 use Illuminate\Contracts\Validation\Validator;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
-final class RentalDomainRules
+final class RentalDomainRules implements DomainRulesInterface
 {
+    public function __construct(
+        private CustomCarRepositoryInterface $carRepository,
+    ) {}
+
     // TODO: проверка на доступность автомобиля
     public static function rules(): array
     {
@@ -20,14 +29,19 @@ final class RentalDomainRules
         ];
     }
 
-    public function withValidator(Validator $validator): void
+    public function afterValidate(Validator $validator): Validator
     {
         $validator->after(function (Validator $validator) {
-            $startAt = $validator->validated()['start_at'];
-            $endAt = $validator->validated()['end_at'];
+            $validated = $validator->validated();
+            $startAt = $validated['rental_start'];
+            $endAt = $validated['rental_end'];
+            $carId = $validated['car_id'];
 
             $this->addIntervalValidation($validator, $startAt, $endAt);
+            $this->addAccessCarValidation($validator, $startAt, $endAt, $carId);
         });
+
+        return $validator;
     }
 
     private function addIntervalValidation(
@@ -47,5 +61,22 @@ final class RentalDomainRules
     private function assertRentalInterval(string $startAt, string $endAt, int $interval): bool
     {
         return date_diff(new DateTime($endAt), new DateTime($startAt))->days > $interval;
+    }
+
+    // TODO: проверка на доступность автомобиля (сделать без обращения к бд - иначе проверяет пустую базу)
+    private function addAccessCarValidation(
+        Validator $validator,
+        string $startAt,
+        string $endAt,
+        UuidInterface $carId,
+    ) {
+        $result = $this->carRepository->findAvailableCarById($carId, $startAt, $endAt);
+
+        if (empty($result->map(fn ($car) => $car->id)->toArray())) {
+            $validator->errors()->add(
+                'affordable',
+                'There are already rentals for the selected date range',
+            );
+        }
     }
 }

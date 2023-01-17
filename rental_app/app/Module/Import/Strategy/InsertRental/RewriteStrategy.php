@@ -9,13 +9,14 @@ use App\Module\Import\Enum\ImportStatusEnum;
 use App\Module\Import\Rule\RentalDomainRules;
 use App\Module\Import\Service\InsertService;
 use App\Module\Import\Service\InsertServiceInterface;
+use App\Module\Import\Validator\RentalDomainValidator;
+use App\Repository\CustomCarRepository;
 use App\Repository\CustomRentalRepository;
 use App\Repository\CustomRentalRepositoryInterface;
 use App\Repository\ImportStatusRepository;
 use App\Repository\ImportStatusRepositoryInterface;
 use Closure;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 final class RewriteStrategy implements InsertStrategyInterface
@@ -26,25 +27,19 @@ final class RewriteStrategy implements InsertStrategyInterface
 
     private ImportStatusRepositoryInterface $importStatusRepository;
 
+    private RentalDomainValidator $validator;
+
     public function __construct()
     {
         $this->insertService = new InsertService();
         $this->rentalRepository = new CustomRentalRepository();
         $this->importStatusRepository = new ImportStatusRepository();
+        $this->validator = new RentalDomainValidator(new RentalDomainRules(new CustomCarRepository()));
     }
 
     public function import(array $data, string $filename, bool $isLast): void
     {
-//        try {
-//            DB::transaction(function() {
-//                // ... снова и снова
-//            }, 3);  // Повторить три раза, прежде чем признать неудачу
-//        } catch (ExternalServiceException $exception) {
-//            return 'Извините, внешняя служба не работает, а вы не сможете завершить регистрацию без ключей от нее'.
-//        }
-
-//        try {
-//            DB::beginTransaction();
+        // TODO: transaction
 
         $result = [];
 
@@ -56,13 +51,9 @@ final class RewriteStrategy implements InsertStrategyInterface
 
         $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
 
-        // TODO: валидацию вынести куда-нибудь
         foreach ($data as $row) {
             try {
-                $validator = Validator::make($row, RentalDomainRules::rules());
-                $validator->validated(); // //     TODO:   if ($validator->fails()) {
-
-                $importStatus->addCountRowsImport('validated_rows', 1);
+                $this->validator->validate($row, $importStatus);
 
                 $result[] = $row;
             } catch (ValidationException $exception) {
@@ -75,12 +66,6 @@ final class RewriteStrategy implements InsertStrategyInterface
         if ($isLast) {
             $importStatus->updateStatusImport(ImportStatusEnum::DONE);
         }
-
-//            DB::commit();
-//        } catch (QueryException $e) {
-//            Log::error($e->getMessage());
-//            DB::rollBack();
-//        }
     }
 
     private function commitData(CustomRentalRepositoryInterface $rentalRepository): Closure
