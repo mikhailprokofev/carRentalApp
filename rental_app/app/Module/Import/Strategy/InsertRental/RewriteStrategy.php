@@ -37,17 +37,18 @@ final class RewriteStrategy implements InsertStrategyInterface
         $this->validator = new RentalDomainValidator(new RentalDomainRules(new CustomCarRepository()));
     }
 
-    public function import(array $data, string $filename, bool $isLast): void
+    public function import(array $data, string $filename): ImportStatus
     {
         // TODO: transaction
-
         $result = [];
+
+        $isExistImportStatus = $this->existImportStatus($filename);
+
+        $this->truncateDB($isExistImportStatus);
 
         $importStatus = $this->findOrCreateImport($filename);
 
         $importStatus->addCountRowsImport('read_rows', count($data));
-
-        $this->rentalRepository->truncate();
 
         $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
 
@@ -63,9 +64,7 @@ final class RewriteStrategy implements InsertStrategyInterface
 
         $this->insertService->recursionInsert($result, $this->commitData($this->rentalRepository), $importStatus);
 
-        if ($isLast) {
-            $importStatus->updateStatusImport(ImportStatusEnum::DONE);
-        }
+        return $importStatus;
     }
 
     private function commitData(CustomRentalRepositoryInterface $rentalRepository): Closure
@@ -83,5 +82,17 @@ final class RewriteStrategy implements InsertStrategyInterface
         $importStatuses = $this->importStatusRepository->findByFileName($filename);
 
         return $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($filename);
+    }
+
+    private function truncateDB(bool $isExistImportStatus): void
+    {
+        if (!$isExistImportStatus) {
+            $this->rentalRepository->truncate();
+        }
+    }
+
+    private function existImportStatus(string $filename): bool
+    {
+        return $this->importStatusRepository->isExistByFileName($filename);
     }
 }

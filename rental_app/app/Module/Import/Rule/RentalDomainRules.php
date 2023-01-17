@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Module\Import\Rule;
 
-use App\Models\Car;
-use App\Models\Rental;
 use App\Repository\CustomCarRepositoryInterface;
 use DateTime;
 use Illuminate\Contracts\Validation\Validator;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 final class RentalDomainRules implements DomainRulesInterface
@@ -18,7 +15,6 @@ final class RentalDomainRules implements DomainRulesInterface
         private CustomCarRepositoryInterface $carRepository,
     ) {}
 
-    // TODO: проверка на доступность автомобиля
     public static function rules(): array
     {
         return [

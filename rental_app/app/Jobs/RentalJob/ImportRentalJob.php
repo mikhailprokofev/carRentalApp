@@ -55,7 +55,8 @@ final class ImportRentalJob implements ShouldQueue
     {
         try {
             $importStrategy = $this->factory->make($this->mode);
-            $importStrategy->import($this->data, $this->fileName, $this->isLast);
+            $importStatus = $importStrategy->import($this->data, $this->fileName);
+            $this->doneImportStatus($importStatus);
         } catch (Exception $exception) {
             $this->turnErrorImportStatus(ImportStatusEnum::ERROR);
             throw $exception;
@@ -70,5 +71,10 @@ final class ImportRentalJob implements ShouldQueue
         $importStatus = $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($this->fileName);
 
         $importStatus->updateStatusImport($status);
+    }
+
+    private function doneImportStatus(ImportStatus $importStatus): void
+    {
+        $importStatus->updateStatusImport(ImportStatusEnum::DONE);
     }
 }
