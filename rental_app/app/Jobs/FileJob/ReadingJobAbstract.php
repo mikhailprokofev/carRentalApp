@@ -24,11 +24,8 @@ abstract class ReadingJobAbstract
         while ($resourceGenerator->valid()) {
             $result = $this->fileService->readByChunk($resourceGenerator, $this->prepareDataService);
 
-            if ($resourceGenerator->valid()) {
-                $this->requestToMicroService($result);
-            } else {
-                $this->requestToMicroService($result, true);
-            }
+            $isLast = !$resourceGenerator->valid();
+            $this->requestToMicroService($result, $isLast);
         }
 
         $this->fileService->deleteFile($this->fileName);

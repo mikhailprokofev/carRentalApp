@@ -57,23 +57,20 @@ final class RewriteStrategy implements InsertStrategyInterface
         $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
 
         // TODO: валидацию вынести куда-нибудь
-        foreach ($data as $el) {
+        foreach ($data as $row) {
             try {
-                $validator = Validator::make($el, RentalDomainRules::rules());
-                $validator->validated(); // //        if ($validator->fails()) {
+                $validator = Validator::make($row, RentalDomainRules::rules());
+                $validator->validated(); // //     TODO:   if ($validator->fails()) {
 
                 $importStatus->addCountRowsImport('validated_rows', 1);
 
-                $result[] = $el;
+                $result[] = $row;
             } catch (ValidationException $exception) {
                 Log::error($exception->getMessage());
             }
         }
 
-        $this->insertService->recursionInsert($result, $this->commitData($this->rentalRepository));
-
-        // TODO: минус дубликаты
-        $importStatus->addCountRowsImport('inserted_rows', count($result));
+        $this->insertService->recursionInsert($result, $this->commitData($this->rentalRepository), $importStatus);
 
         if ($isLast) {
             $importStatus->updateStatusImport(ImportStatusEnum::DONE);

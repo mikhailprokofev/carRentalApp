@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Import\Service;
 
+use App\Models\ImportStatus;
 use Closure;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
@@ -14,10 +15,12 @@ final class InsertService implements InsertServiceInterface
 
     private const FORMAT_DUPLICATE_LOG = 'Duplicate row: car_id = %s, rental_start = %s, rental_end = %s';
 
-    public function recursionInsert(array $data, Closure $commitData): void
+    public function recursionInsert(array $data, Closure $commitData, ImportStatus $importStatus): void
     {
         try {
             $commitData($data);
+
+            $importStatus->addCountRowsImport('inserted_rows', count($data));
         } catch (QueryException $e) {
             $message = $e->getMessage();
             if (str_contains($message, self::EXCEPTION_MESSAGE)) {
@@ -29,12 +32,13 @@ final class InsertService implements InsertServiceInterface
 
                 foreach ($data as $key => $row) {
                     if ($this->isDuplicatedRow($row, $duplicatedValues)) {
+                        $importStatus->addCountRowsImport('duplicated_rows', 1);
                         $this->deleteDuplicatedRow($data, $key);
                         break;
                     }
                 }
 
-                $this->recursionInsert($data, $commitData);
+                $this->recursionInsert($data, $commitData, $importStatus);
             } else {
                 Log::error($message);
             }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Import\Strategy\InsertRental;
 
+use App\Models\ImportStatus;
 use App\Module\Import\Service\InsertService;
 use App\Module\Import\Service\InsertServiceInterface;
 use App\Repository\CustomRentalRepository;
@@ -25,7 +26,8 @@ final class AddStrategy implements InsertStrategyInterface
     public function import(array $data, string $filename, bool $isLast): void
     {
         // TODO: проверка на доступность автомобиля
-        $this->insertService->recursionInsert($data, $this->commitData($this->rentalRepository));
+        $importStatus = new ImportStatus();
+        $this->insertService->recursionInsert($data, $this->commitData($this->rentalRepository), $importStatus);
     }
 
     private function commitData(CustomRentalRepositoryInterface $rentalRepository): Closure
