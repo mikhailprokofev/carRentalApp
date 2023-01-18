@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('rentals', function (Blueprint $table) {
             $table->foreignUuid('car_id')
-                ->nullable(true)
-                    ->constrained();
+                ->nullable(false)
+                ->constrained();
         });
     }
 
@@ -28,7 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('rentals', function (Blueprint $table) {
-            $table->dropIfExists('car_id');
+            $table->dropForeign('rentals_car_id_foreign');
         });
     }
 };

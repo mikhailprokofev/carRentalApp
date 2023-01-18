@@ -22,9 +22,10 @@ final class CarResource extends JsonResource
             'color' => $this->color,
             'type' => $this->type,
             'description' => $this->description,
-            'base_salary' => number_format((float) round($this->base_salary / 100, 2), 2, '.', ''),
+            'base_salary' => number_format(round($this->base_salary / 100, 2), 2, '.', ''),
             'model' => $this->model,
             'rental' => RentalResource::collection($this->whenLoaded('rentals')),
+            'countCrashes' => $this->count_crashes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

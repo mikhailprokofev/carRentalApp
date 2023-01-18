@@ -47,7 +47,7 @@ class ImportStatus extends Model
         // TODO: возможно добавить статус
     ];
 
-    public function getKeyType()
+    public function getKeyType(): string
     {
         return 'string';
     }
