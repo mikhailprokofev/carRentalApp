@@ -22,11 +22,15 @@ final class ReadingRentalsJob extends ReadingJobAbstract implements ShouldQueue
 
     private string $mode;
 
+    private string $fileName;
+
     public function __construct(
         string $fileName,
+        string $fullFileName,
         string $mode,
     ) {
         $this->fileName = $fileName;
+        $this->fullFileName = $fullFileName;
         $this->mode = $mode;
         // TODO: di
         $this->fileService = new ReadingCSVService();
@@ -36,7 +40,7 @@ final class ReadingRentalsJob extends ReadingJobAbstract implements ShouldQueue
     protected function requestToMicroService(array $result, bool $isLast = false): void
     {
         if (count($result)) {
-            ImportRentalJob::dispatch($result, $this->mode, $this->fileName, $isLast);
+            ImportRentalJob::dispatch($result, $this->mode, $this->deleteExt($this->fileName), $isLast);
         }
     }
 }

@@ -20,10 +20,14 @@ final class ReadingCarsJob extends ReadingJobAbstract implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    private string $fileName;
+
     public function __construct(
         string $fileName,
+        string $fullFileName,
     ) {
         $this->fileName = $fileName;
+        $this->fullFileName = $fullFileName;
         // TODO: di
         $this->fileService = new ReadingCSVService();
         $this->prepareDataService = new PrepareCarDataService();
@@ -32,7 +36,7 @@ final class ReadingCarsJob extends ReadingJobAbstract implements ShouldQueue
     protected function requestToMicroService(array $result, bool $isLast = false): void
     {
         if (count($result)) {
-            ImportCarsJob::dispatch($result, $this->fileName, $isLast);
+            ImportCarsJob::dispatch($result, $this->deleteExt($this->fileName), $isLast);
         }
     }
 }

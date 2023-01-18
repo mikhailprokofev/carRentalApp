@@ -39,7 +39,7 @@ final class Handler
     {
         return (new Output())
             ->set('id', $importStatus->id)
-            ->set('filename', $importStatus->id)
+            ->set('filename', $importStatus->filename)
             ->set('status', $importStatus->status)
             ->set('read_rows', $importStatus->read_rows)
             ->set('validated_rows', $importStatus->validated_rows)
