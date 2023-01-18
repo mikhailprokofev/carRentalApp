@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 // TODO: дублирование стратегии (разница в транкейт)
+// TODO: возможно то, что в импорт методе вынести в шаг + транкейт в шаг
 final class AddStrategy implements InsertStrategyInterface
 {
     private CustomRentalRepositoryInterface $rentalRepository;

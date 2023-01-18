@@ -4,13 +4,23 @@ declare(strict_types=1);
 
 namespace App\Jobs\RentalJob;
 
+use App\Models\ImportStatus;
+use App\Module\Import\Enum\ImportStatusEnum;
+use App\Module\Import\Rule\CarDomainRules;
+use App\Module\Import\Rule\RentalDomainRules;
+use App\Module\Import\Validator\RentalDomainValidator;
 use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
+use App\Repository\ImportStatusRepository;
+use App\Repository\ImportStatusRepositoryInterface;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 final class ImportCarsJob implements ShouldQueue
 {
@@ -21,28 +31,65 @@ final class ImportCarsJob implements ShouldQueue
 
     private array $data;
 
+    private string $fileName;
+
+    private bool $isLast;
+
     private CustomCarRepositoryInterface $carRepository;
+
+    private ImportStatusRepositoryInterface $importStatusRepository;
+
+    private RentalDomainValidator $validator;
 
     public function __construct(
         array $data,
+        string $fileName,
+        bool $isLast,
     ) {
         $this->data = $data;
+        $this->fileName = $fileName;
+        $this->isLast = $isLast;
         // TODO: вынести в di
         $this->carRepository = new CustomCarRepository();
+        $this->importStatusRepository = new ImportStatusRepository();
+        $this->validator = new RentalDomainValidator(new CarDomainRules());
     }
 
     public function handle(): void
     {
-        $rawData = $this->data;
+        try {
+            $rawData = $this->data;
+            $result = [];
 
-        $uniqueFieldValues = $this->makeUniqueValuesFromDB($rawData, 'number_plate');
+            $importStatus = $this->findOrCreateImport($this->fileName);
+            $importStatus->addCountRowsImport('read_rows', count($rawData));
+            $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
 
-        $data = $this->filterByUniqueField($rawData, $uniqueFieldValues, 'number_plate');
+            foreach ($rawData as $row) {
+                try {
+                    $this->validator->validate($row, $importStatus);
 
-        $this->carRepository->insert($data);
+                    $result[] = $row;
+                } catch (ValidationException $exception) {
+                    Log::error($exception->getMessage());
+                }
+            }
+
+            $uniqueFieldValues = $this->makeUniqueValuesFromDB($result, 'number_plate', $importStatus);
+            $data = $this->filterByUniqueField($result, $uniqueFieldValues, 'number_plate', $importStatus);
+
+            $this->carRepository->insert($data);
+
+            $importStatus->addCountRowsImport('inserted_rows', count($data));
+
+            $this->doneImportStatus($importStatus);
+        } catch (Exception $exception) {
+            $this->turnErrorImportStatus(ImportStatusEnum::ERROR);
+            throw $exception;
+        }
     }
 
-    private function filterByUniqueField(array $arr, array $arrUnique, string $field): array
+    private function filterByUniqueField(array $arr, array $arrUnique, string $field, ImportStatus $importStatus): array
     {
         foreach ($arr as $row) {
             if (in_array($row[$field], $arrUnique)) {
@@ -54,12 +101,39 @@ final class ImportCarsJob implements ShouldQueue
         return $data ?? [];
     }
 
-    private function makeUniqueValuesFromDB(array $arr, string $field): array
+    private function makeUniqueValuesFromDB(array $arr, string $field, ImportStatus $importStatus): array
     {
         $uniqueFieldValues = array_column($arr, $field);
 
         $duplicateFieldValues = $this->carRepository->findDuplicateValues($uniqueFieldValues);
 
-        return array_diff($uniqueFieldValues, $duplicateFieldValues);
+        $uniqueValues = array_diff($uniqueFieldValues, $duplicateFieldValues);
+
+        $importStatus->addCountRowsImport('duplicated_rows', count($arr) - count($uniqueValues));
+
+        return $uniqueValues;
+    }
+
+    // TODO: events
+    private function turnErrorImportStatus(ImportStatusEnum $status): void
+    {
+        $importStatuses = $this->importStatusRepository->findByFileName($this->fileName);
+
+        $importStatus = $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($this->fileName);
+
+        $importStatus->updateStatusImport($status);
+    }
+
+    private function doneImportStatus(ImportStatus $importStatus): void
+    {
+        $importStatus->updateStatusImport(ImportStatusEnum::DONE);
+    }
+
+    // TODO: events
+    private function findOrCreateImport(string $filename): ImportStatus
+    {
+        $importStatuses = $this->importStatusRepository->findByFileName($filename);
+
+        return $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($filename);
     }
 }

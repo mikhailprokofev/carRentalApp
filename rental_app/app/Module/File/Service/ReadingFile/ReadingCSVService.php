@@ -37,7 +37,7 @@ final class ReadingCSVService implements ReadingFileServiceInterface
     public function readByChunk(
         Generator $resourceGenerator,
         PrepareDataServiceInterface $prepareDataService,
-        int $chunk = 1,
+        int $chunk = 100,
     ): array {
         while ($resourceGenerator->valid()) {
             if ($resourceGenerator->current()) {

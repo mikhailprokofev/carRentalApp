@@ -20,9 +20,9 @@ final class CarDTO
 
     public static function make(
         string $numberPlate,
-        string $model,
-        string $baseSalary,
         ?string $description,
+        string $baseSalary,
+        string $model,
         ?string $id = null,
     ) {
         return new CarDTO(
