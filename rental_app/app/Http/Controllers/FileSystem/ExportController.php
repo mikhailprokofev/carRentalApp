@@ -4,19 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\FileSystem;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\FileSystem\ExportCarRequest;
-use App\Http\Controllers\ReportLoadCarsController as RLCC;
 use App\Module\Rate\Service\RateCalculatingService;
 use App\Http\Requests\ReportLoadCarsRequest;
 use App\Module\Report\Load\Cars\Handler;
 use App\Module\Report\Load\Cars\Input;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Response;
 use DateTimeImmutable;
-use App\Models\Rental;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
+use DateTime;
 
 final class ExportController extends Controller
 {
@@ -60,8 +55,8 @@ final class ExportController extends Controller
 
     public function load(ReportLoadCarsRequest $request, string $start, string $end)
     {
-        $from = new \DateTime($start);
-        $to   = new \DateTime($end);
+        $from = new DateTime($start);
+        $to   = new DateTime($end);
 
         $mounths = array();
 
@@ -77,8 +72,8 @@ final class ExportController extends Controller
             );
         }
 
-        $firstDayOfStartMounth = new \DateTime("first day of $start");
-        $lastDayOfEndMounth = new \DateTime("last day of $end");
+        $firstDayOfStartMounth = new DateTime("first day of $start");
+        $lastDayOfEndMounth = new DateTime("last day of $end");
 
         if ($from != $firstDayOfStartMounth) {
             array_shift($mounths);
@@ -92,7 +87,7 @@ final class ExportController extends Controller
         $content .= '<html><style> table, tr,td { border: 1px solid black; padding: 10px; }</style><table>';
 
         foreach ($mounths as $mounth) {
-            $date = (new \DateTime('01-' . $mounth["m"] . '-' . $mounth["y"]))->format("F Y");
+            $date = (new DateTime('01-' . $mounth["m"] . '-' . $mounth["y"]))->format("F Y");
             $content .= '<tr><td colspan=2> <strong>Report of ' . $date . ' </strong></td></tr>';
             $content .= '<tr><td>NumberPlate</td><td>Load</td></tr>';
             $result = $this->handler->handle(Input::make($mounth['y'], $mounth['m']));

@@ -12,14 +12,14 @@
         }
     ],
     "paths": {
-        "/car/find/affordable": {
+        "/car/available/check": {
             "post": {
                 "tags": [
-                    "FindAffordableCarController"
+                    "CheckAvailableCarController"
                 ],
                 "summary": "Set your summary",
                 "description": "Set your description",
-                "operationId": "car-find-affordable",
+                "operationId": "car-available-check",
                 "responses": {
                     "200": {
                         "description": "Successful work of server api"
@@ -47,13 +47,50 @@
                         }
                     },
                     {
-                        "name": "car_id",
+                        "name": "number_plate",
                         "in": "query",
-                        "description": "car_id fuild",
-                        "required": false,
+                        "description": "number_plate fuild",
+                        "required": true,
                         "schema": {
                             "type": "string",
-                            "format": "uuid"
+                            "format": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/car/available/list": {
+            "post": {
+                "tags": [
+                    "ListAvailableCarController"
+                ],
+                "summary": "Set your summary",
+                "description": "Set your description",
+                "operationId": "car-available-list",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "start_at",
+                        "in": "query",
+                        "description": "start_at fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "end_at",
+                        "in": "query",
+                        "description": "end_at fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
                         }
                     }
                 ]
@@ -286,14 +323,66 @@
                 ]
             }
         },
-        "/export/cars": {
-            "post": {
+        "/export/load/html/": {
+            "get": {
                 "tags": [
                     "ExportController"
                 ],
                 "summary": "Set your summary",
                 "description": "Set your description",
-                "operationId": "export-name",
+                "operationId": null,
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "month",
+                        "in": "query",
+                        "description": "month fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "integer"
+                        }
+                    },
+                    {
+                        "name": "year",
+                        "in": "query",
+                        "description": "year fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "integer"
+                        }
+                    }
+                ]
+            }
+        },
+        "/export/logs/csv/": {
+            "get": {
+                "tags": [
+                    "ExportController"
+                ],
+                "summary": "Set your summary",
+                "description": "Set your description",
+                "operationId": null,
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                }
+            }
+        },
+        "/export/logs/html/": {
+            "get": {
+                "tags": [
+                    "ExportController"
+                ],
+                "summary": "Set your summary",
+                "description": "Set your description",
+                "operationId": null,
                 "responses": {
                     "200": {
                         "description": "Successful work of server api"
@@ -407,16 +496,6 @@
                     }
                 },
                 "parameters": [
-                    {
-                        "name": "start_salary",
-                        "in": "query",
-                        "description": "start_salary fuild",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "integer"
-                        }
-                    },
                     {
                         "name": "rental_start",
                         "in": "query",
@@ -557,8 +636,8 @@
                 ]
             }
         },
-        "/report/load/cars": {
-            "post": {
+        "/report/load/cars/": {
+            "get": {
                 "tags": [
                     "ReportLoadCarsController"
                 ],

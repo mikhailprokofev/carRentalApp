@@ -61,8 +61,7 @@ final class AutoDoc extends Command
             $curRoutParams = [];
 
             foreach ($params as $param) {
-                $type = $param->getType();
-
+                $type = (string)$param->getType();
                 if (str_contains($type, 'Model')) {
                     $curRoutParams[] = (object) [
                         'name' => 'id',
@@ -82,6 +81,9 @@ final class AutoDoc extends Command
                     $rules = (new $request())->rules();
 
                     foreach ($rules as $rule => $rule_desc) {
+                        if (is_array($rule_desc)) {
+                            $rule_desc = $rule_desc[0];
+                        }
                         $curRoutParams[] = (object) [
                             'name' => $rule,
                             'in' => 'query',

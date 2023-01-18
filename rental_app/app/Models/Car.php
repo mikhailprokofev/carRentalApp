@@ -28,11 +28,20 @@ final class Car extends Model
     protected $fillable = [
         'id',
         'number_plate',
-        'color',
-        'type',
         'description',
         'base_salary',
+        'country',
+        'brand',
         'model',
+        'color',
+        'manufacture_date',
+        'mileage',
+        'drive',
+        'is_right_hand',
+        'body_type',
+        'transmission',
+        'insurance',
+        'type',
     ];
 
     /**
