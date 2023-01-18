@@ -23,6 +23,11 @@ final class AppServiceProvider extends ServiceProvider
         );
 
         $this->app->bind(
+            'App\Repository\ImportStatusRepositoryInterface',
+            'App\Repository\ImportStatusRepository'
+        );
+
+        $this->app->bind(
             'App\Module\Cache\Serializer\CacheSerializerInterface',
             'App\Module\Cache\Serializer\ArrayCacheSerializer'
         );

@@ -9,7 +9,7 @@ use App\Module\File\Service\ReadingFile\ReadingFileServiceInterface;
 
 abstract class ReadingJobAbstract
 {
-    protected string $fileName;
+    protected string $fullFileName;
 
     protected PrepareDataServiceInterface $prepareDataService;
 
@@ -17,7 +17,7 @@ abstract class ReadingJobAbstract
 
     public function handle(): void
     {
-        $resource = $this->fileService->createFileResource($this->fileName);
+        $resource = $this->fileService->createFileResource($this->fullFileName);
 
         $resourceGenerator = $this->fileService->getRows($resource);
 
@@ -28,8 +28,13 @@ abstract class ReadingJobAbstract
             $this->requestToMicroService($result, $isLast);
         }
 
-        $this->fileService->deleteFile($this->fileName);
+        $this->fileService->deleteFile($this->fullFileName);
     }
 
     abstract protected function requestToMicroService(array $result, bool $isLast = false): void;
+
+    protected function deleteExt(string $fileName): string
+    {
+        return explode('.', $fileName)[0];
+    }
 }
