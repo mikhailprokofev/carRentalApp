@@ -1,14 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-final class Rental extends Model
+class Crash extends Model
 {
     use HasFactory;
 
@@ -18,11 +16,9 @@ final class Rental extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
-        'start_salary',
-        'rental_start',
-        'rental_end',
+//        'id',
         'car_id',
+        'crashed_at',
     ];
 
     /**
@@ -34,7 +30,7 @@ final class Rental extends Model
         'options' => 'array',
     ];
 
-    public function getKeyType()
+    public function getKeyType(): string
     {
         return 'string';
     }

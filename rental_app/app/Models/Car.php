@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Ramsey\Uuid\Uuid;
 
 final class Car extends Model
@@ -37,11 +38,11 @@ final class Car extends Model
     /**
      * Получить модель для привязанного к маршруту значения параметра.
      *
-     * @param  mixed  $value
-     * @param  string|null  $field
-     * @return \Illuminate\Database\Eloquent\Model|null
+     * @param  mixed $value
+     * @param  string|null $field
+     * @return Model|null
      */
-    public function resolveRouteBinding($value, $field = null)
+    public function resolveRouteBinding($value, $field = null): ?Model
     {
         if (!Uuid::isValid($value)) {
             return $this->where('number_plate', $value)->firstOrFail();
@@ -59,18 +60,27 @@ final class Car extends Model
         'options' => 'array',
     ];
 
-    public function getKeyType()
+    protected $appends = [
+        'count_crashes',
+    ];
+
+    public function getKeyType(): string
     {
         return 'string';
     }
 
-    /**
-     * Атрибуты, которые должны быть типизированы.
-     *
-     * @var array
-     */
-    public function rentals()
+    public function rentals(): HasMany
     {
         return $this->hasMany(Rental::class);
+    }
+
+    public function crashes(): HasMany
+    {
+        return $this->hasMany(Crash::class);
+    }
+
+    public function getCountCrashesAttribute(): int
+    {
+        return $this->crashes()->getResults()->count() ;
     }
 }
