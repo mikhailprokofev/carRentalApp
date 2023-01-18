@@ -26,11 +26,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/healthcheck', [HealthCheckController::class, 'index']);
 
-Route::group([
-    'prefix' => 'export',
-], function ($router) {
-    Route::post('/cars', [ExportController::class, 'exportCars'])->name('export-name');
-});
 
 Route::group([
     'prefix' => 'import',
@@ -50,7 +45,7 @@ Route::group([
     'prefix' => 'report',
 ], function ($router) {
     //    Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)
-//        ->whereNumber(['year', 'month'])->where('month', [1-12]);
+    //      ->whereNumber(['year', 'month'])->where('month', [1-12]);
     Route::get('/load/cars/{year}/{month}', ReportLoadCarsController::class)->name('report-load-cars');
 });
 
@@ -64,7 +59,6 @@ Route::resource('cars', CarController::class, [
     ]
 ])->scoped(['number_plate']);
 
-
 Route::resource('rentals', RentalController::class, [
     'only' => [
         'index',
@@ -74,3 +68,11 @@ Route::resource('rentals', RentalController::class, [
         'destroy',
     ]
 ]);
+
+Route::group([
+    'prefix' => 'export',
+], function ($router) {
+    Route::get('/logs/csv/{start?}/{end?}', [ExportController::class, 'csv']);
+    Route::get('/logs/html/{start?}/{end?}', [ExportController::class, 'html']);
+    Route::get('/load/html/{start?}/{end?}', [ExportController::class, 'load']);
+});
