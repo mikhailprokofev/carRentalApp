@@ -6,6 +6,7 @@ use App\Http\Controllers\CarController;
 use App\Http\Controllers\FileSystem\ExportController;
 use App\Http\Controllers\FileSystem\ImportCarsController;
 use App\Http\Controllers\FileSystem\ImportRentalsController;
+use App\Http\Controllers\ImportStatusViewController;
 use App\Http\Controllers\ListAvailableCarController;
 use App\Http\Controllers\CheckAvailableCarController;
 use App\Http\Controllers\HealthCheck\HealthCheckController;
@@ -32,6 +33,7 @@ Route::group([
 ], function ($router) {
     Route::post('/cars', ImportCarsController::class)->name('import-cars');
     Route::post('/rentals', ImportRentalsController::class)->name('import-rentals');
+    Route::get('/status/{filename}', ImportStatusViewController::class)->name('import-status-view');
 });
 
 Route::group([
