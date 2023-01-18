@@ -33,8 +33,7 @@ final class HealthCheckController extends Controller
 //        $import = ImportStatus::create(['status' => ImportStatusEnum::DONE->value]);
 //        dd($import);
 
-        $str = preg_replace('/(\/\w\d)*(\w\d.\w)/', '$1', '/var/www/storage/app/rental20230118060439.csv');
-        dd($str);
+//        dd(chr('A'));
 
         return 'OK';
     }
