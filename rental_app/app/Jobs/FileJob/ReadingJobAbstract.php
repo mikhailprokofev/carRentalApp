@@ -23,11 +23,13 @@ abstract class ReadingJobAbstract
 
         while ($resourceGenerator->valid()) {
             $result = $this->fileService->readByChunk($resourceGenerator, $this->prepareDataService);
-            $this->requestToMicroService($result);
+
+            $isLast = !$resourceGenerator->valid();
+            $this->requestToMicroService($result, $isLast);
         }
 
         $this->fileService->deleteFile($this->fileName);
     }
 
-    abstract protected function requestToMicroService(array $result): void;
+    abstract protected function requestToMicroService(array $result, bool $isLast = false): void;
 }
