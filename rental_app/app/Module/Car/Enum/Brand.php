@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Brand
+enum Brand: string
 {
-    case AUDI;
-    case VOLKSWAGEN;
-    case HONDA;
-    case LADA;
-    case RENAULT;
-    case KIA;
+    case AUDI = 'Audi';
+    case VOLKSWAGEN = 'Volkswagen';
+    case HONDA = 'Honda';
+    case LADA = 'Lada';
+    case RENAULT = 'Renault';
+    case KIA = 'Kia';
 
-    public function getByCountry($country)
+    public static function getByCountry($country): array
     {
         return match ($country) {
             Country::GERMAN => [

@@ -4,46 +4,46 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Model
+enum Model: string
 {
     //AUDI
-    case A3;
-    case A4;
-    case A5;
+    case A3 = 'A3';
+    case A4 = 'A4';
+    case A5 = 'A5';
 
     //HONDA
-    case ACCORD;
-    case CAPA;
-    case CIVIC;
-    case CRV;
-    case PILOT;
+    case ACCORD = 'accord';
+    case CAPA = 'capa';
+    case CIVIC = 'civic';
+    case CRV = 'crv';
+    case PILOT = 'pilot';
 
     //KIA
-    case CERATO;
-    case K5;
-    case K900;
-    case RIO;
-    case STINGER;
+    case CERATO = 'cerato';
+    case K5 = 'K5';
+    case K900 = 'K900';
+    case RIO = 'Rio';
+    case STINGER = 'stinger';
 
     //LADA
-    case GRANTA;
-    case LARGUS;
-    case NIVA;
-    case VESTA;
-    case XRAY;
+    case GRANTA = 'granta';
+    case LARGUS = 'largus';
+    case NIVA = 'niva';
+    case VESTA = 'vesta';
+    case XRAY = 'X-Ray';
 
     //RENAULT
-    case LOGAN;
-    case SANDERO;
-    case DUSTER;
-    case ARKANA;
-    case KAPTUR;
+    case LOGAN = 'logan';
+    case SANDERO = 'sandero';
+    case DUSTER = 'duster';
+    case ARKANA = 'arkana';
+    case KAPTUR = 'kaptur';
 
     //VOLKSWAGEN
-    case GOLF;
-    case JETTA;
-    case PASSAT;
-    case POLO;
-    case TIGUAN;
+    case GOLF = 'golf';
+    case JETTA = 'jetta';
+    case PASSAT = 'passat';
+    case POLO = 'polo';
+    case TIGUAN = 'tiguan';
 
 }

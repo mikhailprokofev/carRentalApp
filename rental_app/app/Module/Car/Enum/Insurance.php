@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Insurance
+enum Insurance: string
 {
-    case OSAGO;
-    case KASKO;
+    case OSAGO = 'OSAGO';
+    case KASKO = 'KASKO';
 }

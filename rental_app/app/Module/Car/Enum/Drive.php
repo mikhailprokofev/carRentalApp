@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Drive
+enum Drive: string
 {
-    case FRONT;
-    case REAR;
+    case FRONT = 'front';
+    case REAR = 'rear';
 }

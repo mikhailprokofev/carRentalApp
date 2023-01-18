@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Color
+enum Color: string
 {
-    case BLACK;
-    case WHITE;
-    case YELLOW;
-    case BLUE;
-    case GRAY;
+    case BLACK = 'black';
+    case WHITE = 'white';
+    case YELLOW = 'yellow';
+    case BLUE = 'blue';
+    case GRAY = 'gray';
 }
