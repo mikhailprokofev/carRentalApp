@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Rate\Enum\Car;
+namespace App\Module\Car\Enum;
 
 enum BodyType
 {
