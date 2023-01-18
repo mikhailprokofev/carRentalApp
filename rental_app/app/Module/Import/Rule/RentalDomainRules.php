@@ -71,7 +71,7 @@ final class RentalDomainRules implements DomainRulesInterface
         if (empty($result->map(fn ($car) => $car->id)->toArray())) {
             $validator->errors()->add(
                 'affordable',
-                'There are already rentals for the selected date range',
+                'Car is busy on the selected date range',
             );
         }
     }
