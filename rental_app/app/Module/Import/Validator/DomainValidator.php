@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Validator as ValidatorDomain;
 use Illuminate\Validation\ValidationException;
 
-final class RentalDomainValidator
+final class DomainValidator
 {
     private ValidatorDomain $validator;
 

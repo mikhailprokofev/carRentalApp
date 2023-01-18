@@ -7,8 +7,7 @@ namespace App\Jobs\RentalJob;
 use App\Models\ImportStatus;
 use App\Module\Import\Enum\ImportStatusEnum;
 use App\Module\Import\Rule\CarDomainRules;
-use App\Module\Import\Rule\RentalDomainRules;
-use App\Module\Import\Validator\RentalDomainValidator;
+use App\Module\Import\Validator\DomainValidator;
 use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
 use App\Repository\ImportStatusRepository;
@@ -39,7 +38,7 @@ final class ImportCarsJob implements ShouldQueue
 
     private ImportStatusRepositoryInterface $importStatusRepository;
 
-    private RentalDomainValidator $validator;
+    private DomainValidator $validator;
 
     public function __construct(
         array $data,
@@ -52,7 +51,7 @@ final class ImportCarsJob implements ShouldQueue
         // TODO: вынести в di
         $this->carRepository = new CustomCarRepository();
         $this->importStatusRepository = new ImportStatusRepository();
-        $this->validator = new RentalDomainValidator(new CarDomainRules());
+        $this->validator = new DomainValidator(new CarDomainRules());
     }
 
     public function handle(): void

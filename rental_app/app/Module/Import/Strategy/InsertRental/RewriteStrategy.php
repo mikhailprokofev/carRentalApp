@@ -9,7 +9,7 @@ use App\Module\Import\Enum\ImportStatusEnum;
 use App\Module\Import\Rule\RentalDomainRules;
 use App\Module\Import\Service\InsertService;
 use App\Module\Import\Service\InsertServiceInterface;
-use App\Module\Import\Validator\RentalDomainValidator;
+use App\Module\Import\Validator\DomainValidator;
 use App\Repository\CustomCarRepository;
 use App\Repository\CustomRentalRepository;
 use App\Repository\CustomRentalRepositoryInterface;
@@ -27,14 +27,14 @@ final class RewriteStrategy implements InsertStrategyInterface
 
     private ImportStatusRepositoryInterface $importStatusRepository;
 
-    private RentalDomainValidator $validator;
+    private DomainValidator $validator;
 
     public function __construct()
     {
         $this->insertService = new InsertService();
         $this->rentalRepository = new CustomRentalRepository();
         $this->importStatusRepository = new ImportStatusRepository();
-        $this->validator = new RentalDomainValidator(new RentalDomainRules(new CustomCarRepository()));
+        $this->validator = new DomainValidator(new RentalDomainRules(new CustomCarRepository()));
     }
 
     public function import(array $data, string $filename): ImportStatus
