@@ -20,7 +20,7 @@ final class CarDomainRules implements DomainRulesInterface
     public static function rules(): array
     {
         return [
-            'number_plate' => 'required|string',
+            'number_plate' => 'required|string|number_plate',
             'description' => 'nullable|string',
             'base_salary' => 'bail|required|integer|min:100000|max:500000',
             'color' => ['required', new Enum(Color::class)],

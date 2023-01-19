@@ -35,7 +35,7 @@ final class UpdateCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'number_plate' => 'string|unique:cars',
+            'number_plate' => 'string|unique:cars|number_plate',
             'description' => 'string',
             'base_salary' => 'bail|integer|min:1000|max:5000',
             'color' => [new Enum(Color::class)],

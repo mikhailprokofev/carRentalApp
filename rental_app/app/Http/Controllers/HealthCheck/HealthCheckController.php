@@ -8,6 +8,7 @@ use App\Common\Validator\DomainValidator;
 use App\Http\Controllers\Controller;
 use App\Models\ImportStatus;
 use App\Common\Validator\Rule\RentalDomainRule;
+use App\Module\Car\Utility\NumberPlate;
 use App\Module\Import\Enum\ImportStatusEnum;
 use OpenApi\Attributes as OA;
 
@@ -30,11 +31,8 @@ final class HealthCheckController extends Controller
             'rentalStart' => '10-12-2000',
             'rentalEnd' => '10-12-2000',
         ]);
-//        $import = ImportStatus::create(['status' => ImportStatusEnum::DONE->value]);
-//        dd($import);
 
-        $str = preg_replace('/(\/\w\d)*(\w\d.\w)/', '$1', '/var/www/storage/app/rental20230118060439.csv');
-        dd($str);
+        $res = (new NumberPlate())->isCorrect('А123АА14');
 
         return 'OK';
     }
