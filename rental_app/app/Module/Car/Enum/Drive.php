@@ -6,6 +6,9 @@ namespace App\Module\Car\Enum;
 
 enum Drive: string
 {
-    case FRONT = 'front';
-    case REAR = 'rear';
+    use \App\Common\Enum\EnumToArray;
+    case Front = 'front';
+    case Rear = 'rear';
+    case Four = 'four';
+    case All = 'all';
 }

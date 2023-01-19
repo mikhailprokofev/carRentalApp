@@ -6,6 +6,7 @@ namespace App\Module\Car\Enum;
 
 enum Brand: string
 {
+    use \App\Common\Enum\EnumToArray;
     case AUDI = 'Audi';
     case VOLKSWAGEN = 'Volkswagen';
     case HONDA = 'Honda';

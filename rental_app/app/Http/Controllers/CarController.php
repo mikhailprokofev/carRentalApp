@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Attributes\RouteAttribute as RA;
-use App\Http\Requests\StoreCarRequest;
-use App\Http\Requests\UpdateCarRequest;
+use App\Http\Requests\Car\IndexCarRequest;
+use App\Http\Requests\Car\StoreCarRequest;
+use App\Http\Requests\Car\UpdateCarRequest;
 use App\Http\Resources\CarResource;
+use App\Http\Filters\CarFilter;
 use App\Models\Car;
 
 class CarController extends Controller
@@ -17,11 +19,14 @@ class CarController extends Controller
             summary: 'Get All Cars',
             description: 'Display a listing of the Cars.',
         )]
-    public function index()
+    public function index(IndexCarRequest $request)
     {
-        return CarResource::collection(
-            Car::with('rentals')->orderBy('created_at')->paginate(20),
-        );
+        $filter = new CarFilter($request->validated());
+        $cars = Car::filter($filter)
+            ->with('rentals')
+                ->orderBy('created_at')
+                    ->paginate(20);
+        return CarResource::collection($cars);
     }
 
     #[

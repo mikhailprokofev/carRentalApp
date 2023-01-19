@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Car;
 
 use App\Module\Car\Enum\BodyType;
 use App\Module\Car\Enum\Brand;
@@ -38,17 +38,17 @@ final class UpdateCarRequest extends FormRequest
             'number_plate' => 'string|unique:cars|number_plate',
             'description' => 'string',
             'base_salary' => 'bail|integer|min:1000|max:5000',
-            'color' => [new Enum(Color::class)],
-            'type' => [new Enum(Type::class)],
-            'model' => [new Enum(Model::class)],
-            'brand' => [new Enum(Brand::class)],
-            'drive' => [new Enum(Drive::class)],
-            'body_type' => [new Enum(BodyType::class)],
-            'transmission' => [new Enum(Transmission::class)],
-            'insurance' => [new Enum(Insurance::class)],
-            'manufacture_date' => 'bail|date|before:today',
+            'color' => ['string', new Enum(Color::class)],
+            'class' => ['string', new Enum(Type::class)],
+            'model' => ['string', new Enum(Model::class)],
+            'brand' => ['string', new Enum(Brand::class)],
+            'drive' => ['string', new Enum(Drive::class)],
+            'body_type' => ['string', new Enum(BodyType::class)],
+            'transmission' => ['string', new Enum(Transmission::class)],
+            'insurance' => ['string', new Enum(Insurance::class)],
+            'control' => ['string', new Enum(Control::class)],
+            'manufacture_date' => 'bail|integer',
             'mileage' => 'bail|integer|min:0',
-            'is_right_hand' => 'bail|boolean',
         ];
     }
 }

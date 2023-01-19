@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Module\Car\Enum as Enums;
 
 return new class extends Migration
 {
@@ -16,13 +17,15 @@ return new class extends Migration
         Schema::table('cars', function (Blueprint $table) {
             $table->string('country')->nullable();
             $table->string('brand')->nullable();
-            $table->date('manufacture_date')->nullable();
+            $table->integer('manufacture_date')->nullable();
             $table->integer('mileage')->nullable();
-            $table->boolean('drive')->nullable();
-            $table->boolean('is_right_hand')->nullable();
-            $table->string('body_type')->nullable();
-            $table->string('transmission')->nullable();
-            $table->string('insurance')->nullable();
+            $table->enum('drive', Enums\Drive::toArray())->nullable();
+            $table->enum('control',Enums\Control::toArray())->nullable();
+            $table->enum('body_type',Enums\BodyType::toArray())->nullable();
+            $table->enum('transmission', Enums\Transmission::toArray())->nullable();
+            $table->enum('insurance', Enums\Insurance::toArray())->nullable();
+            $table->enum('class', Enums\Type::toArray())->nullable();
+            $table->dropColumn('type');
         });
     }
 
@@ -41,12 +44,14 @@ return new class extends Migration
                     'manufacture_date',
                     'mileage',
                     'drive',
-                    'is_right_hand',
+                    'control',
                     'body_type',
                     'transmission',
                     'insurance',
+                    'class',
                 ]
             );
+            $table->string('type');
         });
     }
 };

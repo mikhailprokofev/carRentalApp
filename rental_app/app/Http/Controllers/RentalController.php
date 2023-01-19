@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Attributes\RouteAttribute as RA;
-use App\Http\Requests\StoreRentalRequest;
-use App\Http\Requests\UpdateRentalRequest;
+use App\Http\Requests\Rental\StoreRentalRequest;
+use App\Http\Requests\Rental\UpdateRentalRequest;
 use App\Http\Resources\RentalResource;
 use App\Models\Rental;
 use App\Models\Car;
