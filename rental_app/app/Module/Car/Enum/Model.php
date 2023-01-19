@@ -6,6 +6,7 @@ namespace App\Module\Car\Enum;
 
 enum Model: string
 {
+    use \App\Common\Enum\EnumToArray;
     //AUDI
     case A3 = 'A3';
     case A4 = 'A4';

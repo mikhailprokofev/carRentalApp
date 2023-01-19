@@ -108,7 +108,129 @@
                     "200": {
                         "description": "Successful work of server api"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "country fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "brand",
+                        "in": "query",
+                        "description": "brand fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "model",
+                        "in": "query",
+                        "description": "model fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "color",
+                        "in": "query",
+                        "description": "color fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "manufacture_date",
+                        "in": "query",
+                        "description": "manufacture_date fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "mileage",
+                        "in": "query",
+                        "description": "mileage fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "integer"
+                        }
+                    },
+                    {
+                        "name": "drive",
+                        "in": "query",
+                        "description": "drive fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "control",
+                        "in": "query",
+                        "description": "control fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "body_type",
+                        "in": "query",
+                        "description": "body_type fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "transmission",
+                        "in": "query",
+                        "description": "transmission fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "insurance",
+                        "in": "query",
+                        "description": "insurance fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -154,10 +276,100 @@
                         }
                     },
                     {
+                        "name": "model",
+                        "in": "query",
+                        "description": "model fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "brand",
+                        "in": "query",
+                        "description": "brand fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "drive",
+                        "in": "query",
+                        "description": "drive fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "body_type",
+                        "in": "query",
+                        "description": "body_type fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "transmission",
+                        "in": "query",
+                        "description": "transmission fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "insurance",
+                        "in": "query",
+                        "description": "insurance fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "manufacture_date",
+                        "in": "query",
+                        "description": "manufacture_date fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "mileage",
+                        "in": "query",
+                        "description": "mileage fuild",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "integer"
+                        }
+                    },
+                    {
+                        "name": "control",
+                        "in": "query",
+                        "description": "control fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
                         "name": "description",
                         "in": "query",
                         "description": "description fuild",
-                        "required": true,
+                        "required": false,
                         "schema": {
                             "type": "string",
                             "format": "string"
@@ -171,16 +383,6 @@
                         "schema": {
                             "type": "string",
                             "format": "integer"
-                        }
-                    },
-                    {
-                        "name": "model",
-                        "in": "query",
-                        "description": "model fuild",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "string"
                         }
                     }
                 ]
@@ -236,26 +438,6 @@
                         }
                     },
                     {
-                        "name": "color",
-                        "in": "query",
-                        "description": "color fuild",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "string"
-                        }
-                    },
-                    {
-                        "name": "type",
-                        "in": "query",
-                        "description": "type fuild",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "format": "string"
-                        }
-                    },
-                    {
                         "name": "description",
                         "in": "query",
                         "description": "description fuild",
@@ -276,9 +458,109 @@
                         }
                     },
                     {
+                        "name": "color",
+                        "in": "query",
+                        "description": "color fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
                         "name": "model",
                         "in": "query",
                         "description": "model fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "brand",
+                        "in": "query",
+                        "description": "brand fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "drive",
+                        "in": "query",
+                        "description": "drive fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "body_type",
+                        "in": "query",
+                        "description": "body_type fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "transmission",
+                        "in": "query",
+                        "description": "transmission fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "insurance",
+                        "in": "query",
+                        "description": "insurance fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    },
+                    {
+                        "name": "manufacture_date",
+                        "in": "query",
+                        "description": "manufacture_date fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "mileage",
+                        "in": "query",
+                        "description": "mileage fuild",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "integer"
+                        }
+                    },
+                    {
+                        "name": "control",
+                        "in": "query",
+                        "description": "control fuild",
                         "required": false,
                         "schema": {
                             "type": "string",
@@ -461,6 +743,33 @@
                         "in": "query",
                         "description": "mode fuild",
                         "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/import/status/": {
+            "get": {
+                "tags": [
+                    "ImportStatusViewController"
+                ],
+                "summary": "Set your summary",
+                "description": "Set your description",
+                "operationId": "import-status-view",
+                "responses": {
+                    "200": {
+                        "description": "Successful work of server api"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "filename",
+                        "in": "query",
+                        "description": "filename fuild",
+                        "required": true,
                         "schema": {
                             "type": "string",
                             "format": "string"

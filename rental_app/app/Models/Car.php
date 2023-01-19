@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\Filterable;
+use App\Module\Car\Enum as Enums;
 use Ramsey\Uuid\Uuid;
 
 final class Car extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     /**
      * Следует ли обрабатывать временные метки модели.
@@ -37,11 +39,11 @@ final class Car extends Model
         'manufacture_date',
         'mileage',
         'drive',
-        'is_right_hand',
+        'control',
         'body_type',
         'transmission',
         'insurance',
-        'type',
+        'class',
     ];
 
     /**

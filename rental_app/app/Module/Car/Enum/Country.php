@@ -6,6 +6,8 @@ namespace App\Module\Car\Enum;
 
 enum Country: string
 {
+    use \App\Common\Enum\EnumToArray;
+
     case GERMAN = 'German';
     case RUSSIA = 'Russia';
     case FRANCE = 'France';

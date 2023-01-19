@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Rental;
 
 use App\Repository\CustomCarRepository as CCR;
 use Illuminate\Contracts\Validation\Validator;

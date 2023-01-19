@@ -6,6 +6,7 @@ namespace App\Module\Car\Enum;
 
 enum BodyType: string
 {
+    use \App\Common\Enum\EnumToArray;
     case SEDAN = 'sedan';
     case HETCHBACK = 'hetchback';
     case SPORT = 'sport';

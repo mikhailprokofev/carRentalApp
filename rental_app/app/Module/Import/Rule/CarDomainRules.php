@@ -31,9 +31,9 @@ final class CarDomainRules implements DomainRulesInterface
             'body_type' => ['required', new Enum(BodyType::class)],
             'transmission' => ['required', new Enum(Transmission::class)],
             'insurance' => ['required', new Enum(Insurance::class)],
-            'manufacture_date' => 'bail|required|date|before:today',
+            'control' => ['required', new Enum(Control::class)],
+            'manufacture_date' => 'bail|required|integer',
             'mileage' => 'bail|required|integer|min:0',
-            'is_right_hand' => 'bail|boolean',
         ];
     }
 
