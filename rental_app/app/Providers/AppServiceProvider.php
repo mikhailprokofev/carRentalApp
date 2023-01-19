@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Common\Rules\NumberPlateRule;
 use App\Common\Rules\WorkDayRule;
 use Illuminate\Contracts\Validation\Factory as ValidatorFactory;
 use Illuminate\Support\ServiceProvider;
@@ -40,5 +41,6 @@ final class AppServiceProvider extends ServiceProvider
     public function boot(ValidatorFactory $validator): void
     {
         $validator->extend('workday', WorkDayRule::class);
+        $validator->extend('number_plate', NumberPlateRule::class);
     }
 }

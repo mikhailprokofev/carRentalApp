@@ -35,7 +35,7 @@ final class StoreCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'number_plate' => 'required|string|unique:cars',
+            'number_plate' => 'required|string|unique:cars|number_plate',
             'color' => ['required', new Enum(Color::class)],
             'type' => ['required', new Enum(Type::class)],
             'model' => ['required', new Enum(Model::class)],
