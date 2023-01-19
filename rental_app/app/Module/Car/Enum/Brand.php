@@ -26,4 +26,15 @@ enum Brand: string
             Country::JAPAN  => [static::HONDA],
         };
     }
+
+    public function country(): Country
+    {
+        return match ($this) {
+            static::AUDI, static::VOLKSWAGEN => Country::GERMAN,
+            static::RENAULT => Country::FRANCE,
+            static::LADA => Country::RUSSIA,
+            static::KIA => Country::KOREA,
+            static::HONDA => Country::JAPAN,
+        };
+    }
 }

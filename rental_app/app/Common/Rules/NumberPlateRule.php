@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Common\Rules;
 
-use App\Module\Car\Utility\NumberPlate;
+use App\Module\Car\Utility\NumberPlate\NumberPlate;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Validation\Validator;
 

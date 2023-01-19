@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Country
+enum Country: string
 {
-    case GERMAN;
-    case RUSSIA;
-    case FRANCE;
-    case KOREA;
-    case JAPAN;
+    case GERMAN = 'German';
+    case RUSSIA = 'Russia';
+    case FRANCE = 'France';
+    case KOREA = 'Korea';
+    case JAPAN = 'Japan';
 
     public function getByBrand($brand)
     {

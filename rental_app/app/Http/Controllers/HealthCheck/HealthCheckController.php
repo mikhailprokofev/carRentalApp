@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers\HealthCheck;
 
 use App\Common\Validator\DomainValidator;
-use App\Http\Controllers\Controller;
-use App\Models\ImportStatus;
 use App\Common\Validator\Rule\RentalDomainRule;
-use App\Module\Car\Utility\NumberPlate;
-use App\Module\Import\Enum\ImportStatusEnum;
+use App\Http\Controllers\Controller;
+use App\Module\Car\Utility\NumberPlate\NumberPlate;
 use OpenApi\Attributes as OA;
 
 final class HealthCheckController extends Controller

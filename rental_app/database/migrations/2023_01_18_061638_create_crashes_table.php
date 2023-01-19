@@ -29,10 +29,10 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::table('crashes', function (Blueprint $table) {
-            $table->dropUnique('crashes_crash_unique');
-            $table->dropForeign('crashes_car_id_foreign');
-        });
+//        Schema::table('crashes', function (Blueprint $table) {
+//            $table->dropUnique('crashes_crash_unique');
+//            $table->dropForeign('crashes_car_id_foreign');
+//        });
         Schema::dropIfExists('crashes');
     }
 };

@@ -2,20 +2,15 @@
 
 declare(strict_types=1);
 
-use App\Models\Rental;
+use Database\Seeders\CarSeeder;
 use Illuminate\Database\Seeder;
 
 final class DatabaseSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run(): void
     {
-        Rental::factory()
-            ->count(5)
-                ->create();
+        $this->call([
+            CarSeeder::class,
+        ]);
     }
 }

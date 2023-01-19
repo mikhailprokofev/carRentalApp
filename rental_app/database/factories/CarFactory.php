@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Car;
+use App\Module\Car\Enum\Brand;
+use App\Module\Car\Enum\Color;
+use App\Module\Car\Enum\Drive;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 final class CarFactory extends Factory
@@ -18,7 +21,7 @@ final class CarFactory extends Factory
      */
     public function definition()
     {
-        $faker = \Faker\Factory::create();
+//        $faker = \Faker\Factory::create();
 
         $typesArray = [
             'Econom',
@@ -34,19 +37,30 @@ final class CarFactory extends Factory
             'Reno Logan',
         ];
 
+        $brand = $this->faker->randomElement(Brand::cases());
+        $country = $brand->country();
+        $color = $this->faker->randomElement(Color::cases());
+        $drive = $this->faker->randomElement(Drive::cases());
+
         return [
-            'id' => $faker->uuid(),
-            'number_plate' => $faker->languageCode() .
-                $faker->numberBetween(100, 999) .
-                $faker->languageCode(),
-            'color' => $faker->colorName(),
+            'id' => $this->faker->uuid(),
+            'brand' => $brand->value,
+            'country' => $country->value,
+            'color' => $color->value,
+            'description' => $this->faker->realText(),
+            'manufacture_date' => $this->faker->date(),
+            'mileage' => $this->faker->numerify('######'),
+            'drive' => $drive->value,
+
+            'number_plate' => $this->faker->languageCode() .
+                $this->faker->numberBetween(100, 999) .
+                $this->faker->languageCode(),
             'type' => $typesArray[
-                $faker->numberBetween(0, 2)
+                $this->faker->numberBetween(0, 2)
             ],
-            'description' => $faker->text(80),
-            'base_salary' => 100 * $faker->numberBetween(1, 15),
+            'base_salary' => 100 * $this->faker->numberBetween(1, 15),
             'model' => $carModels[
-                $faker->numberBetween(0, 2)
+                $this->faker->numberBetween(0, 2)
             ],
         ];
     }

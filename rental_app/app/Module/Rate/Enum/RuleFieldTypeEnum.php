@@ -11,7 +11,7 @@ enum RuleFieldTypeEnum: string
     case UUID = 'uuid';
     case DATE = 'date';
 
-    public static function isEqual(string $value)
+    public static function isEqual(string $value): string
     {
         $filter = array_filter(
             RuleFieldTypeEnum::cases(),

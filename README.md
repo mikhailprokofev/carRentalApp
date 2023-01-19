@@ -9,3 +9,6 @@ php artisan l5-swagger:generate
 
 # Queue start
 php artisan queue:work
+
+# Seeder
+php artisan migrate:fresh --seed
