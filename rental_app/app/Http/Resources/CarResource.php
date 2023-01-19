@@ -43,8 +43,12 @@ final class CarResource extends JsonResource
         ];
     }
 
-    private function currentOperatingTimeString(string $start): string
+    private function currentOperatingTimeString(string|null $start): string
     {
+
+        if (is_null($start))
+            return 'new car (dont used)';
+
         $period = date_diff(
             new \DateTime($start),
             new \DateTime('now')

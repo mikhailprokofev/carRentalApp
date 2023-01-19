@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Country
+enum Country : string
 {
     use \App\Common\Enum\EnumToArray;
-    case GERMAN;
-    case RUSSIA;
-    case FRANCE;
-    case KOREA;
-    case JAPAN;
+    case GERMAN = 'German';
+    case RUSSIA = 'Russia';
+    case FRANCE = 'France';
+    case KOREA = 'Korea';
+    case JAPAN = 'Japan';
 
-    public function getByBrand($brand)
+    public static function getByBrand($brand)
     {
-        return match ($brand) {
-            Brand::AUDI         => static::GERMAN,
-            Brand::VOLKSWAGEN   => static::GERMAN,
-            Brand::RENAULT      => static::FRANCE,
-            Brand::LADA         => static::RUSSIA,
-            Brand::KIA          => static::KOREA,
-            Brand::HONDA        => static::JAPAN,
-        };
+        $country = (match ($brand) {
+            Brand::AUDI->value         => static::GERMAN,
+            Brand::VOLKSWAGEN->value   => static::GERMAN,
+            Brand::RENAULT->value      => static::FRANCE,
+            Brand::LADA->value         => static::RUSSIA,
+            Brand::KIA->value          => static::KOREA,
+            Brand::HONDA->value        => static::JAPAN,
+        });
+        return $country->value;
     }
 }

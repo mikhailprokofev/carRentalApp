@@ -8,6 +8,7 @@ use App\Http\Attributes\RouteAttribute as RA;
 use App\Http\Requests\Car\IndexCarRequest;
 use App\Http\Requests\Car\StoreCarRequest;
 use App\Http\Requests\Car\UpdateCarRequest;
+use App\Http\Resources\CarCollection;
 use App\Http\Resources\CarResource;
 use App\Http\Filters\CarFilter;
 use App\Models\Car;
@@ -26,7 +27,7 @@ class CarController extends Controller
             ->with('rentals')
                 ->orderBy('created_at')
                     ->paginate(20);
-        return CarResource::collection($cars);
+        return new CarCollection($cars);
     }
 
     #[
