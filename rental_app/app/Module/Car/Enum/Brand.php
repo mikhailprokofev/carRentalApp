@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
+use App\Common\Enum\EnumToArray;
+
 enum Brand: string
 {
-    use \App\Common\Enum\EnumToArray;
+    use EnumToArray;
+
     case AUDI = 'Audi';
     case VOLKSWAGEN = 'Volkswagen';
     case HONDA = 'Honda';
