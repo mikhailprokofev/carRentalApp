@@ -18,13 +18,13 @@ final class RentalResource extends JsonResource
      */
     public function toArray($request)
     {
-        $rate = (new RateCalculatingService())->calculate(
+        $rate = (new RateCalculatingService(
             date_diff(
                 new DateTimeImmutable($this->rental_end),
                 new DateTimeImmutable($this->rental_start),
             )->days + 1,
             $this->start_salary,
-        );
+        ))->calculate();
 
         return [
             'id' => $this->id,

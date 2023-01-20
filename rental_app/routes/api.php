@@ -13,6 +13,8 @@ use App\Http\Controllers\HealthCheck\HealthCheckController;
 use App\Http\Controllers\RentalController;
 use App\Http\Controllers\ReportLoadCarsController;
 use Illuminate\Support\Facades\Route;
+use App\Module\Rate\Service\RateCalculatingService;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -77,4 +79,11 @@ Route::group([
     Route::get('/logs/csv/{start?}/{end?}', [ExportController::class, 'csv']);
     Route::get('/logs/html/{start?}/{end?}', [ExportController::class, 'html']);
     Route::get('/load/html/{start?}/{end?}', [ExportController::class, 'load']);
+});
+
+Route::get('/calc/{interval}/{rate}', function (int $interval, int $rate) {
+    return (new RateCalculatingService($interval, $rate))->calculate();
+});
+Route::get('/recalc/{interval}/{rate}', function (int $interval, int $rate) {
+    return (new RateCalculatingService($interval, $rate))->reCalculate();
 });

@@ -20,6 +20,8 @@ final class ListAvailableCarRequest extends FormRequest
         return [
             'start_at' => 'bail|required|date|after:today|workday',
             'end_at' => 'bail|required|date|after:start_at|workday',
+            'min_salary'=>'integer|min:1000',
+            'max_salary'=>'integer|min:1000',
         ];
     }
 

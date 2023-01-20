@@ -16,7 +16,12 @@ final class Handler
 
     public function handle(Input $input): array
     {
-        $cars = $this->findCars($input->getStartAt(), $input->getEndAt());
+        $cars = $this->findCars(
+            $input->getStartAt(),
+            $input->getEndAt(),
+            $input->getMinSalary(),
+            $input->getMaxSalary()
+        );
         return $this->makeOutput($cars);
     }
 
@@ -31,8 +36,8 @@ final class Handler
         ];
     }
 
-    private function findCars(string $startAt, string $endAt): Collection
+    private function findCars(string $startAt, string $endAt, int $min, int $max): Collection
     {
-        return $this->carRepository->findAvailableCars($startAt, $endAt);
+        return $this->carRepository->withFilters($startAt, $endAt, $min, $max);
     }
 }

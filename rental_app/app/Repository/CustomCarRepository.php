@@ -7,6 +7,7 @@ namespace App\Repository;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use phpseclib3\Crypt\EC\Curves\prime192v1;
 use Ramsey\Uuid\UuidInterface;
 
 final class CustomCarRepository implements CustomCarRepositoryInterface
@@ -59,20 +60,38 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
         string $end,
         int $restDays = 4
     ): Collection {
-        $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
+        $subQb = $this->subFindAvailableCars($start, $end, $restDays);
 
-        $qb = DB::table('cars', 'c')
-            ->leftJoinSub($subQb, 'r', function ($join) {
-                $join->on('c.id', '=', 'r.car_id');
-            })
-            ->whereNull('r.car_id')
+        $subQb
             ->where('c.number_plate', $numberPlate);
 
-        return $qb->get();
+        return $subQb->get();
     }
 
     // TODO: optimize: duplicate in findAffordableCarById
     public function findAvailableCars(string $start, string $end, int $restDays = 4): Collection
+    {
+        $subQb = $this->subFindAvailableCars($start, $end, $restDays);
+
+        return $subQb->get();
+    }
+
+    public function withFilters(string $start, string $end, ?int $min, ?int $max, int $restDays = 4): Collection
+    {
+        $subQb = $this->subFindAvailableCars($start, $end, $restDays);
+
+        $qb = $subQb;
+        if (!empty($min)) {
+            $qb = $subQb->Where('c.base_salary', '>=', $min);
+        }
+        if (!empty($max)) {
+            $qb = $subQb->Where('c.base_salary', '<=', $max);
+        }
+        // dd($qb->toSql());
+        return $qb->get();
+    }
+
+    private function subFindAvailableCars(string $start, string $end, int $restDays = 4): Builder
     {
         $subQb = $this->subQueryFindAffordable($start, $end, $restDays);
 
@@ -82,7 +101,7 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
             })
             ->whereNull('r.car_id');
 
-        return $qb->get();
+        return $qb;
     }
 
     public function isExistByNumberPlate(string $numberPlate): bool

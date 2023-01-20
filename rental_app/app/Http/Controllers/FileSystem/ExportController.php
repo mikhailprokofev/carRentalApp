@@ -156,13 +156,13 @@ final class ExportController extends Controller
                 $content .= $delimetr['cell_l'] . $cell .  $delimetr['cell_r'];
             }
             else {
-                $rate = (new RateCalculatingService())->calculate(
+                $rate = (new RateCalculatingService(
                     date_diff(
                         new DateTimeImmutable($row->End),
                         new DateTimeImmutable($row->Start),
                     )->days + 1,
                     $row->Salary,
-                );
+                    ))->calculate();
 
                 $content .= $delimetr['cell_l'];
                 $content .= number_format((float) round($rate / 100, 2), 2, '.', '');
