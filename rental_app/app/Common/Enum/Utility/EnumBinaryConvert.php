@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Rate\Utility;
+namespace App\Common\Enum\Utility;
 
 final class EnumBinaryConvert
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Common\Enum;
+namespace App\Common\Enum\Traits;
 
 trait EnumToArray
 {

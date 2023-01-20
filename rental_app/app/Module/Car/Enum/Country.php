@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Country : string
+use App\Common\Enum\Traits\EnumToArray;
+
+enum Country: string
 {
-    use \App\Common\Enum\EnumToArray;
+    use EnumToArray;
+
     case GERMAN = 'German';
     case RUSSIA = 'Russia';
     case FRANCE = 'France';
