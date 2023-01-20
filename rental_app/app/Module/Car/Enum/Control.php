@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-enum Control : string
-{
+use App\Common\Enum\Traits\EnumToArray;
 
-    use \App\Common\Enum\EnumToArray;
+enum Control: string
+{
+    use EnumToArray;
+
     case RIGHT = 'right';
     case LEFT = 'left';
 
-    public static function isRight($side)
+    public static function isRight($side): bool
     {
-        return $side == static::RIGHT->name;
+        return $side == self::RIGHT->name;
     }
 }

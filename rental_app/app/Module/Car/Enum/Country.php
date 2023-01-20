@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-use App\Common\Enum\EnumToArray;
+use App\Common\Enum\Traits\EnumToArray;
 
 enum Country: string
 {
@@ -16,7 +16,7 @@ enum Country: string
     case KOREA = 'Korea';
     case JAPAN = 'Japan';
 
-    public function getByBrand($brand)
+    public function getByBrand($brand): self
     {
         return match ($brand) {
             Brand::AUDI         => static::GERMAN,

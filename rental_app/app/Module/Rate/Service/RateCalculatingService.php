@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Module\Rate\Service;
 
+use App\Common\Enum\Utility\EnumBinaryConvert;
 use App\Module\Rate\Enum\DayEnum;
 use App\Module\Rate\Enum\PercentEnum;
-use App\Module\Rate\Utility\EnumBinaryConvert;
 
 final class RateCalculatingService implements RateCalculatingServiceInterface
 {

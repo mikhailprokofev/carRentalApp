@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
-use App\Module\Rate\Enum\RuleFieldTypeEnum;
+use App\Component\AutoDoc\Enum\RuleFieldTypeEnum;
 use Illuminate\Console\Command;
 
 final class AutoDoc extends Command

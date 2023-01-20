@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Rate\Enum;
+namespace App\Component\AutoDoc\Enum;
 
 enum RuleFieldTypeEnum: string
 {

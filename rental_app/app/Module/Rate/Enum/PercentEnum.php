@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Module\Rate\Enum;
 
+use App\Common\Enum\BinaryEnumInterface;
+
 enum PercentEnum: int implements BinaryEnumInterface
 {
     case ZERO_PERCENT = 0;
