@@ -13,4 +13,5 @@ enum Transmission: string
     case Manual = 'manual';
     case Automatic = 'automatic';
     case Robotic ='robotic';
+    case Variable = 'CVT'; // variable speed drive
 }

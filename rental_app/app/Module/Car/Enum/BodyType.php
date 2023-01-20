@@ -15,4 +15,11 @@ enum BodyType: string
     case SPORT = 'sport';
     case SUV = 'suv';
     case UNIVERSAL = 'universal';
+    case MINIVAN = 'minivan';
+    case COUPE = 'coupe';
+    case CABRIOLET = 'cabriolet';
+    case LIFTBACK = 'liftback';
+    case MINIBUS = 'minibus';
+    case PICKUP = 'pickup';
+    case VAN = 'van';
 }
