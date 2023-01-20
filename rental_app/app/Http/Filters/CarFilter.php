@@ -33,12 +33,12 @@ class CarFilter extends QueryFilter
 
     public function min_manufacture_date(string $manufacture_date)
     {
-        $this->builder->where('manufacture_date', '>' ,$manufacture_date);
+        $this->builder->where('manufacture_date', '>=' ,$manufacture_date);
     }
 
     public function max_manufacture_date(string $manufacture_date)
     {
-        $this->builder->where('manufacture_date', '<', $manufacture_date);
+        $this->builder->where('manufacture_date', '<=', $manufacture_date);
     }
 
     public function mileage(string $mileage)
@@ -48,12 +48,12 @@ class CarFilter extends QueryFilter
 
     public function min_mileage(string $mileage)
     {
-        $this->builder->where('mileage','>', $mileage);
+        $this->builder->where('mileage','>=', $mileage);
     }
 
     public function max_mileage(string $mileage)
     {
-        $this->builder->where('mileage','<', $mileage);
+        $this->builder->where('mileage','<=', $mileage);
     }
 
     public function drive(string $drive)
@@ -82,8 +82,24 @@ class CarFilter extends QueryFilter
         $this->builder->where('insurance', $insurance);
     }
 
-    public function type(string $type)
+    public function class(string $class)
     {
-        $this->builder->where('type', $type);
+        $this->builder->where('class', $class);
     }
+
+    public function base_salary(string $base_salary)
+    {
+        $this->builder->where('base_salary', $base_salary);
+    }
+
+    public function min_base_salary(string $base_salary)
+    {
+        $this->builder->where('base_salary', $base_salary);
+    }
+
+    public function max_base_salary(string $base_salary)
+    {
+        $this->builder->where('base_salary','',$base_salary);
+    }
+
 }

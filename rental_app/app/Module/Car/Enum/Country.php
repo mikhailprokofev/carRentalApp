@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Enum;
 
-use App\Common\Enum\BinaryEnumInterface;
 use App\Common\Enum\Traits\EnumToArray;
 
-enum Country: string implements BinaryEnumInterface
+enum Country: string
 {
-    public const BINARY_INT = 1;
-
     use EnumToArray;
 
     case GERMAN = 'German';
@@ -19,14 +16,16 @@ enum Country: string implements BinaryEnumInterface
     case KOREA = 'Korea';
     case JAPAN = 'Japan';
 
-    public function getBinaryInt(): int
+    public static function getByBrand($brand)
     {
-        return match ($this) {
-            self::GERMAN => self::BINARY_INT << 0,
-            self::RUSSIA => self::BINARY_INT << 1,
-            self::FRANCE => self::BINARY_INT << 2,
-            self::KOREA => self::BINARY_INT << 3,
-            self::JAPAN => self::BINARY_INT << 4,
-        };
+        $country = (match ($brand) {
+            Brand::AUDI->value         => static::GERMAN,
+            Brand::VOLKSWAGEN->value   => static::GERMAN,
+            Brand::RENAULT->value      => static::FRANCE,
+            Brand::LADA->value         => static::RUSSIA,
+            Brand::KIA->value          => static::KOREA,
+            Brand::HONDA->value        => static::JAPAN,
+        });
+        return $country->value;
     }
 }

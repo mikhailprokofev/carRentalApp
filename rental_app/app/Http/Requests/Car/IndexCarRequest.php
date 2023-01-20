@@ -36,18 +36,23 @@ final class IndexCarRequest extends FormRequest
     public function rules()
     {
         return [
-            'country'  => ['string', new Enum(Country::class)],
-            'brand' => ['string', new Enum(Brand::class)],
-            'model' => ['string', new Enum(Model::class)],
-            'color' => ['string', new Enum(Color::class)],
-            'class' => ['string', new Enum(Type::class)],
-            'manufacture_date' => 'bail|integer',
-            'mileage' => 'bail|integer|min:0',
-            'drive' => ['string', new Enum(Drive::class)],
-            'control' => ['string', new Enum(Control::class)],
-            'body_type' => ['string', new Enum(BodyType::class)],
-            'transmission' => ['string', new Enum(Transmission::class)],
-            'insurance' => ['string', new Enum(Insurance::class)],
+            'country'               => ['string', new Enum(Country::class)],
+            'brand'                 => ['string', new Enum(Brand::class)],
+            'model'                 => ['string', new Enum(Model::class)],
+            'color'                 => ['string', new Enum(Color::class)],
+            'manufacture_date'      => 'bail|integer',
+            'min_manufacture_date'  => 'bail|integer',
+            'max_manufacture_date'  => 'bail|integer',
+            'mileage'               => 'bail|integer|min:0',
+            'min_mileage'           => 'bail|integer|min:0',
+            'max_mileage'           => 'bail|integer|min:0',
+            'drive'                 => ['string', new Enum(Drive::class)],
+            'control'               => ['string', new Enum(Control::class)],
+            'body_type'             => ['string', new Enum(BodyType::class)],
+            'transmission'          => ['string', new Enum(Transmission::class)],
+            'insurance'             => ['string', new Enum(Insurance::class)],
+            'class'                 => ['string', new Enum(Type::class)],
+            'base_salary'           => 'bail|integer|min:0',
         ];
     }
 }
