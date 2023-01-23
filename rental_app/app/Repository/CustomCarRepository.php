@@ -87,7 +87,7 @@ final class CustomCarRepository implements CustomCarRepositoryInterface
         if (!empty($max)) {
             $qb = $subQb->Where('c.base_salary', '<=', $max);
         }
-        // dd($qb->toSql());
+
         return $qb->get();
     }
 

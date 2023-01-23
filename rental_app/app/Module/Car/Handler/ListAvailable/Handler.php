@@ -22,8 +22,8 @@ final class Handler
         $start = new \DateTimeImmutable($input->getStartAt());
         $end = new \DateTimeImmutable($input->getEndAt());
         $dateInterval = date_diff($end,$start)->days + 1;
-        $minRate = $this->rateService->calculate($dateInterval, $input->getMinSalary(),'into');
-        $maxRate = $this->rateService->calculate($dateInterval, $input->getMaxSalary(),'into');
+        $minRate = $this->rateService->calculate($dateInterval, $input->getMinSalary(),'reverse');
+        $maxRate = $this->rateService->calculate($dateInterval, $input->getMaxSalary(),'reverse');
 
         $cars = $this->findCars(
             $input->getStartAt(),
