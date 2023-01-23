@@ -16,7 +16,9 @@ use App\Module\Car\Enum\Transmission;
 use App\Module\Car\Enum\Type;
 use App\Module\Car\Utility\NumberPlate\NumberPlate;
 use App\Module\Car\Utility\NumberPlate\NumberPlateDict;
+use BackedEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 
 final class CarFactory extends Factory
 {
@@ -30,7 +32,7 @@ final class CarFactory extends Factory
     public function definition()
     {
         // TODO: подумать куда перенести
-        $dependencies = file_get_contents(storage_path('app') . '/' . "car_dependencies.json");
+        $dependencies = Storage::get("car_dependencies.json");
         $dependencies = json_decode($dependencies, true);
 
         $dependence = $this->faker->randomElement($dependencies['data']);
@@ -44,28 +46,10 @@ final class CarFactory extends Factory
         $color = $this->faker->randomElement(Color::cases());
         $insurance = $this->faker->randomElement(Insurance::cases());
 
-        $drive = is_array($dependence['drive'])
-            ? $this->faker->randomElement($dependence['drive'])
-            : $dependence['drive'];
-        $control = is_array($dependence['control'])
-            ? $this->faker->randomElement($dependence['control'])
-            : $dependence['control'];
-        $bodyType = is_array($dependence['body_type'])
-            ? $this->faker->randomElement($dependence['body_type'])
-            : $dependence['body_type'];
-        $transmission = is_array($dependence['transmission'])
-            ? $this->faker->randomElement($dependence['transmission'])
-            : $dependence['transmission'];
-
-        $drive = Drive::tryFrom($drive);
-        $control = Control::tryFrom($control);
-        $bodyType = BodyType::tryFrom($bodyType);
-        $transmission = Transmission::tryFrom($transmission);
-
-        $this->generateNumberPlate();
-
-        $cost = $class->cost();
-        $baseSalary = is_array($cost) ? $this->faker->numberBetween($cost['from'], $cost['to']) : $cost;
+        $drive = $this->randomEnumElement($dependence, 'drive', Drive::class);
+        $control = $this->randomEnumElement($dependence, 'control', Control::class);
+        $bodyType = $this->randomEnumElement($dependence, 'body_type', BodyType::class);
+        $transmission = $this->randomEnumElement($dependence, 'transmission', Transmission::class);
 
         return [
             'id' => $this->faker->uuid(),
@@ -83,8 +67,19 @@ final class CarFactory extends Factory
             'body_type' => $bodyType->value,
             'transmission' => $transmission->value,
             'number_plate' => $this->generateNumberPlate(),
-            'base_salary' => $baseSalary * 100,
+            'base_salary' => $class->calculateCost() * 100,
         ];
+    }
+
+    private function randomEnumElement(array $elements, string $key, string $classEnum): ?BackedEnum
+    {
+        $variants = $elements[$key];
+
+        $variant = is_array($variants)
+            ? $this->faker->randomElement($variants)
+            : $variants;
+
+        return method_exists($classEnum, 'tryFrom') ? $classEnum::tryFrom($variant) : null;
     }
 
     private function generateNumberPlate(): string
