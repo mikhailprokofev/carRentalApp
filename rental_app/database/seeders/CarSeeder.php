@@ -13,6 +13,9 @@ final class CarSeeder extends Seeder
 
     public function run(): void
     {
+//        $dependencies = file_get_contents(storage_path('app') . '/' . "car_dependencies.json");
+//        $dependencies = json_decode($dependencies, true);
+
         Car::factory()
             ->count(self::COUNT_CARS)
             ->create();

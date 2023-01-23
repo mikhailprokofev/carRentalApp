@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\Models\Car;
-use App\Module\Car\Dependency\EnumDependencies;
 use App\Module\Car\Enum\BodyType;
 use App\Module\Car\Enum\Brand;
 use App\Module\Car\Enum\Color;
 use App\Module\Car\Enum\Control;
 use App\Module\Car\Enum\Drive;
 use App\Module\Car\Enum\Insurance;
+use App\Module\Car\Enum\Model;
 use App\Module\Car\Enum\Transmission;
 use App\Module\Car\Enum\Type;
 use App\Module\Car\Utility\NumberPlate\NumberPlate;
@@ -29,38 +29,61 @@ final class CarFactory extends Factory
      */
     public function definition()
     {
-        $brand = $this->faker->randomElement(Brand::cases());
+        // TODO: подумать куда перенести
+        $dependencies = file_get_contents(storage_path('app') . '/' . "car_dependencies.json");
+        $dependencies = json_decode($dependencies, true);
+
+        $dependence = $this->faker->randomElement($dependencies['data']);
+
+        $brand = Brand::tryFrom($dependence['brand']);
+        $model = Model::tryFrom($dependence['model']);
+        $class = Type::tryFrom($dependence['class']);
+
         $country = $brand->country();
+
         $color = $this->faker->randomElement(Color::cases());
-        $drive = $this->faker->randomElement(Drive::cases());
         $insurance = $this->faker->randomElement(Insurance::cases());
-        $control = $this->faker->randomElement(Control::cases());
-        $bodyType = $this->faker->randomElement(BodyType::cases());
-        $transmission = $this->faker->randomElement(Transmission::cases());
-        $model = $this->faker->randomElement(EnumDependencies::getModelsByBrand($brand));
+
+        $drive = is_array($dependence['drive'])
+            ? $this->faker->randomElement($dependence['drive'])
+            : $dependence['drive'];
+        $control = is_array($dependence['control'])
+            ? $this->faker->randomElement($dependence['control'])
+            : $dependence['control'];
+        $bodyType = is_array($dependence['body_type'])
+            ? $this->faker->randomElement($dependence['body_type'])
+            : $dependence['body_type'];
+        $transmission = is_array($dependence['transmission'])
+            ? $this->faker->randomElement($dependence['transmission'])
+            : $dependence['transmission'];
+
+        $drive = Drive::tryFrom($drive);
+        $control = Control::tryFrom($control);
+        $bodyType = BodyType::tryFrom($bodyType);
+        $transmission = Transmission::tryFrom($transmission);
 
         $this->generateNumberPlate();
+
+        $cost = $class->cost();
+        $baseSalary = is_array($cost) ? $this->faker->numberBetween($cost['from'], $cost['to']) : $cost;
 
         return [
             'id' => $this->faker->uuid(),
             'brand' => $brand->value,
+            'model' => $model->value,
+            'class' => $class->value,
             'country' => $country->value,
             'color' => $color->value,
             'description' => $this->faker->realText(),
             'manufacture_date' => $this->faker->year(),
             'mileage' => $this->faker->numerify('######'),
             'drive' => $drive->value,
-            'model' => $model->value,
             'insurance' => $insurance->value,
             'control' => $control->value,
             'body_type' => $bodyType->value,
             'transmission' => $transmission->value,
             'number_plate' => $this->generateNumberPlate(),
-
-            // class + base_salary
-
-            'class' => Type::Econom->value,
-            'base_salary' => 100 * $this->faker->numberBetween(1, 15),
+            'base_salary' => $baseSalary * 100,
         ];
     }
 
