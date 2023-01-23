@@ -32,7 +32,7 @@ final class CarFactory extends Factory
     public function definition()
     {
         // TODO: подумать куда перенести
-        $dependencies = Storage::get("car_dependencies.json");
+        $dependencies = Storage::get('car_dependencies.json');
         $dependencies = json_decode($dependencies, true);
 
         $dependence = $this->faker->randomElement($dependencies['data']);

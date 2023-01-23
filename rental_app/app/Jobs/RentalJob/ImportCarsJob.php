@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs\RentalJob;
 
 use App\Models\ImportStatus;
+use App\Module\Car\Enum\Country;
 use App\Module\Import\Enum\ImportStatusEnum;
 use App\Module\Import\Rule\CarDomainRules;
 use App\Module\Import\Validator\DomainValidator;
@@ -66,6 +67,10 @@ final class ImportCarsJob implements ShouldQueue
 
             foreach ($rawData as $row) {
                 try {
+                    $row = array_merge($row, [
+                        'country' => Country::getByBrand($row['brand']),
+                    ]);
+
                     $this->validator->validate($row, $importStatus);
 
                     $result[] = $row;

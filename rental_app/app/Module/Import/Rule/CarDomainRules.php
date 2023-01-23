@@ -7,6 +7,8 @@ namespace App\Module\Import\Rule;
 use App\Module\Car\Enum\BodyType;
 use App\Module\Car\Enum\Brand;
 use App\Module\Car\Enum\Color;
+use App\Module\Car\Enum\Control;
+use App\Module\Car\Enum\Country;
 use App\Module\Car\Enum\Drive;
 use App\Module\Car\Enum\Insurance;
 use App\Module\Car\Enum\Model;
@@ -21,19 +23,20 @@ final class CarDomainRules implements DomainRulesInterface
     {
         return [
             'number_plate' => 'required|string|number_plate',
-            'description' => 'nullable|string',
-            'base_salary' => 'bail|required|integer|min:100000|max:500000',
-            'color' => ['required', new Enum(Color::class)],
-            'type' => ['required', new Enum(Type::class)],
+            'class' => ['required','string', new Enum(Type::class)],
             'model' => ['required', new Enum(Model::class)],
             'brand' => ['required', new Enum(Brand::class)],
+            'base_salary' => 'bail|required|integer|min:100000|max:500000',
+            'color' => ['required', new Enum(Color::class)],
             'drive' => ['required', new Enum(Drive::class)],
+            'control' => ['required', new Enum(Control::class)],
             'body_type' => ['required', new Enum(BodyType::class)],
             'transmission' => ['required', new Enum(Transmission::class)],
             'insurance' => ['required', new Enum(Insurance::class)],
-            'control' => ['required', new Enum(Control::class)],
-            'manufacture_date' => 'bail|required|integer',
+            'manufacture_date' => 'bail|required|integer|min:1950',
             'mileage' => 'bail|required|integer|min:0',
+            'description' => 'nullable|string',
+            'country' => ['required','string', new Enum(Country::class)],
         ];
     }
 
