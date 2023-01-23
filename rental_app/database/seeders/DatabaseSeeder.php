@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Database\Seeders\CarSeeder;
 use Illuminate\Database\Seeder;
+use Database\Seeders\RentalSeeder;
 
 final class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,7 @@ final class DatabaseSeeder extends Seeder
     {
         $this->call([
             CarSeeder::class,
+            RentalSeeder::class,
         ]);
     }
 }

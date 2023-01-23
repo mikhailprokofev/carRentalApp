@@ -82,8 +82,8 @@ Route::group([
 });
 
 Route::get('/calc/{interval}/{rate}', function (int $interval, int $rate) {
-    return (new RateCalculatingService($interval, $rate))->calculate();
+    return (new RateCalculatingService())->calculate($interval, $rate, 'into');
 });
 Route::get('/recalc/{interval}/{rate}', function (int $interval, int $rate) {
-    return (new RateCalculatingService($interval, $rate))->reCalculate();
+    return (new RateCalculatingService())->calculate($interval, $rate, 'reverse');
 });

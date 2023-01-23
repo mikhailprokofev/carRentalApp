@@ -51,7 +51,6 @@ return new class extends Migration
                     'class',
                 ]
             );
-            $table->string('type');
         });
     }
 };

@@ -6,6 +6,5 @@ namespace App\Module\Rate\Service;
 
 interface RateCalculatingServiceInterface
 {
-    public function calculate(): int;
-    public function reCalculate(): int;
+    public function calculate(int $interval, int|null $rate, string $strategy): int|null;
 }

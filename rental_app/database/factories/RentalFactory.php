@@ -19,11 +19,17 @@ final class RentalFactory extends Factory
     {
         $faker = Faker::create();
 
+        $car = (Car::factory()->count(1)->create())[0];
+
+        $interval = $faker->numberBetween(0, 30);
+        $start = $faker->dateTimeInInterval('now', '+1 day');
+        $end = $faker->dateTimeInInterval($start, "+$interval days");
+
         return [
-            'start_salary' => 1000 * $faker->numberBetween(1, 5),
-            'rental_start' => $faker->dateTimeInInterval('now', '+ 1 year'),
-            'rental_end' => $faker->dateTimeInInterval('now', '+ 1 year'),
-            'car_id' => Car::factory(),
+            'start_salary' => $car['base_salary'],
+            'rental_start' => $start,
+            'rental_end' => $end,
+            'car_id' => $car['id'],
         ];
     }
 }

@@ -1,0 +1,139 @@
+{
+  "data": [
+    {
+      "brand": "Audi",
+      "model": "A3",
+      "class": "luxury",
+      "body_type": ["sedan", "hetchback"],
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": "automatic"
+    },
+    {
+      "brand": "Audi",
+      "model": "A4",
+      "class": "luxury",
+      "body_type": ["sedan", "universal"],
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": "automatic"
+    },
+    {
+      "brand": "Audi",
+      "model": "A5",
+      "class": "luxury",
+      "body_type": ["coupe", "hetchback"],
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": "automatic"
+    },
+    {
+      "brand": "Volkswagen",
+      "model": "golf",
+      "class": "luxury",
+      "body_type": "hetchback",
+      "drive": "front",
+      "control": ["left", "right"],
+      "transmission": "automatic"
+    },
+    {
+      "brand": "Volkswagen",
+      "model": "jetta",
+      "class": "econom",
+      "body_type": "sedan",
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": ["manual", "automatic", "robotic"]
+    },
+    {
+      "brand": "Volkswagen",
+      "model": "passat",
+      "class": "econom",
+      "body_type": ["sedan", "universal"],
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": "automatic"
+    },
+    {
+      "brand": "Volkswagen",
+      "model": "polo",
+      "class": "econom",
+      "body_type": "hetchback",
+      "drive": "front",
+      "control": ["left", "right"],
+      "transmission": ["manual", "automatic", "robotic"]
+    },
+    {
+      "brand": "Volkswagen",
+      "model": "tiguan",
+      "class": "business",
+      "body_type": "suv",
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": ["manual", "automatic"]
+    },
+    {
+      "brand": "Honda",
+      "model": "accord",
+      "class": "business",
+      "body_type": ["sedan", "coupe", "universal"],
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": ["manual", "automatic", "robotic", "CVT"]
+    },
+    {
+      "brand": "Honda",
+      "model": "capa",
+      "class": "econom",
+      "body_type": "minivan",
+      "drive": ["four", "front"],
+      "control": "right",
+      "transmission": ["automatic", "CVT"]
+    },
+    {
+      "brand": "Honda",
+      "model": "civic",
+      "class": "econom",
+      "body_type": ["sedan", "coupe", "hetchback"],
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": ["manual", "automatic", "robotic", "CVT"]
+    },
+    {
+      "brand": "Honda",
+      "model": "pilot",
+      "class": "business",
+      "body_type": "suv",
+      "drive": ["four", "front"],
+      "control": ["left", "right"],
+      "transmission": "automatic"
+    },
+    {
+      "brand": "Lada",
+      "model": "granta",
+      "class": "econom",
+      "body_type": ["sedan", "hetchback", "universal"],
+      "drive": "front",
+      "control": "left",
+      "transmission": ["manual", "automatic"]
+    },
+    {
+      "brand": "Lada",
+      "model": "largus",
+      "class": "econom",
+      "body_type": "universal",
+      "drive": "front",
+      "control": "left",
+      "transmission": "manual"
+    },
+    {
+      "brand": "Lada",
+      "model": "niva",
+      "class": "econom",
+      "body_type": "suv",
+      "drive": "four",
+      "control": "left",
+      "transmission": "manual"
+    }
+  ]
+}

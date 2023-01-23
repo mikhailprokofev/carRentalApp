@@ -33,6 +33,11 @@ final class AppServiceProvider extends ServiceProvider
             'App\Module\Cache\Serializer\ArrayCacheSerializer'
         );
 
+        $this->app->bind(
+            'App\Module\Rate\Service\RateCalculatingServiceInterface',
+            'App\Module\Rate\Service\RateCalculatingService'
+        );
+
         $this->app->when('App\Module\Report\Load\Cars\Handler')
             ->needs('App\Module\Cache\Strategy\RedisCacheInterfaceStrategy')
             ->give('App\Module\Cache\Strategy\RedisStrategySerializeCacheStrategy');

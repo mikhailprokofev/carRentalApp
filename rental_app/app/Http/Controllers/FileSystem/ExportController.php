@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\FileSystem;
 
-use App\Module\Rate\Service\RateCalculatingService;
+use App\Module\Rate\Service\RateCalculatingServiceInterface;
 use App\Http\Requests\ReportLoadCarsRequest;
 use App\Module\Report\Load\Cars\Handler;
 use App\Module\Report\Load\Cars\Input;
@@ -18,6 +18,7 @@ final class ExportController extends Controller
 
     public function __construct(
         private Handler $handler,
+        private RateCalculatingServiceInterface $rateService,
     ) {}
 
     private $delimetr = [
@@ -36,7 +37,9 @@ final class ExportController extends Controller
     ];
     public function csv($start = null,$end = null)
     {
-        $content = $this->generator('csv', $this->getRentalLogs($start,$end), true);
+
+        $rentalLogs = $this->getRentalLogs($start, $end);
+        $content = $this->generator('csv', $rentalLogs);
         return response()->streamDownload(function () use($content){
             echo $content;
         },"rentals_log_file$start-$end.csv");
@@ -46,7 +49,7 @@ final class ExportController extends Controller
     {
         $content = '';
         $content .= '<html><style> table, tr,td { border: 1px solid black; padding: 10px; }</style><table>';
-        $content .= $this->generator('html', $this->getRentalLogs($start,$end), true);
+        $content .= $this->generator('html', $this->getRentalLogs($start,$end));
         $content .= '</table></html>';
         return response()->streamDownload(function () use($content){
             echo $content;
@@ -93,13 +96,12 @@ final class ExportController extends Controller
             $result = $this->handler->handle(Input::make($mounth['y'], $mounth['m']));
             $report = $result->getAll();
             foreach ($report['list'] as $item) {
-                $content .= "<tr>" . $this->rowGen('html', $item, true) . "</tr>";
+                $content .= "<tr>" . $this->rowGen('html', $item) . "</tr>";
             }
             $content .= '<tr><td><strong>Total Load</strong></td><td>'. $report['total_load'] .'</td></tr>';
             
         }
 
-        // $content .= $this->generator('html', $this->getRentalLogs($start,$end), true);
         $content .= '</table></html>';
 
         return response()->streamDownload(function () use($content){
@@ -132,21 +134,22 @@ final class ExportController extends Controller
         return $query->get();
     }
 
-    public function generator(string $type, mixed $data, bool $islogs = false): string
+    public function generator(string $type, mixed $data): string
     {
         $content = '';
         $delimetr = $this->delimetr[$type];
-        $content .= $delimetr['row_l'] 
-            . $this->rowGen($type, array_keys((array)$data[0]), $islogs) 
+        if (!empty($data[0])) {
+            $content .= $delimetr['row_l'] 
+            . $this->rowGen($type, array_keys((array)$data[0])) 
             . $delimetr['row_r'];
-
+        }
         foreach ($data as $row) {
-            $content .= $delimetr['row_l'] . $this->rowGen($type, $row, $islogs) . $delimetr['row_r'];
+            $content .= $delimetr['row_l'] . $this->rowGen($type, $row) . $delimetr['row_r'];
         }
         return $content;
     }
 
-    public function rowGen(string $type, mixed $row, bool $islogs): string
+    public function rowGen(string $type, mixed $row): string
     {
         $content = '';
         $delimetr = $this->delimetr[$type];
@@ -156,13 +159,13 @@ final class ExportController extends Controller
                 $content .= $delimetr['cell_l'] . $cell .  $delimetr['cell_r'];
             }
             else {
-                $rate = (new RateCalculatingService(
+                $rate = $this->rateService->calculate(
                     date_diff(
                         new DateTimeImmutable($row->End),
                         new DateTimeImmutable($row->Start),
                     )->days + 1,
                     $row->Salary,
-                    ))->calculate();
+                    );
 
                 $content .= $delimetr['cell_l'];
                 $content .= number_format((float) round($rate / 100, 2), 2, '.', '');

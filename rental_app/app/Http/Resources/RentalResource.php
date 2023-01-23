@@ -7,6 +7,7 @@ namespace App\Http\Resources;
 use App\Module\Rate\Service\RateCalculatingService;
 use DateTimeImmutable;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Container\Container;
 
 final class RentalResource extends JsonResource
 {
@@ -18,13 +19,16 @@ final class RentalResource extends JsonResource
      */
     public function toArray($request)
     {
-        $rate = (new RateCalculatingService(
+        // TODO: How to fix that without Container?
+        $rateService = Container::getInstance()->make(RateCalculatingService::class);
+
+        $rate = $rateService->calculate(
             date_diff(
                 new DateTimeImmutable($this->rental_end),
                 new DateTimeImmutable($this->rental_start),
             )->days + 1,
             $this->start_salary,
-        ))->calculate();
+        );
 
         return [
             'id' => $this->id,

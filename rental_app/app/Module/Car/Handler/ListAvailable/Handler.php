@@ -4,24 +4,34 @@ declare(strict_types=1);
 
 namespace App\Module\Car\Handler\ListAvailable;
 
-use App\Common\Type\Price;
+use App\Module\Rate\Service\RateCalculatingServiceInterface;
+use App\Module\Rate\Service\RateCalculatingService;
 use App\Repository\CustomCarRepositoryInterface;
 use Illuminate\Support\Collection;
+use App\Common\Type\Price;
 
 final class Handler
 {
     public function __construct(
         private CustomCarRepositoryInterface $carRepository,
+        private RateCalculatingServiceInterface $rateService,
     ) {}
 
     public function handle(Input $input): array
     {
+        $start = new \DateTimeImmutable($input->getStartAt());
+        $end = new \DateTimeImmutable($input->getEndAt());
+        $dateInterval = date_diff($end,$start)->days + 1;
+        $minRate = $this->rateService->calculate($dateInterval, $input->getMinSalary(),'into');
+        $maxRate = $this->rateService->calculate($dateInterval, $input->getMaxSalary(),'into');
+
         $cars = $this->findCars(
             $input->getStartAt(),
             $input->getEndAt(),
-            $input->getMinSalary(),
-            $input->getMaxSalary()
+            $minRate,
+            $maxRate,
         );
+
         return $this->makeOutput($cars);
     }
 
@@ -36,7 +46,7 @@ final class Handler
         ];
     }
 
-    private function findCars(string $startAt, string $endAt, int $min, int $max): Collection
+    private function findCars(string $startAt, string $endAt, ?int $min, ?int $max): Collection
     {
         return $this->carRepository->withFilters($startAt, $endAt, $min, $max);
     }
