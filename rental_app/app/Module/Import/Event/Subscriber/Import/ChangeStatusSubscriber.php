@@ -6,9 +6,9 @@ namespace App\Module\Import\Event\Subscriber\Import;
 
 use App\Models\ImportStatus;
 use App\Module\Import\Enum\ImportStatusEnum;
-use App\Module\Import\Event\Model\Import\ImportStatusDoneEvent;
-use App\Module\Import\Event\Model\Import\ImportStatusErrorEvent;
-use App\Module\Import\Event\Model\Import\ImportStatusProgressEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusDoneEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusErrorEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusProgressEvent;
 use App\Repository\ImportStatusRepositoryInterface;
 use Illuminate\Events\Dispatcher;
 

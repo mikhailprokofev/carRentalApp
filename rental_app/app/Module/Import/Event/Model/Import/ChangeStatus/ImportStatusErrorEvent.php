@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Import\Event\Model\Import;
+namespace App\Module\Import\Event\Model\Import\ChangeStatus;
 
 use App\Models\ImportStatus;
 use Illuminate\Foundation\Events\Dispatchable;

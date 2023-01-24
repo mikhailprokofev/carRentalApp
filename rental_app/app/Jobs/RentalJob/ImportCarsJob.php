@@ -6,10 +6,14 @@ namespace App\Jobs\RentalJob;
 
 use App\Models\ImportStatus;
 use App\Module\Car\Enum\Country;
-use App\Module\Import\Event\Model\Import\ImportInitEvent;
-use App\Module\Import\Event\Model\Import\ImportStatusDoneEvent;
-use App\Module\Import\Event\Model\Import\ImportStatusErrorEvent;
-use App\Module\Import\Event\Model\Import\ImportStatusProgressEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeDuplicatedDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeInsertedDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeReadDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeValidatedDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusDoneEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusErrorEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusProgressEvent;
+use App\Module\Import\Event\Model\Import\Init\ImportInitEvent;
 use App\Module\Import\Rule\CarDomainRules;
 use App\Module\Import\Validator\DomainValidator;
 use App\Repository\CustomCarRepository;
@@ -69,8 +73,7 @@ final class ImportCarsJob implements ShouldQueue
                 ImportInitEvent::dispatch($this->fileName);
             }
 
-            $importStatus->addCountRowsImport('read_rows', count($rawData));
-
+            ImportChangeReadDataEvent::dispatch($importStatus, count($rawData));
             ImportStatusProgressEvent::dispatch($importStatus);
 
             foreach ($rawData as $row) {
@@ -80,6 +83,7 @@ final class ImportCarsJob implements ShouldQueue
                     ]);
 
                     $this->validator->validate($row, $importStatus);
+                    ImportChangeValidatedDataEvent::dispatch($importStatus, 1);
 
                     $result[] = $row;
                 } catch (ValidationException $exception) {
@@ -88,12 +92,11 @@ final class ImportCarsJob implements ShouldQueue
             }
 
             $uniqueFieldValues = $this->makeUniqueValuesFromDB($result, 'number_plate', $importStatus);
-            $data = $this->filterByUniqueField($result, $uniqueFieldValues, 'number_plate', $importStatus);
+            $data = $this->filterByUniqueField($result, $uniqueFieldValues, 'number_plate');
 
             $this->carRepository->insert($data);
 
-            $importStatus->addCountRowsImport('inserted_rows', count($data));
-
+            ImportChangeInsertedDataEvent::dispatch($importStatus, count($data));
             ImportStatusDoneEvent::dispatch($importStatus);
         } catch (Exception $exception) {
             ImportStatusErrorEvent::dispatch($importStatus ?? null);
@@ -101,7 +104,7 @@ final class ImportCarsJob implements ShouldQueue
         }
     }
 
-    private function filterByUniqueField(array $arr, array $arrUnique, string $field, ImportStatus $importStatus): array
+    private function filterByUniqueField(array $arr, array $arrUnique, string $field): array
     {
         foreach ($arr as $row) {
             if (in_array($row[$field], $arrUnique)) {
@@ -121,7 +124,7 @@ final class ImportCarsJob implements ShouldQueue
 
         $uniqueValues = array_diff($uniqueFieldValues, $duplicateFieldValues);
 
-        $importStatus->addCountRowsImport('duplicated_rows', count($arr) - count($uniqueValues));
+        ImportChangeDuplicatedDataEvent::dispatch($importStatus, count($arr) - count($uniqueValues));
 
         return $uniqueValues;
     }

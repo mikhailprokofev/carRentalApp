@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Module\Import\Event\Model\Import;
+namespace App\Module\Import\Event\Model\Import\Init;
 
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;

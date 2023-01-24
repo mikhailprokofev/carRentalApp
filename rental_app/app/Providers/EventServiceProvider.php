@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Module\Import\Event\Listener\Import\ImportInitListener;
-use App\Module\Import\Event\Model\Import\ImportInitEvent;
-use App\Module\Import\Event\Subscriber\Import\ChangeDataSubscriber;
+use App\Module\Import\Event\Model\Import\Init\ImportInitEvent;
 use App\Module\Import\Event\Subscriber\Import\ChangeStatusSubscriber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 final class EventServiceProvider extends ServiceProvider
 {
