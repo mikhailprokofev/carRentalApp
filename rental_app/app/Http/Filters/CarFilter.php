@@ -46,14 +46,14 @@ class CarFilter extends QueryFilter
         $this->builder->where('mileage', $mileage);
     }
 
-    public function min_mileage(string $mileage)
+    public function min_mileage(string $min_mileage)
     {
-        $this->builder->where('mileage','>=', $mileage);
+        $this->builder->where('mileage','>=', $min_mileage);
     }
 
-    public function max_mileage(string $mileage)
+    public function max_mileage(string $max_mileage)
     {
-        $this->builder->where('mileage','<=', $mileage);
+        $this->builder->where('mileage','<=', $max_mileage);
     }
 
     public function drive(string $drive)
@@ -61,9 +61,8 @@ class CarFilter extends QueryFilter
         $this->builder->where('drive', $drive);
     }
 
-    public function control(string $value)
+    public function control(string $control)
     {
-        $control = Enums\Control::isRight($value) ;
         $this->builder->where('control', $control);
     }
 
@@ -87,19 +86,19 @@ class CarFilter extends QueryFilter
         $this->builder->where('class', $class);
     }
 
-    public function base_salary(string $base_salary)
+    public function base_salary(int $base_salary)
     {
-        $this->builder->where('base_salary', $base_salary);
+        $this->builder->where('base_salary', '=', $base_salary * 100);
     }
 
-    public function min_base_salary(string $base_salary)
+    public function min_base_salary(int $min_base_salary)
     {
-        $this->builder->where('base_salary', $base_salary);
+        $this->builder->where('base_salary','>', $min_base_salary * 100);
     }
 
-    public function max_base_salary(string $base_salary)
+    public function max_base_salary(int $max_base_salary)
     {
-        $this->builder->where('base_salary','',$base_salary);
+        $this->builder->where('base_salary','<',$max_base_salary * 100);
     }
 
 }

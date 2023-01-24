@@ -8,6 +8,7 @@ use App\Module\Car\Enum\BodyType;
 use App\Module\Car\Enum\Brand;
 use App\Module\Car\Enum\Color;
 use App\Module\Car\Enum\Country;
+use App\Module\Car\Enum\Control;
 use App\Module\Car\Enum\Drive;
 use App\Module\Car\Enum\Insurance;
 use App\Module\Car\Enum\Model;
@@ -52,7 +53,9 @@ final class IndexCarRequest extends FormRequest
             'transmission'          => ['string', new Enum(Transmission::class)],
             'insurance'             => ['string', new Enum(Insurance::class)],
             'class'                 => ['string', new Enum(Type::class)],
-            'base_salary'           => 'bail|integer|min:0',
+            'base_salary'           => 'bail|integer|min:1000',
+            'min_base_salary'       => 'bail|integer|min:1000',
+            'max_base_salary'       => 'bail|integer|min:5000',
         ];
     }
 }

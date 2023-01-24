@@ -13,8 +13,4 @@ enum Control: string
     case RIGHT = 'right';
     case LEFT = 'left';
 
-    public static function isRight($side): bool
-    {
-        return $side == self::RIGHT->name;
-    }
 }
