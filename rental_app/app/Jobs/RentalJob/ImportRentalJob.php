@@ -19,10 +19,7 @@ use Illuminate\Queue\SerializesModels;
 
 final class ImportRentalJob implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private array $data;
 
