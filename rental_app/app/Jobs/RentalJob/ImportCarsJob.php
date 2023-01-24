@@ -6,7 +6,10 @@ namespace App\Jobs\RentalJob;
 
 use App\Models\ImportStatus;
 use App\Module\Car\Enum\Country;
-use App\Module\Import\Enum\ImportStatusEnum;
+use App\Module\Import\Event\Model\Import\ImportInitEvent;
+use App\Module\Import\Event\Model\Import\ImportStatusDoneEvent;
+use App\Module\Import\Event\Model\Import\ImportStatusErrorEvent;
+use App\Module\Import\Event\Model\Import\ImportStatusProgressEvent;
 use App\Module\Import\Rule\CarDomainRules;
 use App\Module\Import\Validator\DomainValidator;
 use App\Repository\CustomCarRepository;
@@ -61,9 +64,14 @@ final class ImportCarsJob implements ShouldQueue
             $rawData = $this->data;
             $result = [];
 
-            $importStatus = $this->findOrCreateImport($this->fileName);
+            // TODO: транзакция
+            while (is_null($importStatus = $this->findImportStatus())) {
+                ImportInitEvent::dispatch($this->fileName);
+            }
+
             $importStatus->addCountRowsImport('read_rows', count($rawData));
-            $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
+
+            ImportStatusProgressEvent::dispatch($importStatus);
 
             foreach ($rawData as $row) {
                 try {
@@ -86,9 +94,9 @@ final class ImportCarsJob implements ShouldQueue
 
             $importStatus->addCountRowsImport('inserted_rows', count($data));
 
-            $this->doneImportStatus($importStatus);
+            ImportStatusDoneEvent::dispatch($importStatus);
         } catch (Exception $exception) {
-            $this->turnErrorImportStatus(ImportStatusEnum::ERROR);
+            ImportStatusErrorEvent::dispatch($importStatus ?? null);
             throw $exception;
         }
     }
@@ -118,26 +126,10 @@ final class ImportCarsJob implements ShouldQueue
         return $uniqueValues;
     }
 
-    // TODO: events
-    private function turnErrorImportStatus(ImportStatusEnum $status): void
+    private function findImportStatus(): ?ImportStatus
     {
         $importStatuses = $this->importStatusRepository->findByFileName($this->fileName);
 
-        $importStatus = $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($this->fileName);
-
-        $importStatus->updateStatusImport($status);
-    }
-
-    private function doneImportStatus(ImportStatus $importStatus): void
-    {
-        $importStatus->updateStatusImport(ImportStatusEnum::DONE);
-    }
-
-    // TODO: events
-    private function findOrCreateImport(string $filename): ImportStatus
-    {
-        $importStatuses = $this->importStatusRepository->findByFileName($filename);
-
-        return $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($filename);
+        return $importStatuses->count() ? $importStatuses->first() : null;
     }
 }

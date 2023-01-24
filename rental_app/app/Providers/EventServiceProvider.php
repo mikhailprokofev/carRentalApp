@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Module\Import\Event\Listener\Import\ImportInitListener;
+use App\Module\Import\Event\Model\Import\ImportInitEvent;
+use App\Module\Import\Event\Subscriber\Import\ChangeDataSubscriber;
+use App\Module\Import\Event\Subscriber\Import\ChangeStatusSubscriber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -19,6 +23,9 @@ final class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        ImportInitEvent::class => [
+            ImportInitListener::class,
         ],
     ];
 
@@ -44,4 +51,14 @@ final class EventServiceProvider extends ServiceProvider
     {
         return false;
     }
+
+    /**
+     * Классы подписчиков для регистрации.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+//        ChangeDataSubscriber::class,
+        ChangeStatusSubscriber::class,
+    ];
 }
