@@ -53,7 +53,10 @@ final class ImportRentalJob implements ShouldQueue
         try {
             $importStrategy = $this->factory->make($this->mode);
             $importStatus = $importStrategy->import($this->data, $this->fileName);
-            $this->doneImportStatus($importStatus);
+
+            if ($this->isLast) {
+                $this->doneImportStatus($importStatus);
+            }
         } catch (Exception $exception) {
             $this->turnErrorImportStatus(ImportStatusEnum::ERROR);
             throw $exception;

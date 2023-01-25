@@ -93,8 +93,13 @@ final class ImportCarsJob implements ShouldQueue
 
             $this->carRepository->insert($data);
 
-            ImportChangeInsertedDataEvent::dispatch($importStatus, count($data));
-            ImportStatusDoneEvent::dispatch($importStatus);
+            if ($insertedRows = count($data)) {
+                ImportChangeInsertedDataEvent::dispatch($importStatus, $insertedRows);
+            }
+
+            if ($this->isLast) {
+                ImportStatusDoneEvent::dispatch($importStatus);
+            }
         } catch (Exception $exception) {
             ImportStatusErrorEvent::dispatch($importStatus ?? null, $this->fileName);
             throw $exception;
@@ -121,7 +126,9 @@ final class ImportCarsJob implements ShouldQueue
 
         $uniqueValues = array_diff($uniqueFieldValues, $duplicateFieldValues);
 
-        ImportChangeDuplicatedDataEvent::dispatch($importStatus, count($arr) - count($uniqueValues));
+        if ($duplicatedCount = count($arr) - count($uniqueValues)) {
+            ImportChangeDuplicatedDataEvent::dispatch($importStatus, $duplicatedCount);
+        }
 
         return $uniqueValues;
     }
