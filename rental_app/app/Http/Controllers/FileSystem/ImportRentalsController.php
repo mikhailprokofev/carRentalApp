@@ -18,7 +18,8 @@ final class ImportRentalsController extends Controller
 
     public function __invoke(ImportRentalRequest $request): JsonResponse
     {
-        $fileName = 'rental' . date('YmdHis') . '.csv';
+        $fileName = 'rental' . date('YmdHis');
+        $fileNameExt = $fileName . '.csv';
 
         $request->validate($request->rules());
 
@@ -27,10 +28,10 @@ final class ImportRentalsController extends Controller
 
         if ($file) {
             try {
-                $file->storeAs('/', $fileName);
-                $this->handler->handle($fileName, $modeImport);
+                $file->storeAs('/', $fileNameExt);
+                $this->handler->handle($fileNameExt, $modeImport);
 
-                return $this->successOutput();
+                return $this->successOutput($fileName);
             } catch (\Exception $e) {
                 Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
             }
@@ -39,12 +40,12 @@ final class ImportRentalsController extends Controller
         return $this->failedOutput();
     }
 
-    private function successOutput(): JsonResponse
+    private function successOutput(string $fileName): JsonResponse
     {
         return (new JsonResponse())
             ->setStatusCode(200)
             ->setData([
-                'message' => 'Import in process...',
+                'temp_filename' => $fileName,
             ]);
     }
 

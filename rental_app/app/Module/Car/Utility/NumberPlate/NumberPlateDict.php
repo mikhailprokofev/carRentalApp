@@ -6,7 +6,7 @@ namespace App\Module\Car\Utility\NumberPlate;
 
 final class NumberPlateDict
 {
-    public static array $availableChars = ['А', 'В', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'У', 'Х'];
+    public static array $availableChars = ['А', 'В', 'Е', 'К', 'М', 'Н', 'О', 'Р', 'С', 'Т', 'У', 'Х'];
 
     public static array $regions = [
         'Moscow' => [77, 99, 97, 177, 199, 197],

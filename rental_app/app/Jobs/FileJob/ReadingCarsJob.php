@@ -15,10 +15,7 @@ use Illuminate\Queue\SerializesModels;
 
 final class ReadingCarsJob extends ReadingJobAbstract implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private string $fileName;
 
