@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Jobs\RentalJob;
 
+use App\Common\Utility\LeaverUniqueData;
 use App\Models\ImportStatus;
 use App\Module\Car\Enum\Country;
 use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeDuplicatedDataEvent;
 use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeInsertedDataEvent;
 use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeReadDataEvent;
-use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeValidatedDataEvent;
 use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusDoneEvent;
 use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusErrorEvent;
 use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusProgressEvent;
@@ -20,14 +20,13 @@ use App\Repository\CustomCarRepository;
 use App\Repository\CustomCarRepositoryInterface;
 use App\Repository\ImportStatusRepository;
 use App\Repository\ImportStatusRepositoryInterface;
+use Closure;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 final class ImportCarsJob implements ShouldQueue
 {
@@ -66,16 +65,14 @@ final class ImportCarsJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            $rawData = $this->data;
-
             // TODO: транзакция
             $importStatus = $this->findOrCreateImportStatus();
 
-            ImportChangeReadDataEvent::dispatch($importStatus, count($rawData));
+            ImportChangeReadDataEvent::dispatch($importStatus, count($this->data));
             ImportStatusProgressEvent::dispatch($importStatus);
 
-            $data = $this->dataSoftValidate($rawData, $importStatus);
-            $data = $this->reachUniqueData($data, $importStatus);
+            $data = $this->validator->softValidate($this->data, $importStatus, $this->prepareDataForValidation());
+            $data = $this->reachUniqueData($data, 'number_plate', $importStatus);
             $this->insertData($data);
 
             ImportChangeInsertedDataEvent::dispatch($importStatus, count($data));
@@ -85,31 +82,6 @@ final class ImportCarsJob implements ShouldQueue
 
             throw $exception;
         }
-    }
-
-    private function filterByUniqueField(array $arr, array $arrUnique, string $field): array
-    {
-        foreach ($arr as $row) {
-            if (in_array($row[$field], $arrUnique)) {
-                $key = array_search($row[$field], $arrUnique);
-                $data[$key] = $row;
-            }
-        }
-
-        return $data ?? [];
-    }
-
-    private function makeUniqueValuesFromDB(array $arr, string $field, ImportStatus $importStatus): array
-    {
-        $uniqueFieldValues = array_column($arr, $field);
-
-        $duplicateFieldValues = $this->carRepository->findDuplicateValues($uniqueFieldValues);
-
-        $uniqueValues = array_diff($uniqueFieldValues, $duplicateFieldValues);
-
-        ImportChangeDuplicatedDataEvent::dispatch($importStatus, count($arr) - count($uniqueValues));
-
-        return $uniqueValues;
     }
 
     private function findImportStatus(): ?ImportStatus
@@ -128,35 +100,23 @@ final class ImportCarsJob implements ShouldQueue
         return $importStatus;
     }
 
-    private function dataSoftValidate(array $data, ImportStatus $importStatus): array
+    private function prepareDataForValidation(): Closure
     {
-        foreach ($data as $row) {
-            try {
-                $row = $this->prepareDataForValidation($row);
-
-                $this->validator->validate($row);
-                ImportChangeValidatedDataEvent::dispatch($importStatus, 1);
-
-                $result[] = $row;
-            } catch (ValidationException $exception) {
-                Log::error($exception->getMessage());
-            }
-        }
-
-        return $result ?? [];
+        return function ($data) {
+            return array_merge($data, [
+                'country' => Country::getByBrand($data['brand']),
+            ]);
+        };
     }
 
-    private function prepareDataForValidation(array $data): array
+    private function reachUniqueData(array $data, string $field, ImportStatus $importStatus): array
     {
-        return array_merge($data, [
-            'country' => Country::getByBrand($data['brand']),
-        ]);
-    }
+        $uniqueDataFromDB = LeaverUniqueData::leaveUniqueValuesByDB($this->carRepository, $data, $field);
+        $result = LeaverUniqueData::leaveUniqueValuesFromArrays($uniqueDataFromDB, $data, $field);
 
-    private function reachUniqueData(array $data, ImportStatus $importStatus): array
-    {
-        $uniqueFieldValues = $this->makeUniqueValuesFromDB($data, 'number_plate', $importStatus);
-        return $this->filterByUniqueField($data, $uniqueFieldValues, 'number_plate');
+        ImportChangeDuplicatedDataEvent::dispatch($importStatus, count($data) - count($result));
+
+        return $result;
     }
 
     private function insertData(array $data): void

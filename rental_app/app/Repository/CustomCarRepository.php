@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use phpseclib3\Crypt\EC\Curves\prime192v1;
 use Ramsey\Uuid\UuidInterface;
 
-final class CustomCarRepository implements CustomCarRepositoryInterface
+final class CustomCarRepository implements CustomCarRepositoryInterface, DuplicatedRepositoryInterface
 {
     public function findDuplicateValues(array $values): array
     {
