@@ -6,7 +6,14 @@ namespace App\Jobs\RentalJob;
 
 use App\Models\ImportStatus;
 use App\Module\Car\Enum\Country;
-use App\Module\Import\Enum\ImportStatusEnum;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeDuplicatedDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeInsertedDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeReadDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeValidatedDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusDoneEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusErrorEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusProgressEvent;
+use App\Module\Import\Event\Model\Import\Init\ImportInitEvent;
 use App\Module\Import\Rule\CarDomainRules;
 use App\Module\Import\Validator\DomainValidator;
 use App\Repository\CustomCarRepository;
@@ -24,10 +31,7 @@ use Illuminate\Validation\ValidationException;
 
 final class ImportCarsJob implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private array $data;
 
@@ -61,9 +65,13 @@ final class ImportCarsJob implements ShouldQueue
             $rawData = $this->data;
             $result = [];
 
-            $importStatus = $this->findOrCreateImport($this->fileName);
-            $importStatus->addCountRowsImport('read_rows', count($rawData));
-            $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
+            // TODO: транзакция
+            while (is_null($importStatus = $this->findImportStatus())) {
+                ImportInitEvent::dispatch($this->fileName);
+            }
+
+            ImportChangeReadDataEvent::dispatch($importStatus, count($rawData));
+            ImportStatusProgressEvent::dispatch($importStatus);
 
             foreach ($rawData as $row) {
                 try {
@@ -71,7 +79,8 @@ final class ImportCarsJob implements ShouldQueue
                         'country' => Country::getByBrand($row['brand']),
                     ]);
 
-                    $this->validator->validate($row, $importStatus);
+                    $this->validator->validate($row);
+                    ImportChangeValidatedDataEvent::dispatch($importStatus, 1);
 
                     $result[] = $row;
                 } catch (ValidationException $exception) {
@@ -80,20 +89,19 @@ final class ImportCarsJob implements ShouldQueue
             }
 
             $uniqueFieldValues = $this->makeUniqueValuesFromDB($result, 'number_plate', $importStatus);
-            $data = $this->filterByUniqueField($result, $uniqueFieldValues, 'number_plate', $importStatus);
+            $data = $this->filterByUniqueField($result, $uniqueFieldValues, 'number_plate');
 
             $this->carRepository->insert($data);
 
-            $importStatus->addCountRowsImport('inserted_rows', count($data));
-
-            $this->doneImportStatus($importStatus);
+            ImportChangeInsertedDataEvent::dispatch($importStatus, count($data));
+            ImportStatusDoneEvent::dispatch($importStatus);
         } catch (Exception $exception) {
-            $this->turnErrorImportStatus(ImportStatusEnum::ERROR);
+            ImportStatusErrorEvent::dispatch($importStatus ?? null, $this->fileName);
             throw $exception;
         }
     }
 
-    private function filterByUniqueField(array $arr, array $arrUnique, string $field, ImportStatus $importStatus): array
+    private function filterByUniqueField(array $arr, array $arrUnique, string $field): array
     {
         foreach ($arr as $row) {
             if (in_array($row[$field], $arrUnique)) {
@@ -113,31 +121,15 @@ final class ImportCarsJob implements ShouldQueue
 
         $uniqueValues = array_diff($uniqueFieldValues, $duplicateFieldValues);
 
-        $importStatus->addCountRowsImport('duplicated_rows', count($arr) - count($uniqueValues));
+        ImportChangeDuplicatedDataEvent::dispatch($importStatus, count($arr) - count($uniqueValues));
 
         return $uniqueValues;
     }
 
-    // TODO: events
-    private function turnErrorImportStatus(ImportStatusEnum $status): void
+    private function findImportStatus(): ?ImportStatus
     {
         $importStatuses = $this->importStatusRepository->findByFileName($this->fileName);
 
-        $importStatus = $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($this->fileName);
-
-        $importStatus->updateStatusImport($status);
-    }
-
-    private function doneImportStatus(ImportStatus $importStatus): void
-    {
-        $importStatus->updateStatusImport(ImportStatusEnum::DONE);
-    }
-
-    // TODO: events
-    private function findOrCreateImport(string $filename): ImportStatus
-    {
-        $importStatuses = $this->importStatusRepository->findByFileName($filename);
-
-        return $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($filename);
+        return $importStatuses->count() ? $importStatuses->first() : null;
     }
 }

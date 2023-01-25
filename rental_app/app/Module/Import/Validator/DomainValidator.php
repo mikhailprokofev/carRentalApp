@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Module\Import\Validator;
 
-use App\Models\ImportStatus;
 use App\Module\Import\Rule\DomainRulesInterface;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Validator as ValidatorDomain;
@@ -20,19 +19,16 @@ final class DomainValidator
 
     /**
      * @param array $data
-     * @param ImportStatus $importStatus
      * @return void
      * @throws ValidationException
      */
-    public function validate(array $data, ImportStatus $importStatus): void
+    public function validate(array $data): void
     {
         $this->validator = Validator::make($data, $this->domainRule->rules());
 
         $this->afterValidate();
 
         $this->validator->validated();
-
-        $importStatus->addCountRowsImport('validated_rows', 1);
     }
 
     /**

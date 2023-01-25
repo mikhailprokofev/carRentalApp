@@ -62,11 +62,11 @@ final class AutoDoc extends Command
 
             foreach ($params as $param) {
                 $type = (string)$param->getType();
-                if (str_contains($type, 'Model')) {
+                if (str_contains($type, 'ImportStatusDoneEvent')) {
                     $curRoutParams[] = (object) [
                         'name' => 'id',
                         'in' => 'path',
-                        'description' => 'Model idetifier',
+                        'description' => 'ImportStatusDoneEvent idetifier',
                         'required' => true,
                         'schema' => (object) [
                             'type' => 'string',
