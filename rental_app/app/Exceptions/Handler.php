@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Validation\ValidationException;
 
 final class Handler extends ExceptionHandler
 {
@@ -50,7 +51,13 @@ final class Handler extends ExceptionHandler
                     ],
                     400,
                 ],
-
+                $e instanceof ThrottleRequestsException => [
+                    [
+                        'error' => "ThrottleRequestsException",
+                        'massage' => $e ->errors(),
+                    ],
+                    425
+                ],
                 $e instanceof NotFoundHttpException => [
                     [
                         'exception' => 'NotFoundHttpException',
