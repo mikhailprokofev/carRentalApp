@@ -29,6 +29,6 @@ final class ImportChangeDuplicatedDataEvent
 
     public function getTypeRows(): string
     {
-        return 'duplicated';
+        return 'duplicated_rows';
     }
 }

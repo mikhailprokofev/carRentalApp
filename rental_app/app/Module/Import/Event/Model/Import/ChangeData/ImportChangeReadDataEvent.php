@@ -29,6 +29,6 @@ final class ImportChangeReadDataEvent
 
     public function getTypeRows(): string
     {
-        return 'read';
+        return 'read_rows';
     }
 }

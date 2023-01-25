@@ -29,6 +29,6 @@ final class ImportChangeInsertedDataEvent
 
     public function getTypeRows(): string
     {
-        return 'inserted';
+        return 'inserted_rows';
     }
 }

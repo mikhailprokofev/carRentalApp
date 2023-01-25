@@ -31,10 +31,7 @@ use Illuminate\Validation\ValidationException;
 
 final class ImportCarsJob implements ShouldQueue
 {
-    use Dispatchable;
-    use InteractsWithQueue;
-    use Queueable;
-    use SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private array $data;
 
@@ -82,7 +79,7 @@ final class ImportCarsJob implements ShouldQueue
                         'country' => Country::getByBrand($row['brand']),
                     ]);
 
-                    $this->validator->validate($row, $importStatus);
+                    $this->validator->validate($row);
                     ImportChangeValidatedDataEvent::dispatch($importStatus, 1);
 
                     $result[] = $row;
@@ -99,7 +96,7 @@ final class ImportCarsJob implements ShouldQueue
             ImportChangeInsertedDataEvent::dispatch($importStatus, count($data));
             ImportStatusDoneEvent::dispatch($importStatus);
         } catch (Exception $exception) {
-            ImportStatusErrorEvent::dispatch($importStatus ?? null);
+            ImportStatusErrorEvent::dispatch($importStatus ?? null, $this->fileName);
             throw $exception;
         }
     }

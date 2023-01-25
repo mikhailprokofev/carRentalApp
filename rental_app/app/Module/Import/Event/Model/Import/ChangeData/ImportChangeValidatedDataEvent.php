@@ -29,6 +29,6 @@ final class ImportChangeValidatedDataEvent
 
     public function getTypeRows(): string
     {
-        return 'validated';
+        return 'validated_rows';
     }
 }

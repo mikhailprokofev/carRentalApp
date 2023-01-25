@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Module\Import\Event\Listener\Import\ImportInitListener;
 use App\Module\Import\Event\Model\Import\Init\ImportInitEvent;
+use App\Module\Import\Event\Subscriber\Import\ChangeDataSubscriber;
 use App\Module\Import\Event\Subscriber\Import\ChangeStatusSubscriber;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -56,7 +57,7 @@ final class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [
-//        ChangeDataSubscriber::class,
+        ChangeDataSubscriber::class,
         ChangeStatusSubscriber::class,
     ];
 }
