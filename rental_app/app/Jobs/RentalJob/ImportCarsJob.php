@@ -59,44 +59,30 @@ final class ImportCarsJob implements ShouldQueue
         $this->validator = new DomainValidator(new CarDomainRules());
     }
 
+    /**
+     * @return void
+     * @throws Exception
+     */
     public function handle(): void
     {
         try {
             $rawData = $this->data;
-            $result = [];
 
             // TODO: транзакция
-            while (is_null($importStatus = $this->findImportStatus())) {
-                ImportInitEvent::dispatch($this->fileName);
-            }
+            $importStatus = $this->findOrCreateImportStatus();
 
             ImportChangeReadDataEvent::dispatch($importStatus, count($rawData));
             ImportStatusProgressEvent::dispatch($importStatus);
 
-            foreach ($rawData as $row) {
-                try {
-                    $row = array_merge($row, [
-                        'country' => Country::getByBrand($row['brand']),
-                    ]);
-
-                    $this->validator->validate($row);
-                    ImportChangeValidatedDataEvent::dispatch($importStatus, 1);
-
-                    $result[] = $row;
-                } catch (ValidationException $exception) {
-                    Log::error($exception->getMessage());
-                }
-            }
-
-            $uniqueFieldValues = $this->makeUniqueValuesFromDB($result, 'number_plate', $importStatus);
-            $data = $this->filterByUniqueField($result, $uniqueFieldValues, 'number_plate');
-
-            $this->carRepository->insert($data);
+            $data = $this->dataSoftValidate($rawData, $importStatus);
+            $data = $this->reachUniqueData($data, $importStatus);
+            $this->insertData($data);
 
             ImportChangeInsertedDataEvent::dispatch($importStatus, count($data));
             ImportStatusDoneEvent::dispatch($importStatus);
         } catch (Exception $exception) {
             ImportStatusErrorEvent::dispatch($importStatus ?? null, $this->fileName);
+
             throw $exception;
         }
     }
@@ -131,5 +117,50 @@ final class ImportCarsJob implements ShouldQueue
         $importStatuses = $this->importStatusRepository->findByFileName($this->fileName);
 
         return $importStatuses->count() ? $importStatuses->first() : null;
+    }
+
+    private function findOrCreateImportStatus(): ImportStatus
+    {
+        while (is_null($importStatus = $this->findImportStatus())) {
+            ImportInitEvent::dispatch($this->fileName);
+        }
+
+        return $importStatus;
+    }
+
+    private function dataSoftValidate(array $data, ImportStatus $importStatus): array
+    {
+        foreach ($data as $row) {
+            try {
+                $row = $this->prepareDataForValidation($row);
+
+                $this->validator->validate($row);
+                ImportChangeValidatedDataEvent::dispatch($importStatus, 1);
+
+                $result[] = $row;
+            } catch (ValidationException $exception) {
+                Log::error($exception->getMessage());
+            }
+        }
+
+        return $result ?? [];
+    }
+
+    private function prepareDataForValidation(array $data): array
+    {
+        return array_merge($data, [
+            'country' => Country::getByBrand($data['brand']),
+        ]);
+    }
+
+    private function reachUniqueData(array $data, ImportStatus $importStatus): array
+    {
+        $uniqueFieldValues = $this->makeUniqueValuesFromDB($data, 'number_plate', $importStatus);
+        return $this->filterByUniqueField($data, $uniqueFieldValues, 'number_plate');
+    }
+
+    private function insertData(array $data): void
+    {
+        $this->carRepository->insert($data);
     }
 }

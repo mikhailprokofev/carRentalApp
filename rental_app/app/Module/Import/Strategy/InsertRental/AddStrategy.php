@@ -6,6 +6,8 @@ namespace App\Module\Import\Strategy\InsertRental;
 
 use App\Models\ImportStatus;
 use App\Module\Import\Enum\ImportStatusEnum;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeReadDataEvent;
+use App\Module\Import\Event\Model\Import\ChangeData\ImportChangeValidatedDataEvent;
 use App\Module\Import\Rule\RentalDomainRules;
 use App\Module\Import\Service\InsertService;
 use App\Module\Import\Service\InsertServiceInterface;
@@ -46,13 +48,14 @@ final class AddStrategy implements InsertStrategyInterface
 
         $importStatus = $this->findOrCreateImport($filename);
 
-        $importStatus->addCountRowsImport('read_rows', count($data));
+        ImportChangeReadDataEvent::dispatch($importStatus, count($data));
 
         $importStatus->updateStatusImport(ImportStatusEnum::INPROGRESS);
 
         foreach ($data as $row) {
             try {
-                $this->validator->validate($row, $importStatus);
+                $this->validator->validate($row);
+                ImportChangeValidatedDataEvent::dispatch($importStatus, 1);
 
                 $result[] = $row;
             } catch (ValidationException $exception) {

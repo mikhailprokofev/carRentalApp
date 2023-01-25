@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Jobs\RentalJob;
 
-use App\Models\ImportStatus;
-use App\Module\Import\Enum\ImportStatusEnum;
 use App\Module\Import\Enum\ModeImportEnum;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusDoneEvent;
+use App\Module\Import\Event\Model\Import\ChangeStatus\ImportStatusErrorEvent;
 use App\Module\Import\Factory\ImportStrategyFactory;
 use App\Repository\ImportStatusRepository;
 use App\Repository\ImportStatusRepositoryInterface;
@@ -53,25 +53,10 @@ final class ImportRentalJob implements ShouldQueue
         try {
             $importStrategy = $this->factory->make($this->mode);
             $importStatus = $importStrategy->import($this->data, $this->fileName);
-            $this->doneImportStatus($importStatus);
+            ImportStatusDoneEvent::dispatch($importStatus);
         } catch (Exception $exception) {
-            $this->turnErrorImportStatus(ImportStatusEnum::ERROR);
+            ImportStatusErrorEvent::dispatch($importStatus ?? null, $this->fileName);
             throw $exception;
         }
-    }
-
-    // TODO: events
-    private function turnErrorImportStatus(ImportStatusEnum $status): void
-    {
-        $importStatuses = $this->importStatusRepository->findByFileName($this->fileName);
-
-        $importStatus = $importStatuses->count() ? $importStatuses->first() : ImportStatus::initImport($this->fileName);
-
-        $importStatus->updateStatusImport($status);
-    }
-
-    private function doneImportStatus(ImportStatus $importStatus): void
-    {
-        $importStatus->updateStatusImport(ImportStatusEnum::DONE);
     }
 }

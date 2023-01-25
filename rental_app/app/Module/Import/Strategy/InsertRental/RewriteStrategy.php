@@ -54,7 +54,7 @@ final class RewriteStrategy implements InsertStrategyInterface
 
         foreach ($data as $row) {
             try {
-                $this->validator->validate($row, $importStatus);
+                $this->validator->validate($row);
 
                 $result[] = $row;
             } catch (ValidationException $exception) {
