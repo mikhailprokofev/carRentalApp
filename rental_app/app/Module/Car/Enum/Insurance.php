@@ -12,4 +12,5 @@ enum Insurance: string
 
     case OSAGO = 'OSAGO';
     case KASKO = 'KASKO';
+    case TEST = 'tst';
 }

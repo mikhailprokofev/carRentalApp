@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
 
 final class CarSeeder extends Seeder
 {
-    private const COUNT_CARS = 20;
+    private const COUNT_CARS = 100;
 
     public function run(): void
     {

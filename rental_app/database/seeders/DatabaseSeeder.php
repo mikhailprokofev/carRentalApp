@@ -12,7 +12,7 @@ final class DatabaseSeeder extends Seeder
     {
         $this->call([
             CarSeeder::class,
-            RentalSeeder::class,
+//            RentalSeeder::class,
         ]);
     }
 }

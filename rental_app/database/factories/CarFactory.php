@@ -59,15 +59,15 @@ final class CarFactory extends Factory
             'country' => $country->value,
             'color' => $color->value,
             'description' => $this->faker->realText(),
-            'manufacture_date' => $this->faker->year(),
+            'manufacture_date' => $this->faker->numberBetween(1920, 2020),
             'mileage' => $this->faker->numerify('######'),
             'drive' => $drive->value,
             'insurance' => $insurance->value,
             'control' => $control->value,
             'body_type' => $bodyType->value,
             'transmission' => $transmission->value,
-            'number_plate' => $this->generateNumberPlate(),
-            'base_salary' => $class->calculateCost() * 100,
+            'number_plate' => $this->faker->numerify('######'),
+            'base_salary' => $class->calculateCost(),
         ];
     }
 

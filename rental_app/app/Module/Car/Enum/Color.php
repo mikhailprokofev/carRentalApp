@@ -10,9 +10,11 @@ enum Color: string
 {
     use EnumToArray;
 
-    case BLACK = 'black';
-    case WHITE = 'white';
-    case YELLOW = 'yellow';
-    case BLUE = 'blue';
-    case GRAY = 'gray';
+//    case BLACK = 'black';
+//    case WHITE = 'white';
+//    case YELLOW = 'yellow';
+//    case BLUE = 'blue';
+//    case GRAY = 'gray';
+    case ORANGE = 'orange';
+    case RED = 'red';
 }
